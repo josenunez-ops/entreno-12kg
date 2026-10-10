@@ -158,7 +158,7 @@ details[open] summary::after{content:"–"}
 const STAND={a:'f',x:118,y:182,T:180,L1:0,S1:0,L2:0,S2:0,A1:0,F1:0,A2:0,F2:0};
 const SEAT=[{r:[64,130,80,9]},{r:[60,72,9,66]},{l:[104,139,104,185]}];
 const EX={
- c_goblet:{n:'Sentadilla goblet',w:'ambos',eq:'Kettlebell 12 kg (o mancuerna)',m:['Piernas','Glúteos','Core'],
+ c_goblet:{n:'Sentadilla goblet',w:'casa',eq:'Kettlebell 12 kg (o mancuerna)',m:['Piernas','Glúteos','Core'],
   pose:{eq:'kb',A:{...STAND,x:120,A1:5,F1:160},B:{...STAND,x:120,L1:80,S1:-20,L2:80,S2:-20,T:148,A1:30,F1:170},per:3.4},
   steps:['Pies a la anchura de hombros, puntas algo abiertas. Sujeta la pesa por los cuernos pegada al pecho.','Saca el culo atrás y baja como si te sentaras en una silla, con el pecho alto.','Baja hasta que los muslos queden paralelos al suelo (o hasta donde mantengas la espalda recta).','Empuja el suelo con todo el pie y sube soplando el aire.'],
   err:['Rodillas que se van hacia dentro: empújalas hacia fuera.','Talones que se levantan: el peso va en medio pie y talón.','Redondear la espalda abajo: baja menos.'],
@@ -173,17 +173,17 @@ const EX={
   steps:['Pesa en el suelo entre los pies.','Lleva la cadera atrás, rodillas un poco flexionadas, espalda recta y mirada al suelo un metro delante.','Agarra el asa con las dos manos, hombros hacia atrás y abajo.','Empuja el suelo y lleva la cadera adelante hasta quedarte de pie. Aprieta glúteos arriba.'],
   err:['Espalda curvada: es el error más peligroso.','Tirar con los brazos.','Hiperextender la espalda arriba.'],
   easy:'Pon la pesa sobre un escalón o dos libros gruesos para recorrer menos distancia.'},
- c_rdl:{n:'Peso muerto rumano con mancuernas',w:'ambos',eq:'2 mancuernas de 12 kg',m:['Isquios','Glúteos','Espalda baja'],
+ c_rdl:{n:'Peso muerto rumano con mancuernas',w:'casa',eq:'2 mancuernas de 12 kg',m:['Isquios','Glúteos','Espalda baja'],
   pose:{eq:'db',A:{...STAND},B:{...STAND,L1:14,S1:-6,L2:14,S2:-6,T:102},per:3.6},
   steps:['De pie, una mancuerna en cada mano delante de los muslos.','Rodillas ligeramente flexionadas y fijas.','Lleva la cadera atrás deslizando las mancuernas pegadas a las piernas hasta media tibia o hasta notar tirantez detrás del muslo.','Sube empujando la cadera adelante. Baja en 3 segundos, sube en 1.'],
   err:['Doblar las rodillas cada vez más (se vuelve peso muerto normal).','Separar las pesas de las piernas.','Redondear la espalda para llegar más abajo.'],
   easy:'Hazlo con una sola mancuerna sujeta con las dos manos.'},
- c_remo:{n:'Remo inclinado con dos mancuernas',w:'ambos',eq:'2 mancuernas de 12 kg',m:['Espalda','Bíceps','Hombro posterior'],
+ c_remo:{n:'Remo inclinado con dos mancuernas',w:'casa',eq:'2 mancuernas de 12 kg',m:['Espalda','Bíceps','Hombro posterior'],
   pose:{eq:'db',A:{...STAND,L1:20,S1:-10,L2:20,S2:-10,T:112},B:{...STAND,L1:20,S1:-10,L2:20,S2:-10,T:112,A1:-70,F1:-5,A2:-70,F2:-5},per:2.8},
   steps:['Inclínate desde la cadera unos 45°, espalda plana, rodillas suaves.','Brazos estirados, mancuernas bajo los hombros.','Lleva los codos hacia atrás y arriba, rozando el cuerpo, hasta que las pesas toquen la cintura.','Junta los omóplatos un segundo y baja controlando.'],
   err:['Tirar con impulso del tronco.','Encoger los hombros hacia las orejas.','Codos muy abiertos.'],
   easy:'Es la progresión del remo a un brazo apoyado. Si notas la lumbar, vuelve a la versión apoyada.'},
- c_remo1:{n:'Remo a un brazo apoyado',w:'ambos',eq:'1 mancuerna de 12 kg + silla',m:['Espalda','Bíceps','Postura'],
+ c_remo1:{n:'Remo a un brazo apoyado',w:'casa',eq:'1 mancuerna de 12 kg + silla',m:['Espalda','Bíceps','Postura'],
   pose:{eq:'db1',A:{...STAND,L1:20,S1:-10,L2:20,S2:-10,T:100,A1:0,F1:0,A2:30,F2:30},B:{...STAND,L1:20,S1:-10,L2:20,S2:-10,T:100,A1:-70,F1:-5,A2:30,F2:30},
    props:[{r:[168,141,48,6]},{l:[174,147,174,185]},{l:[210,147,210,185]}],per:2.8},
   steps:['Apoya una mano (o mano y rodilla) en una silla firme. Espalda plana, casi horizontal.','La mancuerna cuelga bajo el hombro con el brazo estirado.','Tira del codo hacia atrás y arriba, hacia el bolsillo, hasta que la pesa llegue a la cintura.','Baja en 2-3 segundos. Haz todas las repeticiones y cambia de lado.'],
@@ -194,7 +194,7 @@ const EX={
   steps:['Túmbate boca arriba con las rodillas dobladas y los pies apoyados.','Mancuernas sobre el pecho, brazos estirados, muñecas firmes.','Baja hasta que la parte de atrás del brazo toque el suelo, codos a unos 45° del cuerpo.','Empuja hacia arriba soplando. El suelo limita el recorrido y protege el hombro.'],
   err:['Dejar caer los codos de golpe contra el suelo.','Codos abiertos en cruz a 90° (carga el hombro).','Arquear la zona lumbar.'],
   easy:'Hazlo alternando brazos o con una sola mancuerna sujeta con ambas manos.'},
- c_militar:{n:'Press de hombros con mancuernas',w:'ambos',eq:'2 mancuernas de 12 kg',m:['Hombros','Tríceps','Core'],
+ c_militar:{n:'Press de hombros con mancuernas',w:'casa',eq:'2 mancuernas de 12 kg',m:['Hombros','Tríceps','Core'],
   pose:{eq:'db',A:{a:'h',x:95,y:140,T:180,L1:90,S1:0,L2:90,S2:0,A1:25,F1:172,A2:25,F2:172},B:{a:'h',x:95,y:140,T:180,L1:90,S1:0,L2:90,S2:0,A1:178,F1:180,A2:178,F2:180},props:[{r:[62,142,70,8]},{r:[80,58,9,86]},{l:[95,150,95,185]}],per:2.8},
   steps:['Sentado en una silla con respaldo, mancuernas a la altura de los hombros, palmas mirándose. Las primeras semanas, alterna brazos.','Aprieta glúteos y abdomen para no arquear la espalda.','Empuja las pesas hacia arriba hasta estirar los brazos, cerca de las orejas.','Baja en 2-3 segundos hasta los hombros.'],
   err:['Arquear la zona lumbar para subir.','Bloquear los codos de golpe.','Sacar la cabeza hacia delante.'],
@@ -204,27 +204,27 @@ const EX={
   steps:['De pie con las pesas a los lados (o sin peso al principio).','Da un paso largo hacia atrás y baja hasta que la rodilla de atrás casi toque el suelo.','El tronco recto y la rodilla delantera encima del tobillo.','Empuja con el talón delantero para volver. Alterna piernas.'],
   err:['Paso muy corto: la rodilla delantera sobrepasa mucho el pie.','Golpear la rodilla contra el suelo.','Inclinarse adelante.'],
   easy:'Sujétate a una pared o al respaldo de una silla, sin pesas y bajando solo a medias.'},
- c_curl:{n:'Curl martillo alterno',w:'ambos',eq:'Mancuernas de 12 kg (en el gimnasio, más ligeras)',m:['Bíceps','Antebrazo'],
+ c_curl:{n:'Curl martillo alterno',w:'casa',eq:'Mancuernas de 12 kg',m:['Bíceps','Antebrazo'],
   pose:{eq:'db',A:{...STAND,A1:3,F1:3,A2:3,F2:3},B:{...STAND,A1:8,F1:165,A2:8,F2:165},per:2.6},
   steps:['De pie, mancuernas a los lados, palmas mirando al cuerpo (agarre martillo).','Codos pegados al cuerpo y quietos.','Sube una pesa doblando solo el codo, bájala en 3 segundos y sube la otra.','Si tienes que balancear el cuerpo, la pesa es demasiado: usa una sola con las dos manos.'],
   err:['Balancear el cuerpo para subir.','Adelantar los codos.','Bajar sin control.'],
-  easy:'Una sola mancuerna sujeta con las dos manos, o en el gimnasio curl en polea baja.'},
+  easy:'Una sola mancuerna sujeta con las dos manos.'},
  c_triceps:{n:'Press francés en el suelo',w:'casa',eq:'1 mancuerna de 12 kg (con las dos manos)',m:['Tríceps'],
   pose:{eq:'db1',A:{a:'h',x:150,y:176,T:-88,L1:140,S1:15,L2:140,S2:15,A1:178,F1:180,A2:178,F2:180},B:{a:'h',x:150,y:176,T:-88,L1:140,S1:15,L2:140,S2:15,A1:168,F1:262,A2:168,F2:262},per:2.8},
   steps:['Túmbate boca arriba con las rodillas dobladas. Sujeta una mancuerna con las dos manos encima del pecho.','Codos apuntando al techo, un poco inclinados hacia la cabeza.','Baja la pesa hacia la frente o por encima de la cabeza doblando solo los codos.','Estira los brazos sin mover los codos. No aguantes la respiración.'],
   err:['Abrir los codos hacia los lados.','Mover los hombros en vez de los codos.','Bajar rápido cerca de la cara.'],
   easy:'Press cerrado en el suelo: la mancuerna sujeta con las dos manos y los codos pegados al cuerpo, como un press de pecho estrecho.'},
- c_puente:{n:'Puente de glúteo',w:'ambos',eq:'Peso corporal (o kettlebell sobre la cadera)',m:['Glúteos','Isquios','Core'],
+ c_puente:{n:'Puente de glúteo',w:'casa',eq:'Peso corporal (o kettlebell sobre la cadera)',m:['Glúteos','Isquios','Core'],
   pose:{eq:'none',A:{a:'f',x:175,y:182,T:-85,L1:140,S1:15,L2:140,S2:15,A1:88,F1:88,A2:88,F2:88},B:{a:'f',x:175,y:182,T:-58,L1:100,S1:15,L2:100,S2:15,A1:80,F1:88,A2:80,F2:88},per:2.8},
   steps:['Boca arriba, rodillas dobladas, pies apoyados a la anchura de la cadera.','Brazos en el suelo a los lados.','Aprieta glúteos y sube la cadera hasta formar una línea recta de hombros a rodillas.','Mantén 2 segundos arriba y baja despacio.'],
   err:['Subir arqueando la espalda en lugar de con el glúteo.','Pies demasiado lejos (lo notas solo en el isquio).'],
   easy:'Ya es un ejercicio suave. Para avanzar: kettlebell sobre la cadera o una pierna.'},
- c_plancha:{n:'Plancha de antebrazos',w:'ambos',eq:'Peso corporal',m:['Core','Hombros'],unit:'s',
+ c_plancha:{n:'Plancha de antebrazos',w:'casa',eq:'Peso corporal',m:['Core','Hombros'],unit:'s',
   pose:{eq:'none',A:{a:'f',x:40,y:182,T:105,L1:-75,S1:-75,L2:-75,S2:-75,A1:0,F1:90,A2:0,F2:90},B:{a:'f',x:40,y:182,T:104,L1:-76,S1:-76,L2:-76,S2:-76,A1:0,F1:90,A2:0,F2:90},per:3},
   steps:['Antebrazos en el suelo, codos bajo los hombros.','Cuerpo recto de cabeza a talones.','Aprieta glúteos y tensa el abdomen como si fueran a darte un golpe.','Respira normal, sin aguantar el aire.'],
   err:['Cadera caída (duele la lumbar).','Culo demasiado alto.','Aguantar la respiración.'],
   easy:'Apoya las rodillas en el suelo, o hazla con los antebrazos sobre una mesa o encimera.'},
- c_deadbug:{n:'Dead bug (bicho muerto)',w:'ambos',eq:'Peso corporal',m:['Core profundo'],
+ c_deadbug:{n:'Dead bug (bicho muerto)',w:'casa',eq:'Peso corporal',m:['Core profundo'],
   pose:{eq:'none',A:{a:'h',x:140,y:176,T:-88,L1:180,S1:90,L2:180,S2:90,A1:180,F1:180,A2:180,F2:180},B:{a:'h',x:140,y:176,T:-88,L1:180,S1:90,L2:95,S2:93,A1:-95,F1:-95,A2:180,F2:180},per:3.4},
   steps:['Boca arriba, brazos hacia el techo, rodillas dobladas a 90° encima de la cadera.','Pega la zona lumbar al suelo y mantenla pegada todo el ejercicio.','Estira a la vez un brazo hacia atrás y la pierna contraria hacia delante, sin tocar el suelo.','Vuelve al centro soltando el aire y cambia de lado.'],
   err:['Despegar la lumbar del suelo.','Ir rápido.'],
@@ -245,6 +245,33 @@ const EX={
   steps:['Ritmo de zona 2: puedes hablar con frases cortas pero no cantar.','Pulso orientativo: 105–125 lpm (si tomas betabloqueantes, ignóralo y usa solo la prueba de hablar).','Brazos doblados y braceo activo.','Busca cuestas suaves: queman más y cuidan las rodillas.'],
   err:['Ir tan rápido que te falta el aire (eso ya no es zona 2).'],
   easy:'Divide en dos paseos de 20–25 min (mañana y tarde). Suma igual.'},
+ c_birddog:{n:'Bird dog (cuadrupedia)',w:'casa',eq:'Sin pesas · esterilla',m:['Core','Espalda baja','Glúteos'],
+  pose:{eq:'none',A:{a:'h',x:90,y:138,T:100,L1:0,S1:-90,L2:0,S2:-90,A1:0,F1:0,A2:0,F2:0},B:{a:'h',x:90,y:138,T:100,L1:0,S1:-90,L2:-84,S2:-88,A1:100,F1:100,A2:0,F2:0},props:[{r:[30,184,150,4]}],per:3.6},
+  steps:['A cuatro patas: manos bajo los hombros y rodillas bajo la cadera.','Espalda plana, mirada al suelo.','Estira a la vez un brazo al frente y la pierna contraria atrás, sin girar la cadera.','Aguanta 2 segundos respirando y vuelve despacio. Alterna lados.'],
+  err:['Arquear la zona lumbar al subir la pierna.','Girar la cadera hacia un lado.'],
+  easy:'Mueve solo la pierna, o solo el brazo, hasta tener estabilidad.'},
+ g_smith:{n:'Sentadilla en multipower (Smith)',w:'gym',eq:'Máquina multipower',m:['Piernas','Glúteos'],
+  pose:{eq:'smith',A:{...STAND,x:124,A1:-50,F1:120,A2:-50,F2:120},B:{...STAND,x:124,L1:75,S1:-22,L2:75,S2:-22,T:155,A1:-50,F1:120,A2:-50,F2:120},
+   props:[{l:[108,-14,108,187,4]},{l:[140,-14,140,187,4]},{l:[100,-14,148,-14,5]}],per:3.4},
+  steps:['Coloca la barra a la altura de los hombros y métete debajo: barra sobre la parte alta de la espalda, no sobre el cuello.','Pies a la anchura de los hombros y un poco adelantados respecto a la barra.','Gira la barra para soltarla y baja sacando la cadera atrás hasta que los muslos queden paralelos.','Sube empujando con todo el pie. Al acabar, gira la barra para engancharla.'],
+  err:['Bajar con la espalda redondeada.','Rodillas hacia dentro.','Poner demasiado peso al principio: la barra sola ya pesa.'],
+  easy:'Empieza solo con la barra y baja hasta un banco colocado detrás.'},
+ g_pullthrough:{n:'Pull-through en polea',w:'gym',eq:'Polea baja con cuerda',m:['Glúteos','Isquios','Espalda baja'],
+  pose:{eq:'bar',cable:[34,176],stack:10,A:{...STAND,x:118,L1:35,S1:-12,L2:35,S2:-12,T:118,A1:-10,F1:-25,A2:-10,F2:-25},B:{...STAND,x:118,A1:6,F1:8,A2:6,F2:8},per:3},
+  steps:['De espaldas a la polea baja, coge la cuerda entre las piernas con las dos manos.','Da dos pasos al frente, pies algo más anchos que los hombros.','Lleva la cadera atrás con la espalda plana dejando que la cuerda pase entre las piernas.','Sube empujando la cadera adelante y aprieta glúteos arriba. Los brazos solo sujetan.'],
+  err:['Tirar con los brazos.','Hacer sentadilla en lugar de bisagra.','Arquear la espalda arriba.'],
+  easy:'Menos peso y recorrido corto. Es la versión de máquina del swing: carga mucho menos la lumbar.'},
+ g_curlpolea:{n:'Curl de bíceps en polea',w:'gym',eq:'Polea baja con barra',m:['Bíceps','Antebrazo'],
+  pose:{eq:'bar',cable:[196,176],stack:196,A:{...STAND,x:110,A1:5,F1:5,A2:5,F2:5},B:{...STAND,x:110,A1:10,F1:165,A2:10,F2:165},per:2.6},
+  steps:['De frente a la polea baja, agarra la barra con las palmas hacia arriba.','Codos pegados al cuerpo.','Sube la barra doblando solo los codos.','Baja en 3 segundos hasta estirar los brazos.'],
+  err:['Balancear el cuerpo.','Adelantar los codos.'],
+  easy:'Menos peso. Con cuerda (agarre martillo) es más cómodo para los codos.'},
+ g_crunch:{n:'Abdominales en máquina',w:'gym',eq:'Máquina de abdominales (crunch)',m:['Core','Abdomen'],
+  pose:{eq:'grip',stack:16,A:{a:'h',x:95,y:140,T:180,L1:90,S1:0,L2:90,S2:0,A1:30,F1:170,A2:30,F2:170},B:{a:'h',x:95,y:140,T:142,L1:90,S1:0,L2:90,S2:0,A1:-8,F1:132,A2:-8,F2:132},
+   props:[{r:[62,142,70,8]},{l:[95,150,95,185]},{c:[136,170,7]}],per:3},
+  steps:['Siéntate, pies bajo los rodillos y agarra las asas o apoya el pecho en la almohadilla.','Suelta el aire y enrolla el tronco hacia delante acercando costillas a cadera.','Aguanta 1 segundo apretando el abdomen.','Vuelve despacio sin dejar que el peso choque.'],
+  err:['Tirar con los brazos.','Usar mucho peso y hacerlo con impulso.','Aguantar la respiración.'],
+  easy:'Poco peso y recorrido corto. Si no hay máquina, crunch en polea alta de rodillas.'},
  g_prensa:{n:'Prensa de piernas',w:'gym',eq:'Máquina prensa 45°',m:['Cuádriceps','Glúteos'],
   pose:{eq:'none',sled:true,A:{a:'h',x:85,y:150,T:-130,L1:150,S1:65,L2:150,S2:65,A1:60,F1:60,A2:60,F2:60},B:{a:'h',x:85,y:150,T:-128,L1:112,S1:112,L2:112,S2:112,A1:60,F1:60,A2:60,F2:60},
    props:[{l:[98,160,36,108,9]},{l:[60,158,104,158,6]},{l:[132,150,212,96,3]},{l:[70,160,70,185,4]}],per:3.2},
@@ -316,12 +343,14 @@ const EX={
   err:['Sillín muy bajo (sobrecarga la rodilla).'],
   easy:'La elíptica es igual de válida y sin impacto.'}
 };
+for(const [id,x] of Object.entries({g_extension:14,g_curlfem:14,g_jalon:24,g_pecho:16,g_hombro:16,g_triceps:142,g_remo:204,g_pallof:204}))EX[id].pose.stack=x;
+EX.g_pallof.pose.cable=[204,100];EX.g_remo.pose.cable=[216,170];EX.g_triceps.pose.cable=[154,4];EX.g_jalon.pose.cable=[100,4];
 const MUSC=['Todos','Piernas','Glúteos','Espalda','Pecho','Hombros','Brazos','Core','Cardio'];
 function musGroup(m){const s=m.join(' ');return {Piernas:/Piernas|Cuádriceps|Isquios/.test(s),Glúteos:/Glúteo/.test(s),Espalda:/Espalda|dorsal/.test(s),Pecho:/Pecho/.test(s),Hombros:/Hombro/.test(s),Brazos:/Bíceps|Tríceps|Antebrazo/.test(s),Core:/Core/.test(s),Cardio:/Cardio/.test(s)}}
 
 /* ============ DATOS: sesiones ============ */
 const WARM={casa:['Marcha en el sitio subiendo rodillas – 1 min','Círculos de brazos adelante y atrás – 1 min','Bisagra de cadera sin peso (manos en la cadera) – 10','Sentadilla a silla sin peso – 10','Gato-camello a cuatro patas – 8','Peso muerto con la pesa, suave – 10','Plancha en encimera 20 s'],
- gym:['Elíptica o bici suave – 4 min','Círculos de brazos – 30 s','Bisagra de cadera sin peso – 10','Sentadilla a banco sin peso – 10','Primera serie de cada máquina con la mitad de peso']};
+ gym:['Elíptica o bici suave – 5 min','Círculos de brazos – 30 s','Primera serie de cada máquina con la mitad de peso y 15 repeticiones']};
 const PRECHECK=['Has tomado tu medicación de la tensión como siempre.','Tensión de hoy por debajo de 160/100 (si es mayor, haz solo la caminata suave; si pasa de 180/110, no entrenes y consulta).','Sin dolor de cabeza fuerte, mareo ni visión borrosa.','Botella de agua a mano.'];
 const COOL=['Vuelta a la calma: 3–5 min caminando suave, sin pararte de golpe','Levántate del suelo despacio, pasando por sentado','Cuádriceps de pie (sujétate a algo) – 30 s por pierna','Isquios: talón en un escalón, inclínate – 30 s por pierna','Glúteo: tobillo sobre la rodilla, sentado – 30 s por lado','Pecho en el marco de una puerta – 30 s','Respiración lenta: 4 s dentro, 6 s fuera – 1 min'];
 const S=(ex,sets,reps,rest)=>({ex,sets,reps,rest});
@@ -330,15 +359,15 @@ const W={
   A:{t:'Fuerza A · Cuerpo completo',items:[S('c_goblet',3,12,75),S('c_presssuelo',3,12,60),S('c_remo1',3,'10/lado',45),S('c_pmkb',3,12,75),S('c_militar',3,8,60),S('c_triceps',2,10,45),S('c_plancha',3,30,30)]},
   B:{t:'Fuerza B · Cadena posterior y tirón',items:[S('c_swing',5,10,60),S('c_remo1',3,'10/lado',45),S('c_zancada',3,'8/pierna',60),S('c_flexion',3,10,60),S('c_rdl',3,12,60),S('c_curl',2,'8/brazo',45),S('c_deadbug',3,'8/lado',30)]},
   C:{t:'Circuito quema-grasa',circuit:{rounds:4,rest:90},items:[S('c_swing',1,12,0),S('c_goblet',1,10,0),S('c_remo1',1,'8/lado',0),S('c_flexion',1,10,0),S('c_granjero',1,40,0),S('c_puente',1,15,0)],cardio:{ex:'k_caminar',min:15}},
-  Z:{t:'Cardio zona 2 + core',items:[S('c_deadbug',2,'8/lado',30),S('c_plancha',2,30,30)],cardio:{ex:'k_caminar',min:40},cardioFirst:true},
+  Z:{t:'Cardio zona 2 + core',items:[S('c_deadbug',2,'8/lado',30),S('c_birddog',2,'6/lado',30)],cardio:{ex:'k_caminar',min:40},cardioFirst:true},
   L:{t:'Caminata larga (opcional)',items:[],cardio:{ex:'k_caminar',min:55},noWarm:true}
  },
  gym:{
-  A:{t:'Fuerza A · Cuerpo completo',items:[S('g_prensa',3,12,75),S('g_pecho',3,12,60),S('g_jalon',3,12,60),S('g_curlfem',3,12,60),S('g_hombro',2,12,60),S('c_plancha',3,30,30)],cardio:{ex:'g_cinta',min:10}},
-  B:{t:'Fuerza B · Espalda, piernas y core',items:[S('c_goblet',3,12,75),S('g_remo',3,12,60),S('c_rdl',3,12,60),S('g_extension',3,12,60),S('g_pallof',3,'10/lado',30),S('g_triceps',2,15,45)],cardio:{ex:'g_bici',min:10}},
-  C:{t:'Circuito en máquinas',circuit:{rounds:3,rest:90},items:[S('g_prensa',1,12,0),S('g_jalon',1,12,0),S('g_pecho',1,12,0),S('g_remo',1,12,0),S('c_puente',1,15,0),S('c_plancha',1,30,0)],cardio:{ex:'g_cinta',min:15}},
-  Z:{t:'Cardio zona 2 + core',items:[S('c_deadbug',2,'8/lado',30),S('g_pallof',2,'10/lado',30)],cardio:{ex:'g_cinta',min:35},cardioFirst:true},
-  L:{t:'Caminata larga (opcional)',items:[],cardio:{ex:'k_caminar',min:55},noWarm:true}
+  A:{t:'Fuerza A · Cuerpo completo',items:[S('g_prensa',3,12,75),S('g_pecho',3,12,60),S('g_jalon',3,12,60),S('g_curlfem',3,12,60),S('g_hombro',2,12,60),S('g_crunch',2,12,45)],cardio:{ex:'g_cinta',min:10}},
+  B:{t:'Fuerza B · Espalda, piernas y core',items:[S('g_smith',3,12,75),S('g_remo',3,12,60),S('g_pullthrough',3,12,60),S('g_extension',2,12,60),S('g_pallof',2,'10/lado',30),S('g_triceps',2,15,45),S('g_curlpolea',2,12,45)],cardio:{ex:'g_bici',min:10}},
+  C:{t:'Circuito en máquinas',circuit:{rounds:3,rest:90},items:[S('g_prensa',1,12,0),S('g_jalon',1,12,0),S('g_pecho',1,12,0),S('g_remo',1,12,0),S('g_pullthrough',1,12,0),S('g_crunch',1,12,0)],cardio:{ex:'g_cinta',min:15}},
+  Z:{t:'Cardio zona 2 + core',items:[S('g_crunch',2,12,30),S('g_pallof',2,'10/lado',30)],cardio:{ex:'g_cinta',min:35},cardioFirst:true},
+  L:{t:'Cardio largo (opcional)',items:[],cardio:{ex:'g_bici',min:45},noWarm:true}
  }
 };
 const WEEK=[ // getDay(): 0 dom ... 6 sáb
@@ -378,6 +407,8 @@ function drawFig(svg,ex,t){const P=ex.pose,a=full(P.A),b=full(P.B),j=joints(lerp
  (P.props||[]).forEach(o=>{if(o.r)s+=`<rect x="${o.r[0]}" y="${o.r[1]}" width="${o.r[2]}" height="${o.r[3]}" rx="3" fill="var(--prop)"/>`;
   if(o.l)s+=ln([o.l[0],o.l[1]],[o.l[2],o.l[3]],'var(--prop)',o.l[4]||4);
   if(o.c)s+=`<circle cx="${o.c[0]}" cy="${o.c[1]}" r="${o.c[2]}" fill="none" stroke="var(--prop)" stroke-width="4"/>`});
+ if(P.stack!=null){const x=P.stack;s+=`<rect x="${x}" y="-12" width="26" height="199" rx="2" fill="none" stroke="var(--prop)" stroke-width="3"/><line x1="${x+13}" y1="-6" x2="${x+13}" y2="120" stroke="var(--prop)" stroke-width="2"/>`;
+  for(let i=0;i<8;i++)s+=`<rect x="${x+4}" y="${124+i*7.6}" width="18" height="6" rx="1" fill="var(--prop)"/>`;s+=`<circle cx="${x+13}" cy="-4" r="5" fill="var(--prop)"/>`}
  if(P.cable)s+=`<circle cx="${P.cable[0]}" cy="${P.cable[1]}" r="5" fill="var(--prop)"/>`+ln(P.cable,j.h1,'var(--limb2)',1.6);
  const c2='var(--limb2)',c1='var(--ink)';
  s+=ln(j.hip,j.k2,c2,8)+ln(j.k2,j.f2,c2,7)+ln(j.sh,j.e2,c2,7)+ln(j.e2,j.h2,c2,6);
@@ -391,7 +422,11 @@ function drawFig(svg,ex,t){const P=ex.pose,a=full(P.A),b=full(P.B),j=joints(lerp
  if(P.eq==='db'||P.eq==='db1')s+=dbell(j.h1,1);
  if(P.eq==='bar')s+=ln(add(j.h1,[-9,0]),add(j.h1,[9,0]),'var(--muted)',4);
  if(P.eq==='grip')s+=`<circle cx="${j.h1[0].toFixed(1)}" cy="${j.h1[1].toFixed(1)}" r="5" fill="var(--muted)"/>`;
+ if(P.eq==='smith'){const y=j.h1[1]+2;s+=`<rect x="100" y="${(y-4).toFixed(1)}" width="48" height="8" rx="3" fill="var(--muted)"/>`}
+ if(!svg.classList.contains('thumb')){const b=badgeOf(ex),w=b.length*6.2+16;s+=`<rect x="6" y="-18" width="${w.toFixed(0)}" height="18" rx="9" fill="var(--accent-soft)"/><text x="14" y="-5.5" font-size="11" font-weight="700" fill="var(--ink)" font-family="Barlow,system-ui,sans-serif" letter-spacing=".04em">${b.toUpperCase()}</text>`}
  svg.innerHTML=s}
+function badgeOf(ex){const P=ex.pose;if(ex.w==='gym')return ex.unit==='min'?'Máquina de cardio':P.cable?'Polea':'Máquina';
+ return P.eq==='kb'?'Kettlebell 12 kg':P.eq==='db'?'Mancuernas 12 kg':P.eq==='db1'?'Mancuerna 12 kg':ex.unit==='min'?'Al aire libre':'Sin pesas'}
 function dbell(h,op){return `<g opacity="${op}"><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="8" fill="var(--accent)"/><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="3" fill="var(--surface)"/></g>`}
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function animateAll(now){document.querySelectorAll('svg[data-ex]').forEach(svg=>{const ex=EX[svg.dataset.ex];if(!ex)return;
@@ -500,7 +535,7 @@ function exRow(id,d,sub){return `<button class="exrow" data-open="${id}">${figSV
 function rowStatic(n,d){return `<div class="exrow" style="cursor:default"><span class="thumb" style="display:grid;place-items:center" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="nm">${esc(n)}</span><span class="dose">${esc(d)}</span></div>`}
 
 function vLib(){const wf=exFilter.w==='actual'?st.mode:exFilter.w;
- const list=Object.entries(EX).filter(([id,e])=>(wf==='todo'||e.w===wf||e.w==='ambos'||(wf==='casa'&&e.w==='casa'))&&(exFilter.m==='Todos'||musGroup(e.m)[exFilter.m]));
+ const list=Object.entries(EX).filter(([id,e])=>(wf==='todo'||e.w===wf)&&(exFilter.m==='Todos'||musGroup(e.m)[exFilter.m]));
  return `<div class="stack"><h1>Ejercicios</h1>
  <div class="filters" role="group" aria-label="Lugar">${[['actual',st.mode==='casa'?'Casa':'Gimnasio'],['todo','Todos']].map(([k,l])=>`<button data-fw="${k}" aria-pressed="${exFilter.w===k}">${l}</button>`).join('')}</div>
  <div class="filters" role="group" aria-label="Músculo">${MUSC.map(m=>`<button data-fm="${m}" aria-pressed="${exFilter.m===m}">${m}</button>`).join('')}</div>
