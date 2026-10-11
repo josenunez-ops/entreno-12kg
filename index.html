@@ -3,12 +3,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Entreno">
+<meta name="apple-mobile-web-app-title" content="GIS Salud">
 <meta name="theme-color" content="#EEF1EE" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0E1317" media="(prefers-color-scheme: dark)">
-<meta name="description" content="Entrenamiento en casa o gimnasio con figuras animadas, seguimiento de peso y plan de comida.">
-<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png">
+<meta name="description" content="GIS Salud: tu guía para bajar peso y recuperar movilidad y fuerza, en casa o en el gimnasio.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="logo.svg" type="image/svg+xml"><link rel="alternate icon" href="icon-192.png">
 <style>html{padding-top:env(safe-area-inset-top,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Entreno 12 kg</title>
+<title>GIS Salud</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap">
@@ -186,8 +186,8 @@ textarea{width:100%;font-size:15px}
 <div class="app" id="app">
   <header class="top">
     <div class="brand">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M9 11 C9 4 21 4 21 11" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="15" cy="19" r="9" fill="var(--accent)"/><text x="15" y="22.5" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="10" fill="var(--accent-ink)">12</text></svg>
-      <b>Entreno 12 kg</b>
+      <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2457CF"/><path d="M10 88 H30 V74 H50 V60 H70 V46 H90 V88 Z" fill="#FFFFFF" opacity=".22"/><path d="M10 88 H30 V74 H50 V60 H70 V46 H90" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="66" cy="13" r="7" fill="#FFFFFF"/><path d="M63 22 L57 38" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/><path d="M57 38 L69 33 L74 44 M57 38 L52 48 L56 58 M62 25 L72 31 M62 25 L52 30" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="26" r="15" fill="#2BB673"/><path d="M24 17 V35 M16.5 28 L24 35.5 L31.5 28" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>GIS Salud</b>
     </div>
     <div class="seg" role="group" aria-label="Dónde entrenas">
       <button id="m-casa" aria-pressed="true">Casa</button>
@@ -600,11 +600,11 @@ const TITLES={hoy:'Hoy',ejercicios:'Ejercicios',plan:'Plan',progreso:'Progreso',
 
 function render(){
  document.querySelector('.tabs').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup;
- if(!st.setup){view.innerHTML=vSetup();bindSetup();document.title='Entreno 12 kg';return}
+ if(!st.setup){view.innerHTML=vSetup();bindSetup();document.title='GIS Salud';return}
  $('#m-casa').setAttribute('aria-pressed',st.mode==='casa');$('#m-gym').setAttribute('aria-pressed',st.mode==='gym');
  document.querySelectorAll('.tabs button').forEach(b=>{if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  view.innerHTML=openEx?vExercise(openEx):({hoy:vHoy,ejercicios:vLib,plan:vPlan,progreso:vProg,comida:vFood}[tab])();
- document.title=(openEx?EX[openEx].n:TITLES[tab])+' · Entreno 12 kg';
+ document.title=(openEx?EX[openEx].n:TITLES[tab])+' · GIS Salud';
  bind();hookVideos(view)}
 
 function vSetup(){return `<div class="stack"><div><span class="eyebrow">Bienvenido</span><h1>Crea tu perfil</h1><p class="muted" style="margin-top:6px">Tus datos se guardan solo en este móvil. Cada persona usa la app en su propio teléfono con su propio perfil.</p></div>
@@ -866,8 +866,8 @@ function bind(){
  on('s-sex','onchange',e=>{st.sex=e.target.value==='m'?'m':'h';save()});
  on('s-htn','onchange',e=>{st.htn=e.target.checked;save();render()});
  on('s-voice','onchange',e=>{st.voice=e.target.checked;save()});
- const backupFile=()=>new File([JSON.stringify(st)],`entreno-copia-${today()}.json`,{type:'application/json'});
- on('b-share','onclick',async()=>{const f=backupFile();try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Copia de Entreno'});st.lastBackup=today();save();$('#b-msg').textContent='Copia guardada.';return}}catch(e){if(e&&e.name==='AbortError')return}
+ const backupFile=()=>new File([JSON.stringify(st)],`gis-salud-copia-${today()}.json`,{type:'application/json'});
+ on('b-share','onclick',async()=>{const f=backupFile();try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Copia de GIS Salud'});st.lastBackup=today();save();$('#b-msg').textContent='Copia guardada.';return}}catch(e){if(e&&e.name==='AbortError')return}
   $('#b-exp').click()});
  on('b-exp','onclick',async()=>{const t=JSON.stringify(st);try{await navigator.clipboard.writeText(t);st.lastBackup=today();save();$('#b-msg').textContent='Copia en el portapapeles. Pégala en una nota o envíatela.'}catch(e){const a=$('#b-txt');a.hidden=false;a.value=t;a.focus();a.setSelectionRange(0,t.length);$('#b-msg').textContent='Selecciona y copia este texto.'}});
  on('b-file','onchange',e=>{const f=e.target.files[0];if(f)f.text().then(t=>restoreFrom(t,$('#b-msg')))});

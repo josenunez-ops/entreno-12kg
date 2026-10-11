@@ -1,8 +1,8 @@
 // Cache para funcionar sin conexión. La página se pide primero a la red (máx. 4 s) para recibir actualizaciones.
 // Los vídeos van siempre a la red: Safari los pide por trozos (Range) y la caché no sabe servirlos;
 // sin conexión, la app muestra la figura animada.
-const C='entreno-v3';
-const CORE=['./','index.html','manifest.webmanifest','icon-180.png','icon-192.png','icon-512.png'];
+const C='gis-salud-v4';
+const CORE=['./','index.html','manifest.webmanifest','logo.svg','icon-180.png','icon-192.png','icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 const put=(req,res)=>caches.open(C).then(c=>c.put(req,res)).catch(()=>{});
