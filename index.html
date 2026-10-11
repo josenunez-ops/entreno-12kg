@@ -46,6 +46,13 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .brand{display:flex;align-items:center;gap:10px}
 .brand svg{flex:none}
 .brand b{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.03em}
+.hdr-r{display:flex;align-items:center;gap:6px}
+.brand b{white-space:nowrap;font-size:20px}
+@media (max-width:380px){.seg button{padding:8px 11px}.brand svg{width:30px;height:30px}}
+.gear{border:1px solid var(--ctl);background:var(--surface);color:var(--ink);border-radius:999px;width:46px;height:46px;display:grid;place-items:center;flex:none}
+.gear[aria-current="page"]{background:var(--ink);color:var(--bg)}
+.cfg-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--line)}
+.cfg-row:first-of-type{border-top:0}
 .seg{display:inline-flex;background:var(--surface);border:1px solid var(--ctl);border-radius:999px;padding:3px}
 .seg button{border:0;background:none;min-height:44px;padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
@@ -153,9 +160,14 @@ textarea{width:100%;font-size:15px}
 .log{display:flex;gap:10px;flex-wrap:wrap}
 .stepper{flex:1;min-width:150px;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;border:1px solid var(--ctl);border-radius:14px;overflow:hidden;background:var(--surface)}
 .stepper button{border:0;background:var(--accent-soft);color:var(--ink);font-size:28px;font-weight:700;min-height:56px}
+.kgin{display:flex;align-items:center;justify-content:center;gap:4px;font-family:var(--display);font-size:22px;font-weight:700}
+.kgin input{width:64px;text-align:center;font-family:var(--display);font-size:22px;font-weight:700;padding:6px;background:var(--bg)}
 .stepper output{text-align:center;font-family:var(--display);font-size:22px;font-weight:700;white-space:nowrap}
 .pmain{position:sticky;bottom:0;margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(to bottom,transparent,var(--bg) 22%)}
 .sheet{border:2px solid var(--accent)}
+.sheet.bad{border-color:var(--bad)}
+#p-bad{align-self:flex-start}
+a.btn{text-decoration:none}
 .rbtns{display:grid;grid-template-columns:1fr 2fr;gap:10px;width:100%;max-width:420px}
 .rbtns .btn{min-height:80px;font-size:24px}
 .rpe{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
@@ -163,6 +175,8 @@ textarea{width:100%;font-size:15px}
 .rpe .rok{border-color:var(--good);border-width:2px}
 .rpe .rmax{color:var(--bad)}
 .rpe button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fs{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0;display:flex;flex-direction:column;gap:2px}
+.fs legend{font-weight:700;padding:0 4px}
 .test{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:6px}
 .prot{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .prot button{min-height:52px;border-radius:12px;border:1px solid var(--ctl);background:var(--surface);font-weight:700;font-size:16px}
@@ -190,9 +204,12 @@ textarea{width:100%;font-size:15px}
       <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2457CF"/><path d="M10 88 H30 V74 H50 V60 H70 V46 H90 V88 Z" fill="#FFFFFF" opacity=".22"/><path d="M10 88 H30 V74 H50 V60 H70 V46 H90" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="66" cy="13" r="7" fill="#FFFFFF"/><path d="M63 22 L57 38" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/><path d="M57 38 L69 33 L74 44 M57 38 L52 48 L56 58 M62 25 L72 31 M62 25 L52 30" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="26" r="15" fill="#2BB673"/><path d="M24 17 V35 M16.5 28 L24 35.5 L31.5 28" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <b>GIS Salud</b>
     </div>
+    <div class="hdr-r">
     <div class="seg" role="group" aria-label="Dónde entrenas">
       <button id="m-casa" aria-pressed="true">Casa</button>
       <button id="m-gym" aria-pressed="false">Gimnasio</button>
+    </div>
+    <button class="gear" id="cfg" aria-label="Configuración" hidden><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
   </header>
   <main id="view"></main>
@@ -303,7 +320,7 @@ const EX={
   easy:'Lleva una sola pesa y cambia de mano a mitad (trabaja más el core lateral).'},
  k_caminar:{n:'Caminata rápida',w:'casa',eq:'Calzado cómodo',m:['Cardio','Quema de grasa'],unit:'min',
   pose:{eq:'none',A:{a:'h',x:120,y:100,T:178,L1:22,S1:4,L2:-18,S2:-26,A1:-22,F1:10,A2:22,F2:60},B:{a:'h',x:120,y:100,T:178,L1:-18,S1:-26,L2:22,S2:4,A1:22,F1:60,A2:-22,F2:10},per:1.1},
-  steps:['Ritmo de zona 2: puedes hablar con frases cortas pero no cantar.','Pulso orientativo: 105–125 lpm (si tomas betabloqueantes, ignóralo y usa solo la prueba de hablar).','Brazos doblados y braceo activo.','Busca cuestas suaves: queman más y cuidan las rodillas.'],
+  steps:['Ritmo de zona 2: puedes hablar con frases cortas pero no cantar.','Pulso orientativo: el 60–70 % de tu máximo (lo tienes calculado en la pestaña Plan). Con betabloqueantes, usa solo la prueba de hablar.','Brazos doblados y braceo activo.','Busca cuestas suaves: queman más y cuidan las rodillas.'],
   err:['Ir tan rápido que te falta el aire (eso ya no es zona 2).'],
   easy:'Divide en dos paseos de 20–25 min (mañana y tarde). Suma igual.'},
  c_birddog:{n:'Bird dog (cuadrupedia)',w:'casa',eq:'Sin pesas · esterilla',m:['Core','Espalda baja','Glúteos'],
@@ -412,7 +429,7 @@ function musGroup(m){const s=m.join(' ');return {Equilibrio:/Equilibrio/.test(s)
 /* ============ DATOS: sesiones ============ */
 const WARM={casa:['Marcha en el sitio subiendo rodillas – 1 min','Círculos de brazos adelante y atrás – 1 min','Bisagra de cadera sin peso (manos en la cadera) – 10','Sentadilla a silla sin peso – 10','Gato-camello a cuatro patas – 8','Peso muerto con la pesa, suave – 10','Plancha en encimera 20 s'],
  gym:['Elíptica o bici suave – 5 min','Círculos de brazos – 30 s','Primera serie de cada máquina con la mitad de peso y 15 repeticiones']};
-const PRECHECK=['Has tomado tu medicación de la tensión como siempre.','Tensión de hoy por debajo de 160/100 (si es mayor, haz solo la caminata suave; si pasa de 180/110, no entrenes y consulta).','Sin dolor de cabeza fuerte, mareo ni visión borrosa.','Botella de agua a mano.'];
+const PRECHECK_OLD=['Has tomado tu medicación de la tensión como siempre.','Tensión de hoy por debajo de 160/100 (si es mayor, haz solo la caminata suave; si pasa de 180/110, no entrenes y consulta).','Sin dolor de cabeza fuerte, mareo ni visión borrosa.','Botella de agua a mano.'];
 const COOL=['Vuelta a la calma: 3–5 min caminando suave, sin pararte de golpe','Levántate del suelo despacio, pasando por sentado','Cuádriceps de pie (sujétate a algo) – 30 s por pierna','Isquios: talón en un escalón, inclínate – 30 s por pierna','Glúteo: tobillo sobre la rodilla, sentado – 30 s por lado','Pecho en el marco de una puerta – 30 s','Respiración lenta: 4 s dentro, 6 s fuera – 1 min'];
 const S=(ex,sets,reps,rest)=>({ex,sets,reps,rest});
 const W={
@@ -436,7 +453,7 @@ const WEEK=[ // getDay(): 0 dom ... 6 sáb
 const PHASES=[
  {from:1,to:4,n:'Adaptación',short:'termina cada serie pudiendo hacer 3–4 más (esfuerzo 6/10).',d:'Aprende la técnica. Una serie (o vuelta) menos, 15 s más de descanso. El swing se sustituye por peso muerto con kettlebell. Cardio de 25 min que sube 5 min por semana. Acaba cada serie pudiendo hacer 3–4 repeticiones más (esfuerzo 6 de 10).'},
  {from:5,to:12,n:'Construcción',short:'series completas, esfuerzo 7/10 y sin llegar al fallo.',d:'Series completas del plan. Esfuerzo 7 de 10: las 2 últimas repeticiones cuestan, pero nunca llegues al fallo. En el gimnasio sube peso cuando completes todas las series.'},
- {from:13,to:24,n:'Definición',short:'descansos 15 s más cortos y bajadas lentas de 3 s.',d:'Descansos 15 s más cortos y bajadas de 3 s. Con 12 kg fijos progresa en este orden: pausa de 2 s abajo, repeticiones y media, ejercicios a una pierna (sentadilla búlgara, peso muerto rumano a una pierna, subida a escalón) y goblet con kettlebell + mancuerna. Hacia el mes 3, una kettlebell de 16 kg es la mejor inversión.'},
+ {from:13,to:24,n:'Definición',short:'descansos 15 s más cortos y bajadas lentas de 3 s.',d:'Descansos 15 s más cortos y bajadas de 3 s. Con pesas fijas progresa en este orden: pausa de 2 s abajo, repeticiones y media, ejercicios a una pierna (sentadilla búlgara, peso muerto rumano a una pierna, subida a escalón) y goblet con kettlebell + mancuerna. Hacia el mes 3, una pesa unos 4 kg más pesada es la mejor inversión.'},
  {from:25,to:999,n:'Mantenimiento activo',short:'3 semanas intensas y 1 suave.',d:'Alterna 3 semanas de definición con 1 semana suave (la mitad de series). Revisa objetivos con el peso real.'}];
 
 /* ============ DATOS: plan sénior (70 años o más, en casa) ============ */
@@ -450,6 +467,34 @@ const SWARM=["Sentado: círculos de hombros hacia atrás, 10 veces.", "Sentado: 
 const STESTS=[{"id": "t_silla30", "n": "Levantarse de la silla 30 s", "unit": "reps", "how": "Siéntate en una silla sin ruedas apoyada en la pared, con los brazos cruzados sobre el pecho. Cuenta cuántas veces te levantas del todo y te sientas en 30 segundos.", "better": "higher", "ref": "Valores normales orientativos a los 70-79 años: hombres 11-17 y mujeres 10-15 repeticiones; menos de 10-12 indica riesgo de pérdida de fuerza."}, {"id": "t_una_pierna", "n": "Equilibrio a una pierna", "unit": "s", "how": "De pie frente a la encimera, con las manos a 2 cm de ella sin tocarla, levanta un pie y cuenta los segundos hasta que lo apoyes o te agarres (máximo 30 s). Haz 2 intentos con cada pierna y anota el mejor.", "better": "higher", "ref": "A los 70-79 años la media ronda los 15-25 s; menos de 5-10 s se asocia a mayor riesgo de caídas."}, {"id": "t_tug", "n": "Levántate y anda (3 m)", "unit": "s", "how": "Sentado en una silla con reposabrazos, a la señal levántate, camina 3 m a paso normal hasta una marca, da la vuelta, vuelve y siéntate. Otra persona cronometra desde que empiezas hasta que tocas el asiento.", "better": "lower", "ref": "A los 70-79 años lo normal es unos 8-10 s; 12 s o más indica mayor riesgo de caídas y conviene consultarlo."}];
 const SNUT=["Toma 1,0-1,2 g de proteína por kilo de peso al día, repartida en las 3 comidas (unos 25-30 g en cada una): huevos, lácteos, legumbres, pescado o carne.", "Toma algo de proteína (un yogur, un vaso de leche o queso fresco) en las 2 horas después del ejercicio.", "Cuida el calcio con 2-3 raciones de lácteos al día y la vitamina D con un rato de sol; pregunta a tu médico si necesitas suplemento.", "Bebe agua aunque no tengas sed: unos 6-8 vasos al día, más si hace calor o sudas.", "Si tienes la tensión alta, modera la sal y los embutidos y aumenta frutas, verduras y legumbres.", "No hagas ejercicio en ayunas ni justo después de una comida copiosa: mejor 1-2 horas después de comer algo ligero."],SSAFE=["Consulta a tu médico antes de empezar, sobre todo si tienes tensión alta, problemas de corazón, mareos o caídas recientes.", "Ten siempre un apoyo firme al alcance (encimera, silla estable o pared), suelo despejado, buena luz y calzado cerrado que no resbale.", "No aguantes la respiración: suelta el aire al hacer el esfuerzo. Debes poder hablar mientras haces ejercicio.", "Para si notas dolor en el pecho, falta de aire intensa, mareo, palpitaciones o dolor articular agudo, y avisa a tu médico.", "Levántate despacio de la silla y quédate quieto unos segundos antes de caminar, sobre todo si tomas medicación para la tensión.", "Ten el teléfono cerca y, las primeras semanas, haz los ejercicios de equilibrio con alguien en casa."];
 
+/* ============ DATOS: entrenamiento funcional con objetos de casa ============ */
+const HX={"h_sentadilla_silla": {"n": "Sentadilla a la silla", "w": "hogar", "eq": "Silla y, si quieres, una garrafa de agua de 5 L", "m": ["Piernas", "Glúteos", "Core"], "ages": [1, 2, 3], "steps": ["Ponte de pie delante de una silla estable, pies al ancho de los hombros.", "Si quieres más carga, abraza una garrafa de agua de 5 L contra el pecho.", "Lleva la cadera atrás y baja hasta rozar el asiento con los glúteos, sin sentarte del todo.", "Sube empujando con todo el pie y aprieta los glúteos arriba."], "err": ["Dejarse caer en la silla.", "Rodillas hacia dentro.", "Levantar los talones."], "easy": "Siéntate del todo en cada repetición y usa una silla más alta o un cojín."}, "h_pm_mochila": {"n": "Peso muerto con mochila", "w": "hogar", "eq": "Mochila con libros o garrafas (5–10 kg)", "m": ["Glúteos", "Isquios", "Espalda"], "ages": [1, 2, 3], "avoid": ["back", "osteo"], "steps": ["Pon una mochila cargada con libros en el suelo entre los pies.", "Lleva la cadera atrás con la espalda recta y las rodillas algo flexionadas.", "Coge la mochila por las asas con las dos manos.", "Ponte de pie empujando la cadera adelante y vuelve a dejarla en el suelo con control."], "err": ["Redondear la espalda.", "Tirar con los brazos.", "Mochila demasiado pesada al principio."], "easy": "Menos libros, o deja la mochila sobre una silla baja para recorrer menos."}, "h_remo_mochila": {"n": "Remo con mochila apoyado en la mesa", "w": "hogar", "eq": "Mesa y mochila con libros", "m": ["Espalda", "Bíceps", "Postura"], "ages": [1, 2, 3], "steps": ["Apoya una mano en la mesa e inclina el tronco hacia delante con la espalda recta.", "Coge la mochila por el asa con la otra mano, brazo estirado.", "Tira del codo hacia atrás hasta llevar la mochila a la cintura.", "Baja despacio. Haz todas las repeticiones y cambia de lado."], "err": ["Girar el tronco para subir la mochila.", "Encoger el hombro.", "Redondear la espalda."], "easy": "Menos peso en la mochila o una botella de agua de 1,5 L."}, "h_flexion_suelo": {"n": "Flexiones en el suelo", "w": "hogar", "eq": "Suelo y una toalla o esterilla", "m": ["Pecho", "Tríceps", "Core"], "ages": [1, 2, 3], "avoid": ["shoulder"], "steps": ["Manos en el suelo algo más anchas que los hombros, cuerpo recto de cabeza a talones.", "Baja el pecho hacia el suelo con los codos a 45°.", "Empuja hasta estirar los brazos sin hundir la cadera.", "Si no llegas, apoya las rodillas."], "err": ["Cadera hundida o muy alta.", "Codos abiertos en cruz.", "Recorrido muy corto."], "easy": "Con las rodillas apoyadas, o con las manos en el borde de una mesa firme."}, "h_press_botellas": {"n": "Press de hombros con garrafas", "w": "hogar", "eq": "2 garrafas de 5 L o botellas de 1,5 L", "m": ["Hombros", "Tríceps", "Core"], "ages": [1, 2, 3], "avoid": ["shoulder"], "steps": ["Sentado en una silla con respaldo, una garrafa o botella en cada mano a la altura de los hombros.", "Aprieta el abdomen para no arquear la espalda.", "Empuja hacia arriba hasta casi estirar los brazos.", "Baja despacio a la altura de los hombros. Sopla al subir."], "err": ["Arquear la espalda.", "Bloquear los codos de golpe.", "Aguantar la respiración."], "easy": "Botellas de 1,5 L en lugar de garrafas, o un brazo cada vez."}, "h_escalon": {"n": "Subida al escalón", "w": "hogar", "eq": "Primer escalón de la escalera (con barandilla)", "m": ["Piernas", "Glúteos", "Equilibrio"], "ages": [1, 2, 3], "steps": ["Ponte frente al primer escalón, con una mano en la barandilla si la hay.", "Apoya el pie entero en el escalón.", "Sube empujando con esa pierna, sin impulsarte con la de abajo.", "Baja despacio. Haz todas las repeticiones con una pierna y cambia."], "err": ["Apoyar solo la punta del pie.", "Impulsarse con la pierna de abajo.", "Rodilla hacia dentro."], "easy": "Sujétate con las dos manos o usa un escalón más bajo."}, "h_sentadilla_pared": {"n": "Sentadilla isométrica en la pared", "w": "hogar", "eq": "Pared", "m": ["Piernas", "Glúteos"], "unit": "s", "ages": [1, 2, 3], "avoid": ["htn", "heart", "knee"], "steps": ["Apoya la espalda en la pared y adelanta los pies medio paso.", "Baja deslizando la espalda hasta que las rodillas queden a unos 90° (o menos si molesta).", "Aguanta el tiempo indicado respirando con normalidad.", "Sube deslizando la espalda por la pared."], "err": ["Aguantar la respiración.", "Rodillas por delante de las puntas.", "Bajar más de lo cómodo."], "easy": "Baja menos y aguanta menos tiempo."}, "h_triceps_silla": {"n": "Fondos de tríceps en silla", "w": "hogar", "eq": "Silla estable apoyada en la pared", "m": ["Tríceps", "Hombros"], "ages": [1, 2], "avoid": ["shoulder"], "steps": ["Siéntate en el borde de una silla pegada a la pared y apoya las manos junto a la cadera.", "Desliza la cadera hacia delante, con las rodillas dobladas.", "Baja doblando los codos hacia atrás hasta unos 90°.", "Empuja hasta estirar los brazos."], "err": ["Bajar demasiado.", "Abrir los codos hacia los lados.", "Encoger los hombros."], "easy": "Pies más cerca de la silla y menos recorrido."}, "h_jacks": {"n": "Saltos de tijera", "w": "hogar", "eq": "Sin material", "m": ["Cardio", "Piernas"], "unit": "s", "ages": [1, 2], "avoid": ["htn", "heart", "knee", "falls", "osteo", "back"], "steps": ["De pie, pies juntos y brazos a los lados.", "Salta abriendo piernas y subiendo los brazos por encima de la cabeza.", "Salta de nuevo cerrando piernas y bajando los brazos.", "Mantén un ritmo constante y aterriza suave."], "err": ["Aterrizar con las piernas rígidas.", "Ir tan rápido que pierdes la técnica."], "easy": "Sin salto: abre una pierna cada vez mientras subes los brazos."}, "h_climber": {"n": "Escaladores", "w": "hogar", "eq": "Suelo y una toalla", "m": ["Cardio", "Core"], "unit": "s", "ages": [1, 2], "avoid": ["htn", "heart", "shoulder", "back"], "steps": ["Ponte en posición de flexión, manos bajo los hombros.", "Lleva una rodilla hacia el pecho.", "Vuelve y lleva la otra, alternando a ritmo constante.", "Mantén la cadera baja y el abdomen firme."], "err": ["Cadera muy alta.", "Hombros por detrás de las manos."], "easy": "Más despacio, o con las manos sobre una mesa firme."}, "h_granjero": {"n": "Paseo con garrafas", "w": "hogar", "eq": "2 garrafas de agua de 5 L (o bolsas de la compra)", "m": ["Agarre", "Core", "Trapecio", "Cardio"], "unit": "s", "ages": [1, 2, 3], "steps": ["Coge una garrafa en cada mano.", "Hombros atrás y abajo, pecho alto, abdomen firme.", "Camina con pasos cortos y controlados por el pasillo el tiempo indicado.", "Deja las garrafas flexionando las piernas, no la espalda."], "err": ["Inclinarse hacia un lado.", "Encoger los hombros."], "easy": "Botellas de 1,5 L o una sola garrafa cambiando de mano."}, "k_suave": {"n": "Paseo suave", "w": "x", "eq": "Calzado cómodo", "m": ["Cardio"], "unit": "min", "ages": [1, 2, 3, 4], "steps": ["Camina despacio por terreno llano o por casa.", "Debes poder hablar con normalidad todo el rato.", "Si notas mareo, siéntate y bebe agua.", "Si aparece dolor en el pecho o falta de aire, para y pide ayuda."], "err": ["Ir deprisa: hoy no toca esfuerzo."], "easy": "Divide el paseo en tramos de 5 minutos."}};
+const HPOSE={"h_sentadilla_silla": "c_goblet", "h_pm_mochila": "c_pmkb", "h_remo_mochila": "c_remo1", "h_flexion_suelo": "c_flexion", "h_press_botellas": "c_militar", "h_escalon": "c_zancada", "h_sentadilla_pared": "c_goblet", "h_triceps_silla": "c_triceps", "h_jacks": "k_caminar", "h_climber": "c_plancha", "h_granjero": "c_granjero", "k_suave": "k_caminar"};
+for(const [id,e] of Object.entries(HX)){e.pose={...EX[HPOSE[id]].pose,eq:'none',stack:undefined,cable:undefined};EX[id]=e}
+// Material que necesita cada ejercicio (kb = kettlebell, db = mancuernas) y condiciones de salud en las que se evita
+const META={c_goblet:{need:['kb','db'],avoid:['knee','prost']},c_swing:{need:['kb'],avoid:['back','osteo','falls','heart'],ages:[1,2,3]},c_pmkb:{need:['kb'],avoid:['back']},
+ c_rdl:{need:['db'],avoid:['back','osteo']},c_remo:{need:['db'],avoid:['back']},c_remo1:{need:['db','kb']},c_presssuelo:{need:['db']},c_militar:{need:['db'],avoid:['shoulder']},
+ c_zancada:{avoid:['knee','falls','prost']},c_curl:{need:['db']},c_triceps:{need:['db'],avoid:['shoulder']},c_granjero:{need:['db','kb']},c_plancha:{},c_deadbug:{},c_birddog:{},c_puente:{},c_flexion:{},
+ g_smith:{avoid:['knee','back']},g_extension:{avoid:['knee']},g_lumbar:{avoid:['back','osteo']},g_crunch:{avoid:['back','osteo']},g_hombro:{avoid:['shoulder']},
+ s_press_hombros:{avoid:['shoulder']},s_rotacion_tronco:{avoid:['osteo']},s_escalon:{avoid:[]}};
+for(const [id,m] of Object.entries(META))Object.assign(EX[id],m);
+EX.h_jacks.avoid.push('prost');EX.h_climber.avoid.push('prost');EX.s_abduccion.safe+=' Con prótesis de cadera, no separes la pierna más de un palmo.';
+// Alternativas cuando falta material o una condición desaconseja el ejercicio (se prueba en orden)
+const SUBS={c_goblet:['h_sentadilla_silla','g_prensa','s_sentarse'],c_swing:['c_pmkb','h_pm_mochila','c_puente'],c_pmkb:['h_pm_mochila','c_puente'],c_rdl:['c_pmkb','h_pm_mochila','c_puente'],
+ c_remo:['c_remo1','h_remo_mochila'],c_remo1:['h_remo_mochila'],c_presssuelo:['h_flexion_suelo','c_flexion'],c_militar:['h_press_botellas','c_flexion'],c_zancada:['h_escalon','h_sentadilla_silla','s_sentarse'],
+ c_curl:['h_remo_mochila'],c_triceps:['h_triceps_silla','c_flexion'],c_granjero:['h_granjero'],
+ h_sentadilla_silla:['s_sentarse'],h_pm_mochila:['c_puente'],h_flexion_suelo:['c_flexion','s_flexion_pared'],h_press_botellas:['c_flexion','s_flexion_pared'],h_escalon:['h_sentadilla_silla','s_sentarse'],
+ h_sentadilla_pared:['h_sentadilla_silla','c_puente'],h_triceps_silla:['c_flexion'],h_jacks:['k_caminar'],h_climber:['c_deadbug'],h_granjero:['c_plancha'],
+ g_smith:['g_prensa'],g_extension:['g_prensa','g_curlfem'],g_lumbar:['g_pullthrough','c_birddog'],g_crunch:['g_pallof','c_deadbug'],g_hombro:['g_pecho'],
+ s_press_hombros:['s_flexion_pared'],s_rotacion_tronco:['s_toalla_hombros']};
+W.hogar={
+ A:{t:'Fuerza A · Casa funcional',items:[S('h_sentadilla_silla',3,12,75),S('c_flexion',3,10,60),S('h_remo_mochila',3,'10/lado',45),S('h_pm_mochila',3,12,75),S('h_press_botellas',3,10,60),S('c_plancha',3,30,30)]},
+ B:{t:'Fuerza B · Casa funcional',items:[S('h_escalon',3,'8/pierna',60),S('h_flexion_suelo',3,8,60),S('h_remo_mochila',3,'10/lado',45),S('c_zancada',3,'8/pierna',60),S('c_puente',3,15,45),S('h_triceps_silla',2,10,45),S('c_deadbug',3,'8/lado',30)]},
+ C:{t:'Circuito en casa',circuit:{rounds:4,rest:90},items:[S('h_sentadilla_silla',1,12,0),S('c_flexion',1,10,0),S('h_remo_mochila',1,'8/lado',0),S('h_granjero',1,40,0),S('c_puente',1,15,0),S('c_plancha',1,30,0)],cardio:{ex:'k_caminar',min:15}},
+ Z:{...W.casa.Z},L:{...W.casa.L}};
+const CONDS=[['htn','Hipertensión'],['heart','Enfermedad del corazón'],['bb','Tomo betabloqueantes (bisoprolol, atenolol…)'],['diab','Diabetes'],['knee','Dolor o lesión de rodilla'],['back','Dolor lumbar o hernia'],['shoulder','Dolor o lesión de hombro'],['osteo','Osteoporosis'],['falls','Caídas o mareos en el último año'],['prost','Prótesis de cadera o rodilla']];
+const RANGES=[[20,35,'20–35 años'],[36,50,'36–50 años'],[51,65,'51–65 años'],[66,120,'66 años o más']];
+
 /* ============ ESTADO ============ */
 const LSK='entreno12kg.v1',RUNK='entreno12kg.run';
 const pad=n=>String(n).padStart(2,'0');
@@ -460,7 +505,7 @@ const parseD=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)
 const dnum=s=>{const [y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)/864e5};
 const daysBetween=(a,b)=>Math.round(dnum(b)-dnum(a));
 const addDays=(s,n)=>{const d=parseD(s);d.setDate(d.getDate()+n);return iso(d)};
-const DEF={start:today(),mode:'casa',sex:'h',height:170,age:50,goal:70,phase:0,weights:[],log:[],seenSafety:false,htn:false,bp:[],waist:[],name:'',setup:false,voice:true,hitos:[],lastBackup:null,prot:null,tests:[]};
+const DEF={start:today(),mode:'casa',sex:'h',height:170,age:50,goal:70,phase:0,weights:[],log:[],seenSafety:false,htn:false,bp:[],waist:[],name:'',setup:false,voice:true,hitos:[],lastBackup:null,prot:null,tests:[],cond:{},equip:{kb:0,db:0},kcalAdj:0,adjWeek:null,medAlert:null};
 const num=(v,lo,hi,d)=>{v=Number(v);return Number.isFinite(v)&&v>=lo&&v<=hi?v:d};
 const arr=x=>Array.isArray(x)?x:[];
 function cleanSets(x){const out={};if(x&&typeof x==='object')for(const k in x){if(!EX[k]||!Array.isArray(x[k]))continue;out[k]=x[k].slice(0,20).map(r=>({kg:num(r&&r.kg,0,500,0),reps:num(r&&r.reps,0,300,0)}))}return out}
@@ -473,10 +518,14 @@ function sanitize(o){o=o&&typeof o==='object'?o:{};const s={...DEF};
  s.weights=arr(o.weights).filter(w=>w&&isISO(w.d)&&num(w.kg,30,350,null)!=null).map(w=>({d:w.d,kg:+w.kg}));
  s.bp=arr(o.bp).filter(b=>b&&isISO(b.d)&&num(b.s,60,280,null)!=null&&num(b.di,30,180,null)!=null).map(b=>({d:b.d,s:Math.round(b.s),di:Math.round(b.di)}));
  s.waist=arr(o.waist).filter(w=>w&&isISO(w.d)&&num(w.cm,40,250,null)!=null).map(w=>({d:w.d,cm:+w.cm}));
- s.log=arr(o.log).filter(l=>l&&isISO(l.d)).map(l=>({id:String(l.id||Math.random().toString(36).slice(2)).slice(0,24),d:l.d,k:typeof l.k==='string'&&/^[A-Z]$/.test(l.k)?l.k:null,t:String(l.t||'Sesión').slice(0,80),mode:l.mode==='gym'?'gym':'casa',min:Math.round(num(l.min,0,600,0)),rpe:num(l.rpe,1,10,null),sym:!!l.sym,note:String(l.note||'').slice(0,200),sets:cleanSets(l.sets),skip:arr(l.skip).filter(x=>EX[x])}));
+ s.log=arr(o.log).filter(l=>l&&isISO(l.d)).map(l=>({id:String(l.id||Math.random().toString(36).slice(2)).slice(0,24),d:l.d,k:typeof l.k==='string'&&/^[A-Z]$/.test(l.k)?l.k:null,t:String(l.t||'Sesión').slice(0,80),mode:l.mode==='gym'?'gym':'casa',min:Math.round(num(l.min,0,600,0)),rpe:num(l.rpe,1,10,null),sym:['joint','cardio','mareo'].includes(l.sym)?l.sym:(l.sym?'joint':null),note:String(l.note||'').slice(0,200),sets:cleanSets(l.sets),skip:arr(l.skip).filter(x=>EX[x])}));
  s.hitos=arr(o.hitos).filter(x=>typeof x==='string').slice(0,200);s.lastBackup=isISO(o.lastBackup)?o.lastBackup:null;
  s.prot=o.prot&&isISO(o.prot.d)&&Array.isArray(o.prot.m)?{d:o.prot.d,m:[0,1,2,3].map(i=>o.prot.m[i]?1:0)}:null;
  s.tests=arr(o.tests).filter(t=>t&&isISO(t.d)&&STESTS.some(x=>x.id===t.id)&&num(t.v,0,600,null)!=null).map(t=>({d:t.d,id:t.id,v:+t.v}));
+ s.cond={};CONDS.forEach(([k])=>{if(o.cond&&o.cond[k])s.cond[k]=true});if(o.htn)s.cond.htn=true;s.htn=!!s.cond.htn;
+ // Perfiles anteriores a esta versión entrenaban con kettlebell y mancuernas de 12 kg
+ const eq=o.equip&&typeof o.equip==='object'?o.equip:(o.setup?{kb:12,db:12}:{});s.equip={kb:num(eq.kb,0,48,0),db:num(eq.db,0,40,0)};
+ s.kcalAdj=num(o.kcalAdj,-600,300,0);s.adjMsg=typeof o.adjMsg==='string'?o.adjMsg.slice(0,200):null;s.adjWeek=isISO(o.adjWeek)?o.adjWeek:null;s.medAlert=isISO(o.medAlert)?o.medAlert:null;
  if(s.setup&&!s.weights.length)s.setup=false;
  return s}
 let st=sanitize(null);
@@ -498,7 +547,7 @@ function joints(p){let hip;
 function lerpPose(a,b,t){const o={a:a.a};for(const k in a){if(typeof a[k]==='number')o[k]=a[k]+(b[k]-a[k])*t}return o}
 const NS='http://www.w3.org/2000/svg';
 // Vídeos reales por sexo del perfil (v/h/<id>.mp4, v/m/<id>.mp4). Si falta o no carga, se ve la figura animada.
-const VIDS={"h":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"],"m":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"],"h70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"],"m70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"]};
+const VIDS={"h":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","h_climber","h_escalon","h_flexion_suelo","h_granjero","h_jacks","h_pm_mochila","h_press_botellas","h_remo_mochila","h_sentadilla_pared","h_sentadilla_silla","h_triceps_silla","k_caminar"],"m":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","h_climber","h_escalon","h_flexion_suelo","h_granjero","h_jacks","h_pm_mochila","h_press_botellas","h_remo_mochila","h_sentadilla_pared","h_sentadilla_silla","h_triceps_silla","k_caminar"],"h70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"],"m70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"]};
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function media(id){const sx=(st.sex==='m'?'m':'h')+(EX[id].w==='senior'?'70':'');
  if(!(VIDS[sx]||[]).includes(id))return figSVG(id);
@@ -532,7 +581,9 @@ function drawFig(svg,ex,t){const P=ex.pose,a=full(P.A),b=full(P.B),j=joints(lerp
  if(!svg.classList.contains('thumb')){const b=badgeOf(ex),w=b.length*6.2+16;s+=`<rect x="6" y="-18" width="${w.toFixed(0)}" height="18" rx="9" fill="var(--accent-soft)"/><text x="14" y="-5.5" font-size="11" font-weight="700" fill="var(--ink)" font-family="Barlow,system-ui,sans-serif" letter-spacing=".04em">${b.toUpperCase()}</text>`}
  svg.innerHTML=s}
 function badgeOf(ex){const P=ex.pose;if(ex.w==='senior'){const q=ex.eq.toLowerCase();return q.includes('botella')?'Botellas de agua':q.includes('toalla')?'Toalla':q.includes('escal')?'Escalón':q.includes('pared')||q.includes('pasillo')?'Pared':q.includes('encimera')||q.includes('mesa')?'Con apoyo':q.includes('silla')?'Silla':'En casa'}if(ex.w==='gym')return ex.unit==='min'?'Máquina de cardio':P.cable?'Polea':'Máquina';
- return P.eq==='kb'?'Kettlebell 12 kg':P.eq==='db'?'Mancuernas 12 kg':P.eq==='db1'?'Mancuerna 12 kg':ex.unit==='min'?'Al aire libre':'Sin pesas'}
+ if(ex.w==='hogar')return /garrafa|botella/i.test(ex.eq)?'Garrafas de agua':/mochila/i.test(ex.eq)?'Mochila':/silla/i.test(ex.eq)?'Silla':/escal/i.test(ex.eq)?'Escalón':/pared/i.test(ex.eq)?'Pared':'Sin material';
+ return P.eq==='kb'?`Kettlebell ${st.equip.kb||12} kg`:P.eq==='db'?`Mancuernas ${st.equip.db||12} kg`:P.eq==='db1'?`Mancuerna ${st.equip.db||12} kg`:ex.unit==='min'?'Al aire libre':'Sin pesas'}
+const eqTxt=e=>e.eq.replace(/(Kettlebell|kettlebell) 12 kg/g,`$1 ${st.equip.kb||12} kg`).replace(/(mancuernas?|Mancuernas?) de 12 kg/g,`$1 de ${st.equip.db||12} kg`)
 function dbell(h,op){return `<g opacity="${op}"><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="8" fill="var(--accent)"/><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="3" fill="var(--surface)"/></g>`}
 // Animación a ~30 fps, parada con la app en segundo plano; con «reducir movimiento», figura fija
 let lastAnim=0;
@@ -554,14 +605,38 @@ function months(){const n=monthNo(),out=[],ws=wsorted();
   out.push({m,from,ses:lg.length,min:lg.reduce((x,l)=>x+(l.min||0),0),endKg,lost:startKg!=null&&endKg!=null?startKg-endKg:null})}
  return out}
 // A partir de 70 años: plan en casa de movilidad, fuerza y equilibrio
-const senior=()=>st.age>=70;
-const M=()=>senior()?'senior':st.mode;
+const rangeOf=a=>a<=35?1:a<=50?2:a<=65?3:4;
+const RNG=()=>rangeOf(st.age);
+const senior=()=>RNG()===4;
+const C=k=>!!st.cond[k];
+const hasEq=()=>st.equip.kb>0||st.equip.db>0;
+const M=()=>senior()?'senior':st.mode==='gym'?'gym':hasEq()?'casa':'hogar';
+// ¿Se puede hacer este ejercicio con el material, la edad y la salud de esta persona?
+function allowed(id){const e=EX[id];if(!e)return false;
+ if(e.ages&&!e.ages.includes(RNG()))return false;
+ if(e.avoid&&e.avoid.some(C))return false;
+ if((C('htn')||C('heart'))&&e.avoid&&e.avoid.includes('htn'))return false;
+ const m=M();if(m==='gym'?e.w!=='gym'&&e.w!=='x':m==='senior'?e.w!=='senior'&&e.w!=='x':e.w==='gym')return false;
+ if(e.need&&!e.need.some(k=>st.equip[k]>0))return false;
+ return true}
+function pick(id,seen=new Set()){if(allowed(id))return id;seen.add(id);for(const x of (SUBS[id]||[]).concat(ALT[id]||[])){if(seen.has(x)||!EX[x])continue;const r=pick(x,seen);if(r)return r}return null}
+// Sesión adaptada: material, edad y condiciones; con 20-50 años y sin contraindicaciones, final cardiovascular
+function adapt(base){if(!base)return null;const w={...base,items:[]};const used=new Set();
+ for(const it of base.items){const ex=pick(it.ex);if(!ex)continue;if(used.has(ex)&&!base.circuit)continue;used.add(ex);w.items.push({...it,ex})}
+ if(w.cardio){const c=pick(w.cardio.ex);w.cardio=c?{...w.cardio,ex:c}:{...w.cardio,ex:'k_caminar'}}
+ if(base.k==='C'&&RNG()<=2&&M()!=='gym'){const f=['h_jacks','h_climber'].find(allowed);if(f)w.items.push({ex:f,sets:1,reps:30,rest:0})}
+ return w}
 const PH=()=>senior()?SPHASES:PHASES;
 const weekK=i=>senior()?SWEEKD[i]:WEEK[i].k;
 const GOAL=()=>senior()?6:5;
 const phaseIdx=()=>{const ph=PH();if(st.phase)return Math.min(st.phase,ph.length)-1;const w=weekNo();const i=ph.findIndex(p=>w>=p.from&&w<=p.to);return i<0?ph.length-1:i};
 function adj(it,pi){let sets=it.sets,rest=it.rest,ex=it.ex,reps=it.reps;
- if(EX[ex].w==='senior'){if(pi>=2&&EX[ex].m.includes('Piernas'))sets++;return {...it,sets}}
+ const iso=EX[ex].unit==='s'&&/Core|Piernas|Glúteos/.test(EX[ex].m.join())&&!/Cardio/.test(EX[ex].m.join());
+ if(iso&&(C('htn')||C('heart')))reps=Math.min(+reps||30,C('heart')?20:30);
+ if(EX[ex].w==='senior'){if(pi>=2&&EX[ex].m.includes('Piernas'))sets++;if(C('heart'))rest+=15;return {...it,sets,rest,reps}}
+ // Dosis por edad: 20-35 una serie más y menos descanso; 36-50 menos descanso; 51-65 dosis base
+ const r=RNG();if(it.rest>0){if(r===1){sets=Math.min(4,sets+(it.sets>1?1:0));rest=Math.max(30,rest-15)}else if(r===2){rest=Math.max(30,rest-15)}if(C('heart'))rest+=15}
+ sets=Math.min(sets,4);
  if(pi===0){sets=Math.max(2,sets-1);rest+=15;if(ex==='c_swing'){ex='c_pmkb';reps=Math.max(10,+reps||10)}}else if(pi>=2){rest=Math.max(30,rest-15)}
  return {...it,ex,reps,sets,rest}}
 function rounds(w,pi){return pi===0?w.circuit.rounds-1:w.circuit.rounds}
@@ -576,12 +651,24 @@ function estMin(w,pi){if(!w)return 0;let s=0;const rep=r=>typeof r==='number'?r:
 const wsorted=()=>[...st.weights].sort((a,b)=>a.d<b.d?-1:1);
 const latestW=()=>wsorted().at(-1)?.kg??70;
 const lastBP=()=>[...(st.bp||[])].sort((a,b)=>a.d<b.d?-1:1).at(-1);
-const bpLvl=b=>b.s>=160||b.di>=100?2:b.s>=135||b.di>=85?1:0;
-const bpCol=b=>['var(--good)','var(--warn)','var(--bad)'][bpLvl(b)];
-const bpTxt=b=>['bien controlada','algo alta: entreno normal, sin llegar al fallo','alta: hoy solo caminata suave'][bpLvl(b)];
-const bpHighToday=()=>{const b=lastBP();return st.htn&&b&&b.d===today()&&bpLvl(b)===2};
-function nutri(){const kg=latestW(),bmr=10*kg+6.25*st.height-5*st.age+(st.sex==='m'?-161:5),tdee=bmr*1.4;const kcal=Math.max(st.sex==='m'?1400:1800,Math.round((tdee-550)/50)*50);
- const prot=Math.round(st.goal*1.8/5)*5,fat=Math.round(kcal*0.28/9/5)*5,carb=Math.round((kcal-prot*4-fat*9)/4/5)*5;return {bmr:Math.round(bmr),tdee:Math.round(tdee),kcal,prot,fat,carb}}
+const bpLvl=b=>b.s>=180||b.di>=110?3:b.s>=160||b.di>=100?2:b.s<90||b.di<60?-1:b.s>=135||b.di>=85?1:0;
+const bpCol=b=>({'-1':'var(--warn)',0:'var(--good)',1:'var(--warn)',2:'var(--bad)',3:'var(--bad)'})[bpLvl(b)];
+const bpTxt=b=>({'-1':'baja: hoy sin ejercicio de pie',0:'bien controlada',1:'algo alta: entreno normal, sin llegar al fallo',2:'alta: hoy solo paseo suave',3:'muy alta: hoy no entrenes'})[bpLvl(b)];
+const bpToday=()=>{const b=[...st.bp].filter(x=>x.d===today()).at(-1);return b?bpLvl(b):null};
+const bpHighToday=()=>bpToday()===2;
+const blockedToday=()=>bpToday()===3||bpToday()===-1;
+function nutri(){const kg=latestW(),bmr=10*kg+6.25*st.height-5*st.age+(st.sex==='m'?-161:5);
+ // Actividad según las sesiones de las 2 últimas semanas
+ const ses=st.log.filter(l=>daysBetween(l.d,today())<14).length,fa=1.35+Math.min(.15,ses*.015),tdee=bmr*fa;
+ const floor=st.sex==='m'?1400:1800,base=Math.round((tdee-550)/50)*50,kcal=Math.max(floor,base+st.kcalAdj);
+ const def=Math.max(0,tdee-kcal),wk=def*7/7700;
+ const prot=Math.round(st.goal*1.8/5)*5,fat=Math.round(kcal*0.28/9/5)*5,carb=Math.round((kcal-prot*4-fat*9)/4/5)*5;return {bmr:Math.round(bmr),tdee:Math.round(tdee),kcal,prot,fat,carb,def:Math.round(def),wk,floor:kcal===floor}}
+// Regla de ajuste automática, una vez por semana: estancado 3 semanas → −150 kcal; más de 1 kg/sem tras el primer mes → +150 kcal
+function autoAdjust(){if(senior()||!st.setup)return;const ws=weekStart();if(st.adjWeek===ws)return;st.adjWeek=ws;st.adjMsg=null;
+ const pc=pace(),w=weekNo();
+ if(pc!=null&&w>=4&&pc<0.3){const k0=nutri().kcal;st.kcalAdj=Math.max(-600,st.kcalAdj-150);const k1=nutri().kcal;if(k1<k0)st.adjMsg=`Esta semana tu objetivo baja a ${k1} kcal: tu peso lleva unas semanas casi parado.`;else st.adjMsg='Tu peso lleva unas semanas casi parado y ya estás en el mínimo de calorías: suma pasos (8.000–10.000 al día) y revisa picoteos y bebidas.'}
+ else if(pc!=null&&w>4&&pc>1){st.kcalAdj=Math.min(300,st.kcalAdj+150);st.adjMsg=`Esta semana tu objetivo sube a ${nutri().kcal} kcal: bajas más de 1 kg por semana y conviene proteger el músculo.`}
+ save()}
 const fdate=(d,o={day:'numeric',month:'short'})=>parseD(d).toLocaleDateString('es-ES',o);
 const dec=(n,k=1)=>n.toFixed(k).replace('.',',');
 const pnum=v=>parseFloat(String(v).replace(',','.'));
@@ -600,8 +687,8 @@ const weekStart=(s=today())=>{const d=parseD(s);return addDays(s,-((d.getDay()+6
 const weekLog=(ws=weekStart())=>{const we=addDays(ws,7);return st.log.filter(l=>l.d>=ws&&l.d<we)};
 const countsWeek=l=>l.k!=='L';
 function nextK(){const q=senior()?['A','P','B','M','C','P']:[...QUEUE];weekLog().forEach(l=>{const i=q.indexOf(l.k);if(i>=0)q.splice(i,1)});return q[0]||null}
-const sess=k=>k&&W[M()][k]?{k,...W[M()][k]}:null;
-const LOWBP={k:'X',t:'Caminata suave (tensión alta)',items:[],cardio:{ex:'k_caminar',min:25},noWarm:true};
+const sess=k=>k&&W[M()][k]?adapt({k,...W[M()][k]}):null;
+const LOWBP={k:'X',t:'Paseo suave',items:[],cardio:{ex:'k_suave',min:20},noWarm:true};
 function streak(){let n=0;if(weekLog().filter(countsWeek).length>=4)n++;
  for(let i=1;i<104;i++){if(weekLog(addDays(weekStart(),-7*i)).filter(countsWeek).length>=4)n++;else break}return n}
 function checkHitos(){const nw=[],h=st.hitos,add=(id,t)=>{if(!h.includes(id)){h.push(id);nw.push(t)}};
@@ -616,31 +703,40 @@ function checkHitos(){const nw=[],h=st.hitos,add=(id,t)=>{if(!h.includes(id)){h.
 let tab='hoy',selDay=null,exFilter={w:'actual',m:'Todos'},openEx=null,lastDay=today();
 const $=s=>document.querySelector(s),view=$('#view');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function setMode(m){st.mode=m;save();render()}
+// Cualquier cambio de perfil invalida la sesión a medias y vuelve a pintar todo
+function profileChanged(wasSenior){clearRun();if(!wasSenior&&senior())st.seenSafety=false;selDay=null;save();render()}
+function setMode(m){const ws=senior();st.mode=m;profileChanged(ws)}
 $('#m-casa').onclick=()=>setMode('casa');$('#m-gym').onclick=()=>setMode('gym');
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;openEx=null;selDay=null;render();scrollTo(0,0)});
-const TITLES={hoy:'Hoy',ejercicios:'Ejercicios',plan:'Plan',progreso:'Progreso',comida:'Comida'};
+const TITLES={hoy:'Hoy',ejercicios:'Ejercicios',plan:'Plan',progreso:'Progreso',comida:'Comida',config:'Configuración'};
+$('#cfg').onclick=()=>{tab='config';openEx=null;render();scrollTo(0,0)};
 
 function render(){
- document.querySelector('.tabs').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup||senior();
+ document.querySelector('.tabs').hidden=!st.setup;$('#cfg').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup||senior();
  if(!st.setup){view.innerHTML=vSetup();bindSetup();document.title='GIS Salud';return}
  $('#m-casa').setAttribute('aria-pressed',st.mode==='casa');$('#m-gym').setAttribute('aria-pressed',st.mode==='gym');
  document.querySelectorAll('.tabs button').forEach(b=>{if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
- view.innerHTML=openEx?vExercise(openEx):({hoy:vHoy,ejercicios:vLib,plan:vPlan,progreso:vProg,comida:vFood}[tab])();
+ view.innerHTML=openEx?vExercise(openEx):({hoy:vHoy,ejercicios:vLib,plan:vPlan,progreso:vProg,comida:vFood,config:vConfig}[tab])();
+ $('#cfg').hidden=false;if(tab==='config')$('#cfg').setAttribute('aria-current','page');else $('#cfg').removeAttribute('aria-current');
  document.title=(openEx?EX[openEx].n:TITLES[tab])+' · GIS Salud';
  bind();hookVideos(view)}
 
+function condBoxes(px){return CONDS.map(([k,l])=>`<label class="row small check"><input type="checkbox" ${px==='u'?`data-ucond="${k}"`:`data-cond="${k}"`} ${px==='s'&&st.cond[k]?'checked':''}> ${esc(l)}</label>`).join('')}
+function equipBoxes(px,eq){const kbs=[4,6,8,10,12,14,16,20,24],dbs=[2,3,4,5,6,8,10,12,15,20];const opt=(arr,v)=>arr.map(n=>`<option value="${n}"${n===v?' selected':''}>${n} kg</option>`).join('');
+ return `<div class="row wrap"><label class="row small check" style="flex:1"><input type="checkbox" id="${px}-kb" ${eq.kb?'checked':''}> Kettlebell</label><label class="f" style="max-width:130px"><span class="sr">Peso de la kettlebell</span><select id="${px}-kbkg">${opt(kbs,eq.kb||12)}</select></label></div>
+ <div class="row wrap"><label class="row small check" style="flex:1"><input type="checkbox" id="${px}-db" ${eq.db?'checked':''}> Par de mancuernas</label><label class="f" style="max-width:130px"><span class="sr">Peso de cada mancuerna</span><select id="${px}-dbkg">${opt(dbs,eq.db||6)}</select></label></div>`}
 function vSetup(){return `<div class="stack"><div><span class="eyebrow">Bienvenido</span><h1>Crea tu perfil</h1><p class="muted" style="margin-top:6px">Tus datos se guardan solo en este móvil. Cada persona usa la app en su propio teléfono con su propio perfil.</p></div>
  <div class="card stack">
   <label class="f">Nombre<input id="u-name" autocomplete="given-name" placeholder="Tu nombre"></label>
   <div class="row wrap"><label class="f">Sexo<select id="u-sex"><option value="h">Hombre</option><option value="m">Mujer</option></select></label><label class="f">Edad<input id="u-age" inputmode="numeric" placeholder="años"></label></div>
-  <p class="small note info" id="u-senior" hidden>A partir de 70 años la app te propone un plan en casa para recuperar movilidad, fuerza y equilibrio, con una silla, la mesa, botellas de agua y una toalla. El peso objetivo es opcional.</p>
+  <p class="small note info" id="u-senior" hidden>A partir de 66 años la app te propone un plan en casa para recuperar movilidad, fuerza y equilibrio, con una silla, la mesa, botellas de agua y una toalla. El peso objetivo es opcional.</p>
   <div class="row wrap"><label class="f">Altura (cm)<input id="u-h" inputmode="numeric" placeholder="170"></label><label class="f">Peso actual (kg)<input id="u-kg" inputmode="decimal" placeholder="80,5"></label></div>
   <label class="f">Peso objetivo (kg)<input id="u-goal" inputmode="decimal" placeholder="Rellena la altura para ver una sugerencia"></label>
   <p class="small muted" id="u-hint"></p>
   <label class="f">Cintura (cm, opcional)<input id="u-waist" inputmode="decimal" placeholder="a la altura del ombligo"></label>
-  <label class="row small check"><input type="checkbox" id="u-htn"> Tengo hipertensión (con o sin medicación)</label>
-  <label class="f" id="u-modewrap">¿Dónde vas a entrenar sobre todo?<select id="u-mode"><option value="casa">En casa (kettlebell, mancuernas o sin pesas)</option><option value="gym">En el gimnasio (máquinas)</option></select></label>
+  <fieldset class="fs"><legend>¿Tienes alguna de estas condiciones?</legend><p class="small muted">La app evita los ejercicios que no te convienen y añade avisos.</p>${condBoxes('u')}</fieldset>
+  <label class="f" id="u-modewrap">¿Dónde vas a entrenar sobre todo?<select id="u-mode"><option value="casa">En casa</option><option value="gym">En el gimnasio (máquinas)</option></select></label>
+  <fieldset class="fs" id="u-eqwrap"><legend>¿Qué material tienes en casa?</legend>${equipBoxes('u',{kb:0,db:0})}<p class="small muted">Si no marcas nada, entrenarás con cosas de casa: una silla, la mesa, la pared, el escalón, garrafas de agua y una mochila con libros.</p></fieldset>
   <p class="small" id="u-err" style="color:var(--bad)" role="alert" hidden>Revisa los datos: edad entre 14 y 100, altura en cm (120–230) y pesos en kg.</p>
   <button class="btn" id="u-go">Empezar mi plan</button></div>
  <div class="card stack"><h3>Cómo funciona</h3><ol class="steps">
@@ -653,11 +749,13 @@ function vSetup(){return `<div class="stack"><div><span class="eyebrow">Bienveni
 function restoreFrom(txt,msgEl){try{const o=JSON.parse(String(txt).trim());const s=sanitize({...o,setup:true});if(!s.weights.length)throw 0;st=s;save();tab='hoy';render();toast('Copia restaurada')}catch(e){if(msgEl)msgEl.textContent='Esa copia no es válida. Expórtala de nuevo completa desde Plan → Ajustes del otro móvil.'}}
 function bindSetup(){const g=id=>document.getElementById(id),num=id=>pnum(g(id).value);
  g('u-h').oninput=()=>{const h=num('u-h')/100;g('u-hint').textContent=h>1.2&&h<2.3?`Peso saludable para tu altura (IMC 18,5–24,9): ${(18.5*h*h).toFixed(0)}–${(24.9*h*h).toFixed(0)} kg. Un primer objetivo realista es perder un 10 %.`:''};
- g('u-age').oninput=()=>{const old=num('u-age')>=70;g('u-senior').hidden=!old;g('u-modewrap').hidden=old};
+ g('u-mode').onchange=()=>{g('u-eqwrap').hidden=g('u-mode').value==='gym'||num('u-age')>=66};
+ g('u-age').oninput=()=>{const old=num('u-age')>=66;g('u-senior').hidden=!old;g('u-modewrap').hidden=old;g('u-eqwrap').hidden=old};
  g('u-go').onclick=()=>{const age=num('u-age'),h=num('u-h'),kg=num('u-kg'),wa=num('u-waist');let goal=num('u-goal');
-  if(age>=70&&!g('u-goal').value.trim())goal=kg;
+  if(age>=66&&!g('u-goal').value.trim())goal=kg;
   if(!(age>=14&&age<=100&&h>=120&&h<=230&&kg>=35&&kg<=300&&goal>=35&&goal<=300)){g('u-err').hidden=false;return}
-  st=sanitize({name:g('u-name').value.trim(),sex:g('u-sex').value,age,height:h,goal,htn:g('u-htn').checked,mode:g('u-mode').value,weights:[{d:today(),kg}],waist:wa>40&&wa<250?[{d:today(),cm:wa}]:[],start:today(),setup:true});
+  const cond={};document.querySelectorAll('[data-ucond]').forEach(b=>{if(b.checked)cond[b.dataset.ucond]=true});
+  st=sanitize({name:g('u-name').value.trim(),sex:g('u-sex').value,age,height:h,goal,cond,equip:{kb:g('u-kb').checked?+g('u-kbkg').value:0,db:g('u-db').checked?+g('u-dbkg').value:0},mode:g('u-mode').value,weights:[{d:today(),kg}],waist:wa>40&&wa<250?[{d:today(),cm:wa}]:[],start:today(),setup:true});
   save();tab='hoy';selDay=null;render();scrollTo(0,0)};
  g('u-file').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>restoreFrom(t,g('u-impmsg')))};
  g('u-impgo').onclick=()=>restoreFrom(g('u-imp').value,g('u-impmsg'))}
@@ -684,15 +782,22 @@ function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
  h+=`<div><div class="week" role="group" aria-label="Días de esta semana">${wd.map(d=>{const k=weekK(d.idx),dn=doneOn(d.s),td=d.s===today();
   return `<button class="day${td?' today':''}" data-day="${d.idx}" aria-pressed="${selDay===d.idx}" ${td?'aria-current="date"':''} aria-label="${DAYNAME[d.idx]}, ${kname(k)}${dn?', hecho':''}${td?', hoy':''}"><span class="d">${td?'HOY':WEEK[d.idx].d}</span><span class="t">${k==='R'?'–':k==='Z'?'Z2':k==='L'?'P':k}</span><span class="ok" aria-hidden="true">${dn?'✓':''}</span></button>`}).join('')}</div>
   <p class="small muted legend">${senior()?'A y B: fuerza y equilibrio · C: equilibrio y marcha · M: movilidad · P: paseo':'A, B y C: fuerza · Z2: cardio suave · P: paseo'} · ✓ hecho</p></div>`;
+ autoAdjust();if(st.adjMsg&&new Date().getDay()===1)h+=`<div class="note info small"><b>Ajuste de la semana:</b> ${esc(st.adjMsg)}</div>`;
+ const medOn=st.medAlert&&daysBetween(st.medAlert,today())<=7;
+ if(medOn)h+=`<div class="note"><b>En tu última sesión anotaste mareo, dolor en el pecho, falta de aire o palpitaciones.</b> Coméntalo con tu médico antes de volver a entrenar fuerte. Mientras, solo paseos suaves. <button class="btn sm ghost" id="med-ok" style="margin-top:8px">Ya lo he consultado y puedo entrenar</button></div>`;
+ const doneToday=st.log.some(l=>l.d===today()&&l.k!=='L'&&l.k!=='P');
  let w,eyebrow,startLbl='Empezar sesión';
- if(selDay!=null){w=workoutFor(selDay);eyebrow=DAYNAME[selDay]+' (plan)';startLbl='Hacerla hoy'}
- else if(bpHighToday()){w={...LOWBP};eyebrow='Hoy · tensión alta'}
- else{w=sess(nextK());eyebrow='Tu próxima sesión'}
- if(!w){h+=selDay!=null?`<div class="hero"><span class="eyebrow">${DAYNAME[selDay]}</span><h1>Descanso</h1><p>El músculo se define descansando. Camina suave si te apetece y cuida el sueño: 7–8 horas.</p><button class="btn ghost" id="sel-clear">Ver mi próxima sesión</button></div>`
+ const blk=blockedToday()&&selDay==null;
+ if(blk)h+=`<div class="hero">${blockBody(bpToday())}</div>`;
+ else if(selDay!=null){w=workoutFor(selDay);eyebrow=DAYNAME[selDay]+' (plan)';startLbl='Hacerla hoy'}
+ else if(medOn||bpHighToday()){w={...LOWBP};eyebrow=medOn?'Hoy · solo suave':'Hoy · tensión alta'}
+ else{w=sess(nextK());eyebrow=doneToday?'Hecho por hoy ✓ · mañana toca':'Tu próxima sesión';if(doneToday)startLbl='Adelantarla a hoy'}
+ if(blk){}
+ else if(!w){h+=selDay!=null?`<div class="hero"><span class="eyebrow">${DAYNAME[selDay]}</span><h1>Descanso</h1><p>El músculo se define descansando. Camina suave si te apetece y cuida el sueño: 7–8 horas.</p><button class="btn ghost" id="sel-clear">Ver mi próxima sesión</button></div>`
    :`<div class="hero"><span class="eyebrow">Semana completada</span><h1>¡Todo hecho esta semana!</h1><p>Descansa, camina 8.000–10.000 pasos al día y vuelve el lunes. Si te apetece, repite el paseo largo.</p></div>`}
  else{const min=estMin(w,pi);
   h+=`<div class="hero"><span class="eyebrow">${esc(eyebrow)} · Fase ${PH()[pi].n}</span><h1>${esc(w.t)}</h1>
-   ${w.k==='X'?'<p class="small">Tu última tensión de hoy es alta. Hoy toca solo caminar suave. Si pasa de 180/110 o tienes síntomas, no entrenes y consulta.</p>':''}
+   ${w.k==='X'?`<p class="small">${medOn?'Hasta que lo consultes con tu médico, solo paseo suave.':'Tu tensión de hoy es alta (160/100 o más). Hoy toca solo un paseo suave.'}</p>`:''}
    <div class="chips"><span class="chip">≈ ${min} min</span><span class="chip">${M()==='gym'?'Gimnasio':'En casa'}</span>${w.circuit?`<span class="chip">${rounds(w,pi)} vueltas</span>`:''}</div>
    <button class="btn" id="start">${startLbl}</button>
    <div class="row wrap hero-links"><button class="lnk" id="mark">Ya la hice sin la app</button>${selDay!=null?'<button class="lnk" id="sel-clear">Ver mi próxima sesión</button>':''}</div></div>`;
@@ -715,17 +820,17 @@ function exRow(id,d,sub){return `<button class="exrow" data-open="${id}">${figSV
 function rowStatic(n,d){return `<div class="exrow" style="cursor:default"><span class="thumb" style="display:grid;place-items:center" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="nm">${esc(n)}</span><span class="dose">${esc(d)}</span></div>`}
 
 function vLib(){const wf=exFilter.w==='actual'?M():exFilter.w;
- const list=Object.entries(EX).filter(([id,e])=>(wf==='todo'||e.w===wf)&&(exFilter.m==='Todos'||musGroup(e.m)[exFilter.m]));
+ const list=Object.entries(EX).filter(([id,e])=>e.w!=='x'&&(wf==='todo'||(wf==='hogar'||wf==='casa'?['casa','hogar'].includes(e.w):e.w===wf)&&allowed(id))&&(exFilter.m==='Todos'||musGroup(e.m)[exFilter.m]));
  return `<div class="stack"><h1>Ejercicios</h1>
- <div class="filters" role="group" aria-label="Lugar">${[['actual',senior()?'Mi plan':st.mode==='casa'?'Casa':'Gimnasio'],['todo','Todos']].map(([k,l])=>`<button data-fw="${k}" aria-pressed="${exFilter.w===k}">${l}</button>`).join('')}</div>
+ <div class="filters" role="group" aria-label="Lugar">${[['actual','Mi plan'],['todo','Todos']].map(([k,l])=>`<button data-fw="${k}" aria-pressed="${exFilter.w===k}">${l}</button>`).join('')}</div>
  <div class="filters" role="group" aria-label="Músculo">${MUSC.map(m=>`<button data-fm="${m}" aria-pressed="${exFilter.m===m}">${m}</button>`).join('')}</div>
- <div class="card"><div class="exlist">${list.map(([id,e])=>exRow(id,'',e.eq)).join('')||'<p class="muted">Sin ejercicios para este filtro.</p>'}</div></div></div>`}
+ <div class="card"><div class="exlist">${list.map(([id,e])=>exRow(id,'',eqTxt(e))).join('')||'<p class="muted">Sin ejercicios para este filtro.</p>'}</div></div></div>`}
 
 function lastSets(ex){for(let i=st.log.length-1;i>=0;i--){const s=st.log[i].sets?.[ex];if(s&&s.length)return {d:st.log[i].d,sets:s}}return null}
 function vExercise(id){const e=EX[id],ls=lastSets(id);
  return `<div class="stack"><button class="btn sm ghost" id="back">← Volver</button>
  ${media(id,true)}
- <div><span class="eyebrow">${esc(e.eq)}</span><h1>${esc(e.n)}</h1></div>
+ <div><span class="eyebrow">${esc(eqTxt(e))}</span><h1>${esc(e.n)}</h1></div>
  <div class="chips">${e.m.map(m=>`<span class="chip">${esc(m)}</span>`).join('')}</div>
  ${ls?`<p class="small"><b>Tu última vez (${fdate(ls.d)}):</b> ${ls.sets.map(s=>(s.kg?dec(s.kg,s.kg%1?1:0)+' kg × ':'')+s.reps).join(' · ')}</p>`:''}
  <div class="card stack"><h3>Cómo se hace</h3><ol class="steps">${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>
@@ -740,7 +845,7 @@ function vPlan(){const pi=phaseIdx();
  ${[1,2,3,4,5,6,0].map(i=>{const w=workoutFor(i);return `<tr><td><b>${WEEK[i].d}</b></td><td>${w?esc(w.t):'Descanso'}</td><td class="tab-num">${w?'≈'+estMin(w,pi)+' min':'–'}</td></tr>`}).join('')}</table>
  <p class="small muted" style="margin-top:8px">Es el orden ideal. Si un día no puedes, la pantalla Hoy te propone la siguiente sesión pendiente. ${senior()?'Objetivo: 6 actividades por semana, contando los paseos.':'Objetivo: 5 sesiones por semana; el paseo largo es extra.'}</p></div>
  <div class="card"><h3>Fases</h3><p class="small muted">Vas por la semana ${weekNo()}.</p>${PH().map((p,i)=>`<div class="phase${i===pi?' cur':''}"><span class="wk">Sem ${p.from}${p.to<999?'–'+p.to:'+'}</span><span><b>${p.n}</b><br><span class="small">${p.d}</span></span></div>`).join('')}</div>
- ${senior()?`<div class="card stack"><h3>Tu plan a partir de los 70</h3><ul class="plain">
+ ${senior()?`<div class="card stack"><h3>Tu plan a partir de los 66</h3><ul class="plain">
   <li><b>Objetivo: moverte mejor y con seguridad.</b> Fuerza en las piernas para levantarte y subir escaleras, equilibrio para evitar caídas y movilidad para el día a día.</li>
   <li><b>Todo en casa</b>, con una silla, la mesa o la encimera, la pared, botellas de agua de 1,5 L, una toalla y el primer escalón.</li>
   <li><b>Siempre con apoyo cerca</b> y sin tumbarte en el suelo.</li>
@@ -751,24 +856,10 @@ function vPlan(){const pi=phaseIdx();
   <li><b>La definición sale de perder grasa</b>, y eso lo decide la alimentación (pestaña Comida). Comiendo en déficit no se gana volumen: el entreno conserva el músculo y lo deja marcado al bajar la grasa.</li>
   <li><b>Más tirón que empuje</b>: hay remo en todas las sesiones de fuerza para mejorar la postura y proteger los hombros.</li>
   <li><b>Repeticiones de 10–15</b> con descansos cortos: buen estímulo para tonificar con gasto calórico alto.</li>
-  <li><b>Cardio en zona 2</b>: puedes hablar con frases cortas (pulso orientativo 105–125). Quema grasa y cuida el corazón.</li>
-  <li><b>Sin saltos ni carrera</b> mientras pesas más de 95 kg: protege rodillas y tendones.</li>
+  <li><b>Cardio en zona 2</b>: puedes hablar con frases cortas${C('bb')?' (con betabloqueantes, guíate solo por eso, no por el pulso)':` (pulso orientativo ${Math.round((208-0.7*st.age)*.6)}–${Math.round((208-0.7*st.age)*.7)} lpm)`}. Quema grasa y cuida el corazón.</li>
+  ${latestW()>95?'<li><b>Sin saltos ni carrera</b> mientras pesas más de 95 kg: protege rodillas y tendones.</li>':''}
   <li><b>Apunta los kilos</b> en cada serie del gimnasio. Cuando completes todas las series, la app te propone subir 2,5 kg.</li></ul></div>
- <div class="card stack"><h3>Ajustes</h3>
-  <label class="f">Nombre<input id="s-name" autocomplete="given-name" value="${esc(st.name)}"></label>
-  <div class="row wrap"><label class="f">Inicio del plan<input type="date" id="s-start" max="${today()}" value="${esc(st.start)}"></label><label class="f">Fase<select id="s-phase"><option value="0"${!st.phase?' selected':''}>Automática</option>${PH().map((p,i)=>`<option value="${i+1}"${st.phase===i+1?' selected':''}>${p.n}</option>`).join('')}</select></label></div>
-  <div class="row wrap"><label class="f">Altura (cm)<input inputmode="numeric" id="s-h" value="${esc(st.height)}"></label><label class="f">Edad<input inputmode="numeric" id="s-age" value="${esc(st.age)}"></label><label class="f">Objetivo (kg)<input inputmode="decimal" id="s-goal" value="${esc(dec(st.goal,st.goal%1?1:0))}"></label></div>
-  <p class="small" id="s-err" style="color:var(--bad)" role="alert"></p>
-  <label class="f">Sexo<select id="s-sex"><option value="h"${st.sex==='h'?' selected':''}>Hombre</option><option value="m"${st.sex==='m'?' selected':''}>Mujer</option></select></label>
-  <label class="row small check"><input type="checkbox" id="s-htn" ${st.htn?'checked':''}> Hipertensión (activa la comprobación previa y el registro de tensión)</label>
-  <label class="row small check"><input type="checkbox" id="s-voice" ${st.voice?'checked':''}> Avisos de voz durante la sesión</label></div>
- <div class="card stack"><h3>Copia de seguridad</h3>
-  <p class="small muted">Tus datos se guardan solo en este móvil. Guarda una copia en Archivos, Notas o envíatela por WhatsApp. ${st.lastBackup?`Última copia: ${fdate(st.lastBackup)}.`:'Aún no has hecho ninguna.'}</p>
-  <div class="row wrap"><button class="btn sm" id="b-share">Guardar copia</button><button class="btn sm ghost" id="b-exp">Copiar como texto</button></div>
-  <p class="small" id="b-msg" role="status"></p><textarea id="b-txt" rows="3" aria-label="Copia de seguridad" hidden></textarea>
-  <label class="f">Restaurar desde archivo<input type="file" id="b-file" accept="application/json,.json"></label>
-  <button class="btn sm ghost" id="b-reset" style="color:var(--bad)">Empezar de cero</button>
-  <div id="b-conf"></div></div>
+ <button class="btn ghost" data-goto="config">Cambiar mis datos y el material en Configuración</button>
  <div class="note small"><b>Seguridad.</b> Calienta siempre. Dolor articular punzante = para ese ejercicio y usa la versión fácil.</div>
  ${st.htn?`<div class="card stack"><h3>Con tensión alta controlada</h3><ul class="plain">
   <li><b>El ejercicio es parte del tratamiento:</b> el cardio regular y la fuerza moderada bajan la tensión de 5 a 8 mmHg.</li>
@@ -780,6 +871,35 @@ function vPlan(){const pi=phaseIdx();
   <li><b>Diuréticos:</b> bebe agua antes, durante y después. Ojo con el calor de mediodía.</li>
   <li><b>Para y consulta</b> si notas dolor u opresión en el pecho, mareo, dolor de cabeza fuerte, visión borrosa o palpitaciones raras.</li></ul></div>`:''}</div>`}
 
+function vConfig(){const cur=latestW(),wa=[...st.waist].sort((a,b)=>a.d<b.d?-1:1).at(-1),hm=st.height/100;
+ return `<div class="stack"><h1>Configuración</h1><p class="muted">Los datos que diste al empezar. Puedes cambiarlos cuando quieras: el plan se adapta solo.</p>
+ <div class="card stack"><h3>Tu resumen</h3>
+  <div class="cfg-row"><span class="muted">Tu plan</span><b>${RANGES[RNG()-1][2]} · ${{senior:'Movilidad, fuerza y equilibrio en casa',gym:'Gimnasio',casa:'Casa con pesas',hogar:'Casa con objetos del hogar'}[M()]}</b></div>
+  <div class="cfg-row"><span class="muted">Fase</span><b>${PH()[phaseIdx()].n} · semana ${weekNo()}</b></div>
+  <div class="cfg-row"><span class="muted">IMC</span><b class="tab-num">${dec(cur/(hm*hm))}</b></div>
+  ${senior()?'':`<div class="cfg-row"><span class="muted">Calorías diarias</span><b class="tab-num">${nutri().kcal.toLocaleString('es-ES')} kcal${st.kcalAdj?` (ajuste ${st.kcalAdj>0?'+':''}${st.kcalAdj})`:''}</b></div>`}</div>
+ <div class="card stack"><h3>Datos personales</h3>
+  <label class="f">Nombre<input id="s-name" autocomplete="given-name" value="${esc(st.name)}"></label>
+  <div class="row wrap"><label class="f">Sexo<select id="s-sex"><option value="h"${st.sex==='h'?' selected':''}>Hombre</option><option value="m"${st.sex==='m'?' selected':''}>Mujer</option></select></label><label class="f">Edad<input inputmode="numeric" id="s-age" value="${esc(st.age)}"></label></div>
+  <p class="small muted">La edad decide tu rango: 20–35, 36–50, 51–65 o 66 o más (plan de movilidad, fuerza y equilibrio en casa).</p>
+  <div class="row wrap"><label class="f">Altura (cm)<input inputmode="numeric" id="s-h" value="${esc(st.height)}"></label><label class="f">Objetivo (kg)<input inputmode="decimal" id="s-goal" value="${esc(dec(st.goal,st.goal%1?1:0))}"></label></div>
+  <div class="row wrap"><label class="f">Peso de hoy (kg)<input inputmode="decimal" id="s-kg" placeholder="${dec(cur)}"></label><label class="f">Cintura de hoy (cm)<input inputmode="decimal" id="s-waist" placeholder="${wa?dec(wa.cm,wa.cm%1?1:0):'opcional'}"></label></div>
+  <p class="small muted">Peso actual: <b>${dec(cur)} kg</b>${wa?` · cintura: <b>${dec(wa.cm,wa.cm%1?1:0)} cm</b>`:''}. Al cambiarlos se guarda un registro con fecha de hoy (el historial está en Progreso).</p>
+  <p class="small" id="s-err" style="color:var(--bad)" role="alert"></p></div>
+ <div class="card stack"><h3>Salud</h3><p class="small muted">Marca lo que tengas: la app evita los ejercicios que no te convienen y añade avisos.</p><fieldset class="fs"><legend class="sr">Condiciones de salud</legend>${condBoxes('s')}</fieldset></div>
+ <div class="card stack"><h3>Entrenamiento</h3>
+  ${senior()?'<p class="small">Con 66 años o más el plan es siempre en casa, con silla, mesa, pared, botellas y toalla.</p>':`<label class="f">Dónde entrenas<select id="s-mode"><option value="casa"${st.mode==='casa'?' selected':''}>En casa</option><option value="gym"${st.mode==='gym'?' selected':''}>En el gimnasio (máquinas)</option></select></label>
+  ${st.mode==='gym'?'':`<fieldset class="fs"><legend>Material en casa</legend>${equipBoxes('s',st.equip)}<p class="small muted">Sin material, el plan usa cosas de casa: silla, mesa, pared, escalón, garrafas y mochila.</p></fieldset>`}`}
+  <div class="row wrap"><label class="f">Inicio del plan<input type="date" id="s-start" max="${today()}" value="${esc(st.start)}"></label><label class="f">Fase<select id="s-phase"><option value="0"${!st.phase?' selected':''}>Automática</option>${PH().map((p,i)=>`<option value="${i+1}"${st.phase===i+1?' selected':''}>${p.n}</option>`).join('')}</select></label></div>
+  <label class="row small check"><input type="checkbox" id="s-voice" ${st.voice?'checked':''}> Avisos de voz durante la sesión</label></div>
+ <div class="card stack"><h3>Copia de seguridad</h3>
+  <p class="small muted">Tus datos se guardan solo en este móvil. Guarda una copia en Archivos, Notas o envíatela por WhatsApp. ${st.lastBackup?`Última copia: ${fdate(st.lastBackup)}.`:'Aún no has hecho ninguna.'}</p>
+  <div class="row wrap"><button class="btn sm" id="b-share">Guardar copia</button><button class="btn sm ghost" id="b-exp">Copiar como texto</button></div>
+  <p class="small" id="b-msg" role="status"></p><textarea id="b-txt" rows="3" aria-label="Copia de seguridad" hidden></textarea>
+  <label class="f">Restaurar desde archivo<input type="file" id="b-file" accept="application/json,.json"></label>
+  <div id="b-rconf"></div>
+  <button class="btn sm ghost" id="b-reset" style="color:var(--bad)">Empezar de cero</button>
+  <div id="b-conf"></div></div></div>`}
 function vProg(){const ws=wsorted(),first=ws[0]?.kg??latestW(),cur=latestW(),hm=st.height/100,bmi=cur/(hm*hm),pc=pace();
  const left=Math.max(0,cur-st.goal),rate=pc&&pc>0.05?pc:0.6,eta=new Date();eta.setDate(eta.getDate()+left/rate*7);
  const etaTxt=left<=0?'¡Objetivo alcanzado!':`${pc&&pc>0.05?'':'≈ '}${eta.toLocaleDateString('es-ES',{month:'long',year:'numeric'})}${pc&&pc>0.05?' a tu ritmo actual':' a 0,6 kg/sem'}`;
@@ -858,7 +978,8 @@ function vFood(){if(senior())return vFoodSenior();const n=nutri();
  return `<div class="stack"><h1>Comida</h1>
  <div class="hero"><span class="eyebrow">Tu objetivo diario con ${dec(latestW())} kg</span>
   <div class="row wrap" style="gap:22px"><div><div class="dose-big tab-num">${n.kcal.toLocaleString('es-ES')}</div><span class="small">kcal</span></div><div><div class="dose-big tab-num">${n.prot} g</div><span class="small">proteína</span></div><div><div class="dose-big tab-num">30 g</div><span class="small">fibra</span></div><div><div class="dose-big tab-num">2,5 L</div><span class="small">agua</span></div></div>
-  <p class="small">Gastas unas ${n.tdee.toLocaleString('es-ES')} kcal/día. Con ${n.kcal.toLocaleString('es-ES')} kcal pierdes alrededor de 0,5–0,7 kg por semana${latestW()>st.goal?`: los ${(latestW()-st.goal).toFixed(0)} kg que te faltan llevan unos ${Math.max(1,Math.round((latestW()-st.goal)/0.55/4.33))} meses`:''}. Se recalcula con cada peso que guardes.</p></div>
+  <p class="small">Gastas unas ${n.tdee.toLocaleString('es-ES')} kcal/día. Con ${n.kcal.toLocaleString('es-ES')} kcal pierdes alrededor de ${dec(n.wk,1)} kg por semana${latestW()>st.goal&&n.wk>0.05?`: los ${(latestW()-st.goal).toFixed(0)} kg que te faltan llevan unos ${Math.max(1,Math.round((latestW()-st.goal)/n.wk/4.33))} meses`:''}.${n.floor?' Es el mínimo recomendado de calorías: para bajar más rápido, suma pasos, no recortes más.':''} Se recalcula con cada peso que guardes.</p></div>
+ ${st.adjMsg?`<div class="note info"><b>Ajuste automático:</b> ${esc(st.adjMsg)}</div>`:''}
  <div class="card stack"><h3>Proteína de hoy</h3><p class="small muted">Marca cada comida en la que hayas tomado una ración de proteína (30–40 g). Con 4 llegas.</p>
   <div class="prot" role="group" aria-label="Comidas con proteína hoy">${['Desayuno','Almuerzo','Merienda','Cena'].map((m,i)=>`<button data-prot="${i}" aria-pressed="${!!(st.prot?.d===today()&&st.prot.m[i])}">${m}</button>`).join('')}</div></div>
  <div class="card stack"><h3>El plato (comida y cena)</h3>
@@ -891,7 +1012,7 @@ function vFood(){if(senior())return vFoodSenior();const n=nutri();
   <li><b>Pasos:</b> 8.000–10.000 al día. Suman más calorías que el propio entreno.</li>
   <li><b>Sueño:</b> 7–8 horas. Dormir poco aumenta el hambre.</li>
   <li><b>Una comida libre a la semana</b>, sin culpa y sin convertirla en «día trampa».</li></ul></details>
- <div class="note info small"><b>Regla de ajuste:</b> si 3 semanas seguidas bajas menos de 0,3 kg/sem, quita 150 kcal (media ración de hidratos). Si pasado el primer mes bajas más de 1 kg/sem, añade 150 kcal para no perder músculo.</div>
+ <div class="note info small"><b>Ajuste automático:</b> cada lunes la app revisa la tendencia de tu peso. Si casi no bajas, quita 150 kcal (media ración de hidratos); si bajas más de 1 kg por semana pasado el primer mes, añade 150 kcal para no perder músculo.</div>
  <p class="small muted">Orientación general basada en la fórmula Mifflin-St Jeor. Si tienes diabetes, hipertensión o tomas medicación, valida estas cifras con tu médico o un dietista.</p></div>`}
 
 /* ============ AVISOS, DESHACER Y CELEBRACIÓN ============ */
@@ -914,8 +1035,9 @@ function bind(){
  on('back','onclick',()=>{openEx=null;render()});
  on('okSafety','onclick',()=>{st.seenSafety=true;save();render()});
  on('sel-clear','onclick',()=>{selDay=null;render()});
- const curW=()=>selDay!=null?workoutFor(selDay):bpHighToday()?{...LOWBP}:sess(nextK());
- on('start','onclick',()=>startPlayer(curW()));
+ const curW=()=>selDay!=null?workoutFor(selDay):(st.medAlert&&daysBetween(st.medAlert,today())<=7)||bpHighToday()?{...LOWBP}:sess(nextK());
+ on('med-ok','onclick',()=>{st.medAlert=null;save();render()});
+ on('start','onclick',()=>{if(blockedToday()){render();return}startPlayer(curW())});
  on('mark','onclick',()=>{const w=curW();if(!w)return;const e={id:uid(),d:today(),k:w.k,t:w.t,mode:st.mode,min:estMin(w,phaseIdx()),rpe:null,sym:false,note:'',sets:{},skip:[]};st.log.push(e);const hit=checkHitos();save();selDay=null;render();toast('Sesión marcada como hecha',()=>{st.log=st.log.filter(l=>l.id!==e.id);save();render()});celebrate(hit)});
  on('r-cont','onclick',()=>{const r=loadRun();if(r){P=r;openPlayer()}});
  on('r-drop','onclick',()=>{clearRun();render()});
@@ -923,16 +1045,24 @@ function bind(){
  on('s-name','onchange',e=>{st.name=e.target.value.trim().slice(0,40);save()});
  on('s-start','onchange',e=>{const v=e.target.value;if(isISO(v)&&v<=today()){st.start=v;save();render()}else e.target.value=st.start});
  on('s-phase','onchange',e=>{st.phase=+e.target.value;save();render()});
- const rng=(id,key,lo,hi,msg)=>on(id,'onchange',e=>{const v=pnum(e.target.value);if(v>=lo&&v<=hi){st[key]=v;save();$('#s-err').textContent=''}else{e.target.value=key==='goal'?dec(st[key],st[key]%1?1:0):st[key];$('#s-err').textContent=msg}});
+ const rng=(id,key,lo,hi,msg)=>on(id,'onchange',e=>{const v=pnum(e.target.value);if(v>=lo&&v<=hi){const ws=senior();st[key]=v;$('#s-err').textContent='';if(key==='age')profileChanged(ws);else{save();render()}}else{e.target.value=key==='goal'?dec(st[key],st[key]%1?1:0):st[key];$('#s-err').textContent=msg}});
  rng('s-h','height',120,230,'La altura va en centímetros (entre 120 y 230).');rng('s-age','age',14,100,'La edad tiene que estar entre 14 y 100.');rng('s-goal','goal',35,300,'El objetivo va en kg (entre 35 y 300).');
- on('s-sex','onchange',e=>{st.sex=e.target.value==='m'?'m':'h';save()});
- on('s-htn','onchange',e=>{st.htn=e.target.checked;save();render()});
+ on('s-sex','onchange',e=>{st.sex=e.target.value==='m'?'m':'h';profileChanged(senior())});
+ view.querySelectorAll('[data-cond]').forEach(b=>b.onchange=()=>{const k=b.dataset.cond;if(b.checked)st.cond[k]=true;else delete st.cond[k];st.htn=!!st.cond.htn;profileChanged(senior())});
+ const eqUpd=()=>{st.equip={kb:$('#s-kb').checked?+$('#s-kbkg').value:0,db:$('#s-db').checked?+$('#s-dbkg').value:0};profileChanged(senior())};
+ ['s-kb','s-kbkg','s-db','s-dbkg'].forEach(id=>on(id,'onchange',eqUpd));
  on('s-voice','onchange',e=>{st.voice=e.target.checked;save()});
+ on('s-mode','onchange',e=>{const ws=senior();st.mode=e.target.value==='gym'?'gym':'casa';profileChanged(ws)});
+ on('s-kg','onchange',e=>{const kg=pnum(e.target.value);if(!(kg>=30&&kg<=350)){$('#s-err').textContent='El peso va en kg (entre 30 y 350).';return}st.weights=st.weights.filter(x=>x.d!==today()).concat({d:today(),kg});const hit=checkHitos();save();render();toast('Peso de hoy guardado');celebrate(hit)});
+ on('s-waist','onchange',e=>{const cm=pnum(e.target.value);if(!(cm>40&&cm<250)){$('#s-err').textContent='La cintura va en cm (entre 40 y 250).';return}st.waist=st.waist.filter(x=>x.d!==today()).concat({d:today(),cm});save();render();toast('Cintura guardada')});
  const backupFile=()=>new File([JSON.stringify(st)],`gis-salud-copia-${today()}.json`,{type:'application/json'});
  on('b-share','onclick',async()=>{const f=backupFile();try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Copia de GIS Salud'});st.lastBackup=today();save();$('#b-msg').textContent='Copia guardada.';return}}catch(e){if(e&&e.name==='AbortError')return}
   $('#b-exp').click()});
  on('b-exp','onclick',async()=>{const t=JSON.stringify(st);try{await navigator.clipboard.writeText(t);st.lastBackup=today();save();$('#b-msg').textContent='Copia en el portapapeles. Pégala en una nota o envíatela.'}catch(e){const a=$('#b-txt');a.hidden=false;a.value=t;a.focus();a.setSelectionRange(0,t.length);$('#b-msg').textContent='Selecciona y copia este texto.'}});
- on('b-file','onchange',e=>{const f=e.target.files[0];if(f)f.text().then(t=>restoreFrom(t,$('#b-msg')))});
+ on('b-file','onchange',e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let o;try{o=JSON.parse(t)}catch(x){$('#b-msg').textContent='Ese archivo no es una copia válida.';return}
+  const n=o&&o.name?String(o.name).slice(0,40):'sin nombre',w=Array.isArray(o&&o.weights)?o.weights.length:0,l=Array.isArray(o&&o.log)?o.log.length:0;
+  $('#b-rconf').innerHTML=`<div class="card stack sheet"><p><b>¿Restaurar la copia de «${esc(n)}»?</b> Tiene ${w} pesos y ${l} sesiones. Se sustituirán los datos actuales de este móvil.</p><div class="row"><button class="btn ghost" id="r-no">Cancelar</button><button class="btn danger" id="r-yes">Restaurar</button></div></div>`;
+  $('#r-no').onclick=()=>{$('#b-rconf').innerHTML='';e.target.value=''};$('#r-yes').onclick=()=>{const prev=JSON.stringify(st);clearRun();restoreFrom(t,$('#b-msg'));toast('Copia restaurada',()=>{st=sanitize(JSON.parse(prev));save();render()})}})});
  on('b-reset','onclick',()=>{$('#b-conf').innerHTML=`<div class="card stack"><p>Se borrarán el perfil, los pesos y las sesiones de este móvil. ¿Seguro?</p><div class="row"><button class="btn ghost" id="b-no">Cancelar</button><button class="btn danger" id="b-yes">Borrar todo</button></div></div>`;$('#b-no').onclick=()=>$('#b-conf').innerHTML='';$('#b-yes').onclick=()=>{try{localStorage.removeItem(LSK);localStorage.removeItem(RUNK)}catch(e){}st=sanitize(null);tab='hoy';render();scrollTo(0,0)}});
  on('bp-add','onclick',()=>{const s1=pnum($('#bp-s').value),d1=pnum($('#bp-di').value),d=$('#bp-d').value||today();
   if(!(s1>70&&s1<260)){$('#bp-s').focus();return}if(!(d1>40&&d1<160)){$('#bp-di').focus();return}if(!isISO(d)||d>today())return;
@@ -964,8 +1094,12 @@ function saveRun(){if(!P)return;try{localStorage.setItem(RUNK,JSON.stringify(P))
 function clearRun(){try{localStorage.removeItem(RUNK)}catch(e){}}
 const targetReps=s=>{const n=parseInt(s.reps);return Number.isFinite(n)?n:10};
 const perSide=s=>/lado|pierna|brazo/.test(String(s.reps))?String(s.reps).split('/')[1]:'';
+function precheck(){const L=[];if(C('htn'))L.push('Has tomado tu medicación de la tensión como siempre.');if(C('heart'))L.push('Tu médico te ha autorizado a hacer ejercicio. Hoy, esfuerzo máximo 6 de 10.');
+ if(C('diab'))L.push('Si usas insulina o pastillas para el azúcar: has comido algo y llevas un zumo o caramelo a mano.');if(C('bb'))L.push('Con betabloqueantes el pulso no sirve de guía: debes poder hablar mientras entrenas.');
+ if(C('falls')||senior())L.push('Suelo despejado, buena luz, calzado cerrado y un apoyo firme cerca.');L.push('Sin dolor de cabeza fuerte, mareo ni dolor en el pecho.','Agua a mano.');return L}
+const needCheck=()=>['htn','heart','diab','bb','falls'].some(C)||senior();
 function buildSteps(w){const pi=phaseIdx(),S=[];
- if(st.htn&&w.k!=='X')S.push({type:'check'});
+ if(needCheck()&&w.k!=='X')S.push({type:'check'});
  if(!w.noWarm)S.push({type:'list',title:'Calentamiento',sec:420,list:senior()?SWARM:WARM[st.mode]});
  const cardio=()=>({type:'time',ex:w.cardio.ex,sec:cmin(w,pi)*60,cardio:true});
  if(w.cardioFirst&&w.cardio)S.push(cardio());
@@ -985,39 +1119,68 @@ function pRender(silent){const p=P,s=p.steps[p.i],el=$('#player');if(!s)return p
  const ord=exOrder(),pct=Math.round(p.i/p.steps.length*100),next=p.steps.slice(p.i+1).find(x=>x.type!=='check');
  const info=s.ex&&!s.cardio?`Ejercicio ${ord.indexOf(s.ex)+1} de ${ord.length}`:`Paso ${p.i+1} de ${p.steps.length}`;
  let body='',main='',sec='';
- if(s.type==='check'){body=`<h1 tabindex="-1">Antes de empezar</h1><p class="muted">Comprobación rápida por tu tensión arterial</p><div class="card"><ul class="plain">${PRECHECK.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
-  main=`<button class="btn xl" id="p-done">Todo bien, empezar</button>`;sec=`<button class="btn ghost" id="p-high">Hoy la tengo alta (160/100 o más)</button>`}
+ if(s.type==='block'){body=blockBody(s.lvl);main=`<button class="btn xl" id="p-remeasure">Volver a medir</button>`;sec=`<button class="btn ghost" id="p-blockexit">Salir sin entrenar</button>`}
+ else if(s.type==='check'){body=`<h1 tabindex="-1">Antes de empezar</h1><p class="muted">Comprobación rápida de seguridad</p><div class="card"><ul class="plain">${precheck().map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  ${C('htn')?`<div class="card stack"><h3>Tu tensión ahora</h3><p class="small muted">Sentado, tras 5 minutos de reposo. Si no te la has tomado, puedes empezar igualmente.</p><div class="row"><label class="f">Alta<input inputmode="numeric" id="c-s" placeholder="128"></label><label class="f">Baja<input inputmode="numeric" id="c-di" placeholder="82"></label></div><p class="small" id="c-err" style="color:var(--bad)" role="alert"></p></div>`:''}`;
+  main=`<button class="btn xl" id="p-check">Todo bien, empezar</button>`}
  else if(s.type==='list'){body=`<h1 tabindex="-1">${esc(s.title)}</h1><div class="card"><ol class="steps">${s.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div><div class="huge" id="cd" role="timer" aria-label="Tiempo restante">${fmt(tLeft(s))}</div>`;
   main=`<button class="btn xl" id="p-go">${tLabel(s)}</button>`;sec=`<button class="btn ghost" id="p-done">Hecho, seguir</button>`}
  else{const e=EX[s.ex],ls=lastSets(s.ex);
   body=`${media(s.ex)}<div class="pname"><h1 tabindex="-1">${esc(e.n)}</h1>${s.cardio?'':'<button class="btn sm ghost" id="p-chg">Cambiar</button>'}</div>
   <p class="plabel tab-num">${esc(stepLabel(s))}</p>`;
   if(s.type==='time'){body+=`<div class="huge" id="cd" role="timer" aria-label="Tiempo restante">${fmt(tLeft(s))}</div>`;main=`<button class="btn xl" id="p-go">${tLabel(s)}</button>`;sec=`<button class="btn ghost" id="p-done">Hecho, seguir</button>`}
-  else{const tr=targetReps(s),gym=e.w==='gym';
-   if(!p.cur){let kg=0;if(gym&&ls){kg=ls.sets[0].kg||0;const done=ls.sets.length>=(s.sets||1)&&ls.sets.every(x=>x.reps>=tr);if(done&&kg)kg+=2.5;const same=p.rec[s.ex];if(same&&same.length)kg=same.at(-1).kg}p.cur={kg,reps:tr}}
-   const sug=gym&&ls&&ls.sets.length>=(s.sets||1)&&ls.sets.every(x=>x.reps>=tr)&&ls.sets[0].kg?`Completaste todo la última vez: hoy prueba con ${dec(ls.sets[0].kg+2.5,1)} kg.`:'';
+  else{const tr=targetReps(s),gym=e.w==='gym',home=!!(e.need&&e.w==='casa'),kgOn=gym||home;
+   const allDone=ls&&ls.sets.length>=(s.sets||1)&&ls.sets.every(x=>x.reps>=tr),lastKg=ls?Math.max(...ls.sets.map(x=>x.kg||0)):0;
+   if(!p.cur){let kg=0,reps=tr;const same=p.rec[s.ex];
+    if(same&&same.length){kg=same.at(-1).kg;reps=same.at(-1).reps}
+    else if(gym){kg=lastKg?lastKg+(allDone?2.5:0):0}
+    else if(home){kg=lastKg||(e.need[0]==='kb'?st.equip.kb||st.equip.db:st.equip.db||st.equip.kb);if(allDone&&ls)reps=Math.min(tr+4,Math.max(...ls.sets.map(x=>x.reps))+2)}
+    p.cur={kg,reps}}
+   const sug=gym&&allDone&&lastKg?`Completaste todo la última vez: hoy prueba con ${dec(lastKg+2.5,1)} kg.`:!gym&&allDone?`Completaste todo la última vez: hoy intenta ${p.cur.reps} repeticiones, o baja en 3 segundos.`:'';
    body+=`<div class="huge tab-num" aria-hidden="true">${tr}</div><p class="hugelbl">${perSide(s)?'repeticiones por '+perSide(s):'repeticiones'}</p>
-   <div class="log">${gym?stepper('kg',dec(p.cur.kg,p.cur.kg%1?1:0)+' kg','peso'):''}${stepper('reps',p.cur.reps+' reps','repeticiones hechas')}</div>
+   <div class="log">${kgOn?stepper('kg',dec(p.cur.kg,p.cur.kg%1?1:0),'peso'):''}${stepper('reps',p.cur.reps+' reps','repeticiones hechas')}</div>
    ${ls?`<p class="small muted">Última vez (${fdate(ls.d)}): ${ls.sets.map(x=>(x.kg?dec(x.kg,x.kg%1?1:0)+' kg × ':'')+x.reps).join(' · ')}</p>`:''}${sug?`<p class="small" style="color:var(--good)"><b>${sug}</b></p>`:''}
    <p class="small"><b>Respira:</b> sopla al hacer fuerza, coge aire al volver.</p>${e.safe?`<p class="small"><b>Seguridad:</b> ${esc(e.safe)}</p>`:''}`;
    main=`<button class="btn xl" id="p-done">Hecho ✓</button>`}
   body+=`<details class="card"><summary>Cómo se hace</summary><ol class="steps" style="margin-top:10px">${e.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="small muted" style="margin-top:8px"><b>Más fácil:</b> ${esc(e.easy)}</p></details>`}
  el.innerHTML=`<div class="in"><div class="ptop"><button class="btn sm ghost" id="p-exit">Salir</button><span class="pinfo tab-num"><b id="elapsed">${fmt((Date.now()-p.t0)/1000)}</b><br>${info}</span><button class="btn sm ghost" id="p-voice" aria-pressed="${st.voice}" aria-label="Avisos de voz">${st.voice?'Voz sí':'Voz no'}</button></div>
-  <div class="bar" role="progressbar" aria-label="Progreso de la sesión" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>${body}
+  <div class="bar" role="progressbar" aria-label="Progreso de la sesión" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>${s.type==='block'?'':'<button class="btn sm danger" id="p-bad">Me encuentro mal</button>'}${body}
   ${next?`<p class="small muted">Después: ${esc(stepName(next))}</p>`:''}<div id="p-confirm"></div>
   <div class="pmain">${main}${sec}${p.i?'<button class="lnk" id="p-prev">◀ Paso anterior</button>':''}</div></div>`;
  hookVideos(el);
  const on=(id,fn)=>{const b=document.getElementById(id);if(b)b.onclick=fn};
  on('p-done',()=>{if(!guard())return;beep(990,.08);finishStep()});
  on('p-go',()=>{if(!guard())return;toggleTimer()});
- on('p-high',()=>{if(!guard())return;P.k='X';P.t=LOWBP.t;P.steps=buildSteps({...LOWBP});P.i=0;say('De acuerdo. Hoy, solo caminata suave');pRender()});
- on('p-exit',exitMenu);on('p-chg',changeMenu);
+ on('p-check',()=>{if(!guard())return;const a=$('#c-s'),b=$('#c-di');
+  if(a&&(a.value.trim()||b.value.trim())){const sy=pnum(a.value),di=pnum(b.value);if(!(sy>60&&sy<280&&di>30&&di<180)){$('#c-err').textContent='Escribe las dos cifras, por ejemplo 128 y 82.';return}
+   const bp={d:today(),s:Math.round(sy),di:Math.round(di)};st.bp=st.bp.filter(x=>x.d!==today()).concat(bp);save();const lv=bpLvl(bp);
+   if(lv===3||lv===-1){P.steps.splice(P.i,1,{type:'block',lvl:lv});say(lv===3?'Tu tensión está muy alta. Hoy no entrenes.':'Tu tensión está baja. Hoy no hagas ejercicio de pie.');pRender(true);return}
+   if(lv===2){P.k='X';P.t=LOWBP.t;P.steps=buildSteps({...LOWBP});P.i=0;say('Tu tensión está alta. Hoy, solo paseo suave');pRender();return}}
+  beep(990,.08);finishStep()});
+ on('p-remeasure',()=>{P.steps.splice(P.i,1,{type:'check'});pRender()});
+ on('p-blockexit',()=>{clearRun();closePlayer()});
+
+ on('p-exit',exitMenu);on('p-chg',changeMenu);on('p-bad',badMenu);
  on('p-voice',()=>{st.voice=!st.voice;save();const b=$('#p-voice');b.setAttribute('aria-pressed',st.voice);b.textContent=st.voice?'Voz sí':'Voz no'});
  on('p-prev',()=>{if(!guard()||!p.i)return;p.tm={};p.cur=null;p.i--;const b=p.steps[p.i];if(b.type==='reps'&&p.rec[b.ex]?.length)p.rec[b.ex].pop();pRender()});
- el.querySelectorAll('[data-stp]').forEach(b=>b.onclick=()=>{const [k,d]=b.dataset.stp.split(':');p.cur[k]=Math.max(0,Math.round((p.cur[k]+ +d)*10)/10);const o=$('#v-'+k);if(o)o.textContent=k==='kg'?dec(p.cur.kg,p.cur.kg%1?1:0)+' kg':p.cur.reps+' reps';saveRun()});
+ el.querySelectorAll('[data-stp]').forEach(b=>b.onclick=()=>{const [k,d]=b.dataset.stp.split(':');p.cur[k]=Math.max(0,Math.round((p.cur[k]+ +d)*10)/10);const o=$('#v-'+k);if(o){if(k==='kg')o.value=dec(p.cur.kg,p.cur.kg%1?1:0);else o.textContent=p.cur.reps+' reps'}saveRun()});
+ const kin=$('#v-kg');if(kin)kin.onchange=()=>{const v=pnum(kin.value);if(v>=0&&v<=500){p.cur.kg=v;saveRun()}else kin.value=dec(p.cur.kg,p.cur.kg%1?1:0)};
  el.scrollTop=0;const h1=el.querySelector('h1');if(h1)h1.focus({preventScroll:true});
  if(!silent){if(s.type==='reps')say(`${EX[s.ex].n}. ${stepLabel(s)}`);else if(s.type==='time'&&s.ex)say(`${EX[s.ex].n}. Pulsa iniciar`);else if(s.type==='list')say(s.title)}}
-function stepper(k,val,lbl){const d=k==='kg'?2.5:1;return `<div class="stepper"><button data-stp="${k}:-${d}" aria-label="Menos ${lbl}">−</button><output id="v-${k}" aria-live="polite">${val}</output><button data-stp="${k}:${d}" aria-label="Más ${lbl}">+</button></div>`}
+function blockBody(lv){return lv===3?`<h1 tabindex="-1" style="color:var(--bad)">Hoy no entrenes</h1><div class="card stack"><p><b>Tu tensión está muy alta (180/110 o más).</b></p><ol class="steps"><li>Siéntate tranquilo 5 minutos y vuelve a medirla.</li><li>Si sigue igual, llama a tu centro de salud hoy mismo.</li><li><b>Si además tienes dolor de cabeza fuerte, dolor en el pecho, falta de aire, visión borrosa o debilidad en un lado del cuerpo, llama al 112.</b></li></ol><a class="btn danger" href="tel:112">Llamar al 112</a></div>`
+ :`<h1 tabindex="-1" style="color:var(--warn)">Hoy, sin ejercicio de pie</h1><div class="card stack"><p><b>Tu tensión está baja (menos de 90/60).</b></p><ol class="steps"><li>Siéntate o túmbate y bebe agua.</li><li>Levántate despacio, pasando por sentado.</li><li>Si te mareas, se repite o tomas medicación para la tensión, coméntalo con tu médico: puede que haya que ajustarla.</li></ol></div>`}
+function badMenu(){const box=$('#p-confirm');box.innerHTML=`<div class="card stack sheet bad"><h3>¿Qué notas?</h3>
+ <button class="btn danger" id="b-chest">Dolor u opresión en el pecho, falta de aire o palpitaciones</button>
+ <button class="btn ghost" id="b-dizzy">Mareo o me encuentro débil</button>
+ <button class="btn ghost" id="b-joint">Dolor en una articulación o un músculo</button>
+ <button class="lnk" id="b-x">Cancelar</button></div>`;box.scrollIntoView({block:'nearest'});say('¿Qué notas?');
+ $('#b-x').onclick=()=>box.innerHTML='';
+ $('#b-joint').onclick=()=>{box.innerHTML='';P.joint=true;if(P.steps[P.i].ex&&!P.steps[P.i].cardio)changeMenu();else live('Para este ejercicio y sigue solo si no duele.')};
+ const stopWith=(sym,html,msg)=>{P.sym=sym;clearInterval(tick);tick=null;P.rest=null;$('#rest').hidden=true;$('#player').inert=false;say(msg);
+  $('#player').innerHTML=`<div class="in">${html}<div class="pmain"><button class="btn xl" id="b-end">Terminar la sesión</button></div></div>`;$('#player').querySelector('h1').focus();$('#b-end').onclick=()=>{P.i=P.steps.length;pDone()}};
+ $('#b-chest').onclick=()=>stopWith('cardio',`<h1 tabindex="-1" style="color:var(--bad)">Para ahora</h1><div class="card stack"><ol class="steps"><li><b>Deja de hacer ejercicio y siéntate.</b></li><li>Si el dolor en el pecho, la falta de aire o las palpitaciones no se pasan en 2–3 minutos, o el dolor va al brazo, cuello o mandíbula, <b>llama al 112</b>.</li><li>No vuelvas a entrenar hasta que te vea un médico.</li></ol><a class="btn danger xl" href="tel:112">Llamar al 112</a></div>`,'Para ahora y siéntate. Si no se pasa en unos minutos, llama al uno uno dos.');
+ $('#b-dizzy').onclick=()=>stopWith('mareo',`<h1 tabindex="-1" style="color:var(--warn)">Para y siéntate</h1><div class="card stack"><ol class="steps"><li>Siéntate o túmbate con las piernas en alto.</li><li>Bebe agua. Si tienes diabetes, toma algo dulce.</li><li>Cuando se te pase, levántate despacio. Hoy no sigas entrenando.</li><li>Si no se pasa en unos minutos o tienes dolor en el pecho, llama al 112.</li></ol></div>`,'Para y siéntate. Bebe agua.')}
+function stepper(k,val,lbl){const d=k==='kg'?2.5:1;return `<div class="stepper"><button data-stp="${k}:-${d}" aria-label="Menos ${lbl}">−</button>${k==='kg'?`<label class="kgin"><input id="v-kg" inputmode="decimal" value="${val}" aria-label="Kilos"> kg</label>`:`<output id="v-${k}" aria-live="polite">${val}</output>`}<button data-stp="${k}:${d}" aria-label="Más ${lbl}">+</button></div>`}
 const tLeft=s=>P.tm.end?(P.tm.end-Date.now())/1000:P.tm.left!=null?P.tm.left:s.sec;
 const tLabel=s=>P.tm.end?'Pausar':P.tm.left!=null?'Reanudar':'Iniciar '+fmt(s.sec);
 function toggleTimer(){const s=P.steps[P.i],t=P.tm;
@@ -1037,7 +1200,7 @@ function onTick(){if(!P){clearInterval(tick);tick=null;return}const now=Date.now
  const cue=(left,total)=>{const sec=Math.ceil(left);if(sec===P.lastSec)return;P.lastSec=sec;if(sec<=3&&sec>0)beep(660,.08);if(sec===10&&total>=25)say('Diez segundos')};
  if(P.rest){const left=(P.rest.end-now)/1000,b=$('#rcd');if(b)b.textContent=fmt(left);cue(left,99);if(left<=0){beep(990,.35);flash();endRest()}return}
  const s=P.steps[P.i];if(s&&P.tm.end){const left=(P.tm.end-now)/1000,c=$('#cd');if(c)c.textContent=fmt(left);cue(left,s.sec);if(left<=0){beep(990,.35);flash();say('Tiempo');finishStep()}}}
-function changeMenu(){const p=P,s=p.steps[p.i],ex=s.ex;let alts=(ALT[ex]||[]).filter(a=>EX[a]&&a!==ex);if(!alts.length)alts=Object.keys(EX).filter(a=>a!==ex&&EX[a].w===EX[ex].w&&EX[a].unit===EX[ex].unit&&EX[a].m[0]===EX[ex].m[0]).slice(0,2);const box=$('#p-confirm');
+function changeMenu(){const p=P,s=p.steps[p.i],ex=s.ex;let alts=[...new Set((SUBS[ex]||[]).concat(ALT[ex]||[]))].filter(a=>EX[a]&&a!==ex&&allowed(a)).slice(0,3);if(!alts.length)alts=Object.keys(EX).filter(a=>a!==ex&&allowed(a)&&EX[a].unit===EX[ex].unit&&EX[a].m[0]===EX[ex].m[0]).slice(0,2);const box=$('#p-confirm');
  const later=!p.circuit&&p.steps.some((x,i)=>i>p.i&&x.ex&&x.ex!==ex&&!x.cardio);
  box.innerHTML=`<div class="card stack sheet"><h3>Cambiar ${esc(EX[ex].n)}</h3>${later?`<button class="btn ghost" id="c-later">${EX[ex].w==='gym'?'Máquina ocupada: hacerlo al final':'Hacerlo al final'}</button>`:''}${alts.map(a=>`<button class="btn ghost" data-alt="${a}">Sustituir por ${esc(EX[a].n)}</button>`).join('')}<button class="btn ghost" id="c-skip">Saltar este ejercicio</button><button class="lnk" id="c-x">Cancelar</button></div>`;
  box.scrollIntoView({block:'nearest'});const rem=()=>p.steps.map((x,i)=>i>=p.i&&x.ex===ex?i:-1).filter(i=>i>=0);
@@ -1049,17 +1212,18 @@ function exitMenu(){const box=$('#p-confirm');box.innerHTML=`<div class="card st
  box.scrollIntoView({block:'nearest'});$('#x-cont').onclick=()=>box.innerHTML='';$('#x-save').onclick=()=>{P.i=P.steps.length;pDone()};$('#x-drop').onclick=()=>{clearRun();closePlayer()}}
 function pDone(){const p=P;if(p.rest){p.rest=null;$('#rest').hidden=true;$('#player').inert=false}
  const min=Math.max(1,Math.round((Date.now()-p.t0)/60000)),nsets=Object.values(p.rec).reduce((a,x)=>a+x.length,0);
- const e={id:uid(),d:today(),k:p.k,t:p.t,mode:p.mode,min,rpe:null,sym:false,note:'',sets:p.rec,skip:p.skip};st.log.push(e);const hit=checkHitos();save();clearRun();p.doneId=e.id;
+ const e={id:uid(),d:today(),k:p.k,t:p.t,mode:p.mode,min,rpe:null,sym:p.sym||(p.joint?'joint':null),note:'',sets:p.rec,skip:p.skip};if(p.sym)st.medAlert=today();st.log.push(e);const hit=checkHitos();save();clearRun();p.doneId=e.id;
  say('Sesión completada. Muy bien.');
  $('#player').innerHTML=`<div class="in"><span class="eyebrow">Sesión completada y guardada</span><h1 tabindex="-1">${esc(p.t)}</h1><div class="huge tab-num">${min} min</div><p class="muted">${nsets?nsets+' series anotadas. ':''}Bebe agua y toma proteína en la próxima comida.</p>
   <div class="card stack"><h3>¿Cuánto te ha costado?</h3><p class="small muted">Lo ideal es 6–7: terminar pudiendo hacer 2–3 repeticiones más.</p>
    <div class="rpe" role="group" aria-label="Esfuerzo del 1 al 10">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button data-rpe="${n}" class="r${n<=5?'lo':n<=7?'ok':n<=8?'hi':'max'}" aria-pressed="false">${n}</button>`).join('')}</div>
-   <label class="row small check"><input type="checkbox" id="d-sym"> He notado molestia, mareo o dolor</label>
+   <label class="row small check"><input type="checkbox" id="d-joint" ${p.joint?'checked':''}> Molestia o dolor en una articulación o músculo</label>
+   <label class="row small check"><input type="checkbox" id="d-card" ${p.sym?'checked':''}> Mareo, dolor en el pecho, falta de aire o palpitaciones</label>
    <label class="f">Nota (opcional)<input id="d-note" maxlength="200" placeholder="p. ej. rodilla derecha, prensa ocupada…"></label></div>
   <div class="pmain"><button class="btn xl" id="p-close">Terminar</button><button class="lnk danger-t" id="p-discard">Descartar esta sesión</button></div></div>`;
  const ent=()=>st.log.find(l=>l.id===p.doneId);
  $('#player').querySelectorAll('[data-rpe]').forEach(b=>b.onclick=()=>{const l=ent();if(!l)return;l.rpe=+b.dataset.rpe;save();$('#player').querySelectorAll('[data-rpe]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
- $('#d-sym').onchange=e=>{const l=ent();if(l){l.sym=e.target.checked;save()}};$('#d-note').onchange=e=>{const l=ent();if(l){l.note=e.target.value.slice(0,200);save()}};
+ const symUpd=()=>{const l=ent();if(!l)return;const c=$('#d-card').checked;l.sym=c?(p.sym||'cardio'):$('#d-joint').checked?'joint':null;if(c)st.medAlert=today();else if(st.medAlert===today()&&!p.sym)st.medAlert=null;save()};$('#d-joint').onchange=symUpd;$('#d-card').onchange=symUpd;$('#d-note').onchange=e=>{const l=ent();if(l){l.note=e.target.value.slice(0,200);save()}};
  $('#p-close').onclick=()=>{closePlayer();celebrate(hit)};
  $('#p-discard').onclick=()=>{st.log=st.log.filter(l=>l.id!==p.doneId);save();closePlayer();toast('Sesión descartada')};
  $('#player').querySelector('h1').focus()}
