@@ -163,6 +163,7 @@ textarea{width:100%;font-size:15px}
 .rpe .rok{border-color:var(--good);border-width:2px}
 .rpe .rmax{color:var(--bad)}
 .rpe button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.test{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:6px}
 .prot{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .prot button{min-height:52px;border-radius:12px;border:1px solid var(--ctl);background:var(--surface);font-weight:700;font-size:16px}
 .prot button[aria-pressed="true"]{background:var(--good);color:#fff;border-color:var(--good)}
@@ -405,8 +406,8 @@ const EX={
 };
 for(const [id,x] of Object.entries({g_extension:14,g_curlfem:14,g_jalon:24,g_pecho:16,g_hombro:16,g_triceps:142,g_remo:204,g_pallof:204}))EX[id].pose.stack=x;
 EX.g_pallof.pose.cable=[204,100];EX.g_remo.pose.cable=[216,170];EX.g_triceps.pose.cable=[154,4];EX.g_jalon.pose.cable=[100,4];
-const MUSC=['Todos','Piernas','Glúteos','Espalda','Pecho','Hombros','Brazos','Core','Cardio'];
-function musGroup(m){const s=m.join(' ');return {Piernas:/Piernas|Cuádriceps|Isquios/.test(s),Glúteos:/Glúteo/.test(s),Espalda:/Espalda|dorsal/.test(s),Pecho:/Pecho/.test(s),Hombros:/Hombro/.test(s),Brazos:/Bíceps|Tríceps|Antebrazo/.test(s),Core:/Core/.test(s),Cardio:/Cardio/.test(s)}}
+const MUSC=['Todos','Piernas','Glúteos','Espalda','Pecho','Hombros','Brazos','Core','Equilibrio','Movilidad','Cardio'];
+function musGroup(m){const s=m.join(' ');return {Equilibrio:/Equilibrio/.test(s),Movilidad:/Movilidad/.test(s),Piernas:/Piernas|Cuádriceps|Isquios/.test(s),Glúteos:/Glúteo/.test(s),Espalda:/Espalda|dorsal/.test(s),Pecho:/Pecho/.test(s),Hombros:/Hombro/.test(s),Brazos:/Bíceps|Tríceps|Antebrazo/.test(s),Core:/Core/.test(s),Cardio:/Cardio/.test(s)}}
 
 /* ============ DATOS: sesiones ============ */
 const WARM={casa:['Marcha en el sitio subiendo rodillas – 1 min','Círculos de brazos adelante y atrás – 1 min','Bisagra de cadera sin peso (manos en la cadera) – 10','Sentadilla a silla sin peso – 10','Gato-camello a cuatro patas – 8','Peso muerto con la pesa, suave – 10','Plancha en encimera 20 s'],
@@ -438,6 +439,17 @@ const PHASES=[
  {from:13,to:24,n:'Definición',short:'descansos 15 s más cortos y bajadas lentas de 3 s.',d:'Descansos 15 s más cortos y bajadas de 3 s. Con 12 kg fijos progresa en este orden: pausa de 2 s abajo, repeticiones y media, ejercicios a una pierna (sentadilla búlgara, peso muerto rumano a una pierna, subida a escalón) y goblet con kettlebell + mancuerna. Hacia el mes 3, una kettlebell de 16 kg es la mejor inversión.'},
  {from:25,to:999,n:'Mantenimiento activo',short:'3 semanas intensas y 1 suave.',d:'Alterna 3 semanas de definición con 1 semana suave (la mitad de series). Revisa objetivos con el peso real.'}];
 
+/* ============ DATOS: plan sénior (70 años o más, en casa) ============ */
+const SEX={"s_sentarse": {"n": "Sentarse y levantarse de la silla", "eq": "Silla con respaldo y reposabrazos, apoyada contra la pared", "m": ["Piernas", "Glúteos", "Core"], "steps": ["Siéntate en la mitad delantera de la silla, pies separados al ancho de cadera y algo por detrás de las rodillas.", "Cruza los brazos sobre el pecho o apoya las manos en los reposabrazos.", "Inclina el tronco hacia delante y levántate empujando con los talones hasta quedar recto.", "Vuelve a sentarte despacio, sin dejarte caer, contando hasta tres."], "err": ["Dejarse caer al sentarse.", "Juntar las rodillas hacia dentro al subir.", "Levantarse sin inclinar el tronco y con impulso de brazos."], "easy": "Usa los reposabrazos para ayudarte o pon un cojín en el asiento para que quede más alto.", "w": "senior", "safe": "Silla sin ruedas pegada a la pared. Si te mareas al levantarte, quédate de pie quieto 3 segundos antes de seguir."}, "s_sentadilla_mesa": {"n": "Sentadilla con apoyo en la mesa", "eq": "Mesa o encimera de cocina y silla detrás", "m": ["Piernas", "Glúteos"], "steps": ["Ponte de pie frente a la mesa, con las manos apoyadas en el borde y una silla detrás.", "Separa los pies al ancho de cadera.", "Lleva la cadera hacia atrás como si fueras a sentarte, bajando solo lo que te resulte cómodo.", "Sube empujando con los talones hasta quedar recto."], "err": ["Las rodillas se van hacia dentro.", "Levantar los talones del suelo.", "Bajar demasiado y perder el control."], "easy": "Baja solo un poco (un cuarto de recorrido) o hazlo tocando la silla con los glúteos en cada repetición.", "w": "senior", "safe": "Mantén siempre las dos manos en la mesa y la silla detrás por si necesitas sentarte."}, "s_puntillas": {"n": "Elevación de talones con apoyo", "eq": "Encimera de cocina o respaldo de una silla estable", "m": ["Piernas", "Equilibrio"], "steps": ["Ponte de pie frente a la encimera, con las manos apoyadas y los pies al ancho de cadera.", "Sube despacio de puntillas lo más alto que puedas.", "Aguanta un segundo arriba.", "Baja los talones despacio hasta el suelo."], "err": ["Bajar de golpe.", "Echar el peso sobre los dedos pequeños del pie.", "Inclinar el cuerpo hacia delante en vez de subir recto."], "easy": "Hazlo sentado: levanta los talones con los pies apoyados y, si quieres, una botella sobre las rodillas.", "w": "senior", "safe": "Agárrate bien con las dos manos. Si tienes calambres en el gemelo, para y estira."}, "s_marcha": {"n": "Marcha en el sitio con apoyo", "eq": "Encimera de cocina o respaldo de una silla estable", "m": ["Cardio", "Piernas", "Equilibrio"], "steps": ["Ponte de pie de lado a la encimera, con una mano apoyada.", "Levanta una rodilla hasta donde te resulte cómodo.", "Bájala y levanta la otra, como si caminaras sin moverte.", "Mueve el brazo libre y mantén un ritmo que te permita hablar."], "err": ["Encorvar la espalda.", "Ir tan rápido que te falte el aire.", "Soltar el apoyo demasiado pronto."], "easy": "Hazlo sentado en la silla, levantando las rodillas alternas.", "w": "senior", "safe": "Debes poder hablar mientras lo haces. Si te falta el aire o notas dolor en el pecho, para.", "unit": "s"}, "s_tandem": {"n": "Equilibrio en tándem junto a la encimera", "eq": "Encimera de cocina", "m": ["Equilibrio"], "steps": ["Ponte de pie frente a la encimera, con las manos apoyadas.", "Coloca un pie justo delante del otro, el talón tocando la punta.", "Mira al frente y aguanta la postura el tiempo indicado.", "Cambia el pie de delante y repite."], "err": ["Mirar al suelo.", "Aguantar la respiración.", "Soltarse antes de estar estable."], "easy": "Pon los pies en semitándem (uno al lado del otro pero un poco adelantado) o mantén las dos manos apoyadas.", "w": "senior", "safe": "Hazlo siempre con la encimera delante y sin nada en el suelo alrededor. Si pierdes el equilibrio, agárrate; no intentes salvarlo dando pasos.", "unit": "s"}, "s_una_pierna": {"n": "Apoyo a una pierna con apoyo", "eq": "Encimera de cocina o respaldo de una silla estable", "m": ["Equilibrio", "Piernas"], "steps": ["Ponte de pie frente a la encimera con las dos manos apoyadas.", "Pasa el peso a una pierna.", "Levanta el otro pie unos centímetros del suelo y aguanta.", "Baja el pie y cambia de pierna."], "err": ["Inclinar el tronco hacia un lado.", "Bloquear la rodilla de apoyo.", "Levantar el pie demasiado alto."], "easy": "Apoya solo la punta del pie levantado en el suelo, o mantén las dos manos firmes en la encimera.", "w": "senior", "safe": "Nunca sin apoyo al alcance. Progresa a una mano y luego a la punta de los dedos solo cuando aguantes 10 s cómodo.", "unit": "s"}, "s_flexion_pared": {"n": "Flexiones en la pared", "eq": "Pared", "m": ["Pecho", "Brazos", "Hombros", "Core"], "steps": ["Ponte de pie a un brazo de distancia de la pared, pies al ancho de cadera.", "Apoya las manos en la pared a la altura del pecho.", "Dobla los codos y acerca el pecho a la pared, con el cuerpo recto.", "Empuja la pared hasta estirar los brazos."], "err": ["Doblar la cadera o hundir la espalda.", "Abrir mucho los codos.", "Ponerse demasiado lejos de la pared."], "easy": "Acércate más a la pared y haz menos recorrido.", "w": "senior", "safe": "Usa calzado que no resbale. No te alejes de la pared más de lo que puedas controlar."}, "s_remo_botellas": {"n": "Remo con botellas apoyado en la mesa", "eq": "Mesa y 1 botella de agua de 1,5 L (o media llena)", "m": ["Espalda", "Brazos"], "steps": ["Ponte de pie de lado a la mesa y apoya en ella una mano, con el tronco un poco inclinado.", "Coge la botella con la otra mano, con el brazo estirado hacia el suelo.", "Tira de la botella hacia la cadera llevando el codo atrás.", "Baja despacio y, al acabar, cambia de lado."], "err": ["Girar el tronco para subir la botella.", "Encoger el hombro hacia la oreja.", "Redondear la espalda."], "easy": "Siéntate en la silla y tira de una toalla enrollada a un pomo o pata de mesa fija, o usa la botella medio llena.", "w": "senior", "safe": "Mantén la mano de apoyo firme en la mesa y la espalda recta. No te inclines demasiado si tienes problemas lumbares."}, "s_press_hombros": {"n": "Press de hombros sentado con botellas", "eq": "Silla con respaldo y 2 botellas de agua de 1,5 L", "m": ["Hombros", "Brazos"], "steps": ["Siéntate con la espalda apoyada en el respaldo y una botella en cada mano.", "Sube las botellas a la altura de los hombros.", "Empuja las botellas hacia arriba sin bloquear los codos.", "Bájalas despacio a la altura de los hombros."], "err": ["Arquear la espalda.", "Subir con impulso.", "Aguantar la respiración."], "easy": "Usa botellas medio llenas o sube una sola mano cada vez; si te duele el hombro, sube solo hasta la altura de la cara.", "w": "senior", "safe": "Exhala al subir; no aguantes el aire (importante si tienes la tensión alta). Si tienes dolor de hombro, no subas por encima de la cabeza."}, "s_curl_botellas": {"n": "Curl de bíceps con botellas", "eq": "Silla con respaldo y 2 botellas de agua de 1,5 L", "m": ["Brazos"], "steps": ["Siéntate recto con una botella en cada mano y los brazos estirados a los lados.", "Pega los codos al cuerpo.", "Dobla los codos y sube las botellas hacia los hombros.", "Bájalas despacio hasta estirar los brazos."], "err": ["Separar los codos del cuerpo.", "Balancear el tronco.", "Bajar de golpe."], "easy": "Usa botellas medio llenas o trabaja un brazo cada vez.", "w": "senior", "safe": "Agarra bien las botellas por el cuello o el cuerpo para que no resbalen. Exhala al subir."}, "s_ext_rodilla": {"n": "Extensión de rodilla sentado", "eq": "Silla con respaldo (opcional: toalla enrollada bajo el muslo)", "m": ["Piernas"], "steps": ["Siéntate con la espalda apoyada y los pies en el suelo.", "Estira una rodilla despacio hasta dejar la pierna recta.", "Aguanta 2 segundos con la punta del pie hacia ti.", "Baja despacio y, al acabar la serie, cambia de pierna."], "err": ["Dar patadas rápidas.", "Echarse hacia atrás en la silla.", "Bajar sin control."], "easy": "No estires del todo la pierna o hazlo con menos repeticiones.", "w": "senior", "safe": "Si te duele la rodilla, reduce el recorrido. Más adelante puedes colgar una bolsa con una botella en el tobillo, solo si no hay dolor."}, "s_abduccion": {"n": "Abducción de cadera de pie con apoyo", "eq": "Encimera de cocina o respaldo de una silla estable", "m": ["Glúteos", "Equilibrio", "Piernas"], "steps": ["Ponte de pie frente a la encimera con las dos manos apoyadas.", "Mantén el tronco recto y la punta del pie mirando al frente.", "Separa una pierna hacia el lado unos 20-30 cm.", "Vuelve despacio y, al acabar la serie, cambia de pierna."], "err": ["Inclinar el tronco hacia el lado contrario.", "Girar el pie hacia fuera.", "Balancear la pierna con impulso."], "easy": "Haz menos recorrido o hazlo sentado, separando las rodillas contra tus manos.", "w": "senior", "safe": "Agárrate con las dos manos. Si tienes prótesis de cadera, consulta antes el recorrido con tu médico o fisioterapeuta."}, "s_escalon": {"n": "Subir un escalón con barandilla", "eq": "Primer escalón de la escalera con barandilla", "m": ["Piernas", "Glúteos", "Equilibrio"], "steps": ["Ponte frente al primer escalón y agárrate bien a la barandilla.", "Sube un pie entero al escalón.", "Empuja con esa pierna y sube el otro pie.", "Baja primero el pie con el que empezaste, despacio; haz todas las repeticiones con una pierna y luego cambia."], "err": ["Apoyar solo la punta del pie en el escalón.", "Impulsarse con la pierna de abajo.", "Mirar al suelo y encorvarse."], "easy": "Usa un escalón más bajo o agárrate con las dos manos; también puedes solo apoyar el pie en el escalón sin subir.", "w": "senior", "safe": "Solo en el primer escalón, siempre con barandilla, buena luz y calzado cerrado. Nunca con prisa."}, "s_toalla_hombros": {"n": "Movilidad de hombros con toalla", "eq": "Toalla y silla con respaldo", "m": ["Movilidad", "Hombros"], "steps": ["Siéntate recto y coge una toalla con las dos manos, más separadas que los hombros.", "Con los brazos estirados, sube la toalla hacia delante y arriba hasta donde puedas sin dolor.", "Bájala despacio hasta los muslos.", "Respira tranquilo durante todo el movimiento."], "err": ["Forzar más allá del dolor.", "Arquear la espalda para subir más.", "Encoger los hombros."], "easy": "Separa más las manos y sube solo hasta la altura de los ojos.", "w": "senior", "safe": "Movimiento suave, nunca a tirones. Debe tirar un poco, no doler."}, "s_rotacion_tronco": {"n": "Rotaciones de tronco sentado", "eq": "Silla con respaldo", "m": ["Movilidad", "Core", "Espalda"], "steps": ["Siéntate recto en la parte delantera de la silla, pies apoyados.", "Cruza los brazos sobre el pecho.", "Gira despacio el tronco y la cabeza hacia un lado, hasta donde sea cómodo.", "Vuelve al centro y gira al otro lado."], "err": ["Girar con impulso.", "Mover la cadera o los pies.", "Encorvar la espalda."], "easy": "Haz un giro más corto o apoya una mano en el respaldo para guiar el movimiento.", "w": "senior", "safe": "Si tienes osteoporosis, gira suave y sin forzar. Si te mareas al girar la cabeza, mantén la mirada al frente."}, "s_gemelos_pared": {"n": "Estiramiento de gemelos en la pared", "eq": "Pared", "m": ["Movilidad", "Piernas"], "steps": ["Ponte frente a la pared con las manos apoyadas a la altura del pecho.", "Lleva una pierna atrás con la rodilla estirada y el talón en el suelo.", "Dobla la rodilla de delante hasta notar tirantez en la pantorrilla de atrás.", "Aguanta respirando tranquilo y cambia de pierna."], "err": ["Levantar el talón de atrás.", "Rebotar.", "Girar el pie de atrás hacia fuera."], "easy": "Da un paso más corto hacia atrás o hazlo sentado tirando de la punta del pie con una toalla.", "w": "senior", "safe": "Mantén las manos firmes en la pared. Debe tirar, no doler.", "unit": "s"}, "s_tandem_pasillo": {"n": "Caminar en tándem por el pasillo", "eq": "Pasillo despejado, junto a la pared", "m": ["Equilibrio", "Piernas"], "steps": ["Ponte de pie junto a la pared del pasillo, con una mano rozándola.", "Da un paso poniendo el talón justo delante de la punta del otro pie.", "Sigue avanzando así, mirando al frente, el número de pasos indicado.", "Date la vuelta despacio y repite con la otra mano en la pared."], "err": ["Mirar los pies.", "Ir deprisa.", "Separar la mano de la pared demasiado pronto."], "easy": "Camina con los pies un poco separados (semitándem) o con apoyo firme de la mano.", "w": "senior", "safe": "Retira alfombras y obstáculos, enciende la luz y lleva calzado cerrado. Mejor con alguien en casa las primeras veces."}, "s_agarre_toalla": {"n": "Fuerza de agarre con toalla", "eq": "Toalla de mano enrollada y silla con respaldo", "m": ["Brazos"], "steps": ["Siéntate recto y enrolla una toalla de mano como un rulo.", "Cógela con las dos manos delante de ti.", "Escúrrela con fuerza girando las manos en sentidos contrarios, 3 segundos.", "Afloja, cambia el sentido del giro y repite."], "err": ["Aguantar la respiración.", "Encoger los hombros.", "Hacerlo con dolor en las articulaciones de los dedos."], "easy": "Aprieta una toalla doblada o un cojín pequeño con una mano, sin girar.", "w": "senior", "safe": "Si tienes artrosis en las manos, aprieta suave y sin dolor. Exhala mientras aprietas."}, "s_paseo": {"n": "Paseo a ritmo vivo", "w": "senior", "eq": "Calzado cómodo", "m": ["Cardio", "Equilibrio"], "unit": "min", "steps": ["Camina por terreno llano a un ritmo en el que puedas hablar pero no cantar.", "Si 30 minutos son muchos, haz 2 o 3 tramos de 10 minutos.", "Mira al frente, brazos sueltos y pasos firmes.", "Lleva calzado cerrado, gorra y agua; evita las horas de más calor."], "err": ["Ir tan rápido que te falte el aire.", "Caminar mirando al suelo."], "easy": "Empieza con 10 minutos y suma 5 cada semana.", "safe": "Lleva el móvil encima. Si te mareas, siéntate y descansa."}};
+const SPOSE={"s_sentarse": "c_goblet", "s_sentadilla_mesa": "c_goblet", "s_puntillas": null, "s_marcha": "k_caminar", "s_tandem": null, "s_una_pierna": null, "s_flexion_pared": "c_flexion", "s_remo_botellas": "c_remo1", "s_press_hombros": "c_militar", "s_curl_botellas": "c_curl", "s_ext_rodilla": "g_extension", "s_abduccion": null, "s_escalon": null, "s_toalla_hombros": "c_militar", "s_rotacion_tronco": "g_hombro", "s_gemelos_pared": "c_flexion", "s_tandem_pasillo": "k_caminar", "s_agarre_toalla": "g_hombro", "s_paseo": "k_caminar"};
+for(const [id,e] of Object.entries(SEX)){const src=SPOSE[id];e.pose=src?{...EX[src].pose,eq:'none',stack:undefined,cable:undefined}:{eq:'none',A:{...STAND},B:{...STAND,L1:-6,S1:-4},per:3};EX[id]=e}
+W.senior={"A": {"t": "Fuerza y equilibrio A", "items": [{"ex": "s_sentarse", "sets": 2, "reps": 10, "rest": 90}, {"ex": "s_flexion_pared", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_remo_botellas", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_puntillas", "sets": 2, "reps": 12, "rest": 60}, {"ex": "s_ext_rodilla", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_tandem", "sets": 3, "reps": 20, "rest": 30}, {"ex": "s_agarre_toalla", "sets": 2, "reps": 8, "rest": 45}]}, "B": {"t": "Fuerza y equilibrio B", "items": [{"ex": "s_sentadilla_mesa", "sets": 2, "reps": 10, "rest": 90}, {"ex": "s_escalon", "sets": 2, "reps": 8, "rest": 90}, {"ex": "s_press_hombros", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_curl_botellas", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_abduccion", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_una_pierna", "sets": 3, "reps": 10, "rest": 30}, {"ex": "s_agarre_toalla", "sets": 2, "reps": 8, "rest": 45}]}, "C": {"t": "Equilibrio y marcha", "items": [{"ex": "s_marcha", "sets": 3, "reps": 60, "rest": 60}, {"ex": "s_tandem", "sets": 3, "reps": 20, "rest": 30}, {"ex": "s_una_pierna", "sets": 3, "reps": 15, "rest": 30}, {"ex": "s_tandem_pasillo", "sets": 3, "reps": 10, "rest": 45}, {"ex": "s_puntillas", "sets": 2, "reps": 10, "rest": 60}, {"ex": "s_sentarse", "sets": 2, "reps": 8, "rest": 90}, {"ex": "s_abduccion", "sets": 2, "reps": 10, "rest": 60}]}, "M": {"t": "Movilidad suave", "items": [{"ex": "s_marcha", "sets": 2, "reps": 60, "rest": 45}, {"ex": "s_toalla_hombros", "sets": 2, "reps": 10, "rest": 30}, {"ex": "s_rotacion_tronco", "sets": 2, "reps": 10, "rest": 30}, {"ex": "s_ext_rodilla", "sets": 2, "reps": 10, "rest": 30}, {"ex": "s_puntillas", "sets": 1, "reps": 10, "rest": 30}, {"ex": "s_gemelos_pared", "sets": 2, "reps": 30, "rest": 15}, {"ex": "s_agarre_toalla", "sets": 1, "reps": 8, "rest": 30}]}, "P": {"t": "Paseo a ritmo vivo", "items": [], "cardio": {"ex": "s_paseo", "min": 30}, "noWarm": true}};
+const SWEEKD=["R", "A", "P", "B", "M", "C", "P"]; // getDay(): 0 dom ... 6 sáb
+const SPHASES=[{"from": 1, "to": 4, "n": "Adaptación", "short": "aprender la técnica con apoyo", "d": "Haz los ejercicios con apoyo de las dos manos, sin peso o con botellas medio llenas. El objetivo es aprender el movimiento y terminar con energía, no agotado."}, {"from": 5, "to": 8, "n": "Fuerza básica", "short": "más repeticiones y botellas llenas", "d": "Sube hasta 12 repeticiones y usa botellas llenas de 1,5 L. En equilibrio, pasa de dos manos a una mano de apoyo."}, {"from": 9, "to": 12, "n": "Progresión", "short": "tercera serie y menos apoyo", "d": "Añade una tercera serie en los ejercicios de piernas y alarga el equilibrio a 30 s. Apoya solo la punta de los dedos cuando estés estable."}, {"from": 13, "to": 999, "n": "Consolidación", "short": "mantener y repetir las pruebas", "d": "Usa 2 botellas por mano si 12 repeticiones te resultan fáciles y alarga el paseo a 40 min. Repite las pruebas para ver tu progreso y mantén el hábito."}];
+const SWARM=["Sentado: círculos de hombros hacia atrás, 10 veces.", "Sentado: girar la cabeza despacio a cada lado, 5 veces.", "Sentado: abrir y cerrar las manos y girar las muñecas, 10 veces.", "Sentado: talón-punta alternando los pies, 20 veces.", "De pie con apoyo: marcha suave en el sitio, 1 minuto.", "De pie con apoyo: balanceo suave de una pierna adelante y atrás, 8 por pierna."],SCOOL=["Estiramiento de gemelos en la pared, 30 s por pierna.", "Sentado: estira una pierna con el talón apoyado e inclínate un poco hacia delante con la espalda recta (isquiotibiales), 30 s por pierna.", "Sentado: lleva un brazo cruzado por delante del pecho y sujétalo con la otra mano, 20 s por brazo.", "Sentado: entrelaza las manos y empuja hacia delante redondeando la espalda, 20 s.", "Sentado: 5 respiraciones lentas y profundas antes de levantarte."];
+const STESTS=[{"id": "t_silla30", "n": "Levantarse de la silla 30 s", "unit": "reps", "how": "Siéntate en una silla sin ruedas apoyada en la pared, con los brazos cruzados sobre el pecho. Cuenta cuántas veces te levantas del todo y te sientas en 30 segundos.", "better": "higher", "ref": "Valores normales orientativos a los 70-79 años: hombres 11-17 y mujeres 10-15 repeticiones; menos de 10-12 indica riesgo de pérdida de fuerza."}, {"id": "t_una_pierna", "n": "Equilibrio a una pierna", "unit": "s", "how": "De pie frente a la encimera, con las manos a 2 cm de ella sin tocarla, levanta un pie y cuenta los segundos hasta que lo apoyes o te agarres (máximo 30 s). Haz 2 intentos con cada pierna y anota el mejor.", "better": "higher", "ref": "A los 70-79 años la media ronda los 15-25 s; menos de 5-10 s se asocia a mayor riesgo de caídas."}, {"id": "t_tug", "n": "Levántate y anda (3 m)", "unit": "s", "how": "Sentado en una silla con reposabrazos, a la señal levántate, camina 3 m a paso normal hasta una marca, da la vuelta, vuelve y siéntate. Otra persona cronometra desde que empiezas hasta que tocas el asiento.", "better": "lower", "ref": "A los 70-79 años lo normal es unos 8-10 s; 12 s o más indica mayor riesgo de caídas y conviene consultarlo."}];
+const SNUT=["Toma 1,0-1,2 g de proteína por kilo de peso al día, repartida en las 3 comidas (unos 25-30 g en cada una): huevos, lácteos, legumbres, pescado o carne.", "Toma algo de proteína (un yogur, un vaso de leche o queso fresco) en las 2 horas después del ejercicio.", "Cuida el calcio con 2-3 raciones de lácteos al día y la vitamina D con un rato de sol; pregunta a tu médico si necesitas suplemento.", "Bebe agua aunque no tengas sed: unos 6-8 vasos al día, más si hace calor o sudas.", "Si tienes la tensión alta, modera la sal y los embutidos y aumenta frutas, verduras y legumbres.", "No hagas ejercicio en ayunas ni justo después de una comida copiosa: mejor 1-2 horas después de comer algo ligero."],SSAFE=["Consulta a tu médico antes de empezar, sobre todo si tienes tensión alta, problemas de corazón, mareos o caídas recientes.", "Ten siempre un apoyo firme al alcance (encimera, silla estable o pared), suelo despejado, buena luz y calzado cerrado que no resbale.", "No aguantes la respiración: suelta el aire al hacer el esfuerzo. Debes poder hablar mientras haces ejercicio.", "Para si notas dolor en el pecho, falta de aire intensa, mareo, palpitaciones o dolor articular agudo, y avisa a tu médico.", "Levántate despacio de la silla y quédate quieto unos segundos antes de caminar, sobre todo si tomas medicación para la tensión.", "Ten el teléfono cerca y, las primeras semanas, haz los ejercicios de equilibrio con alguien en casa."];
+
 /* ============ ESTADO ============ */
 const LSK='entreno12kg.v1',RUNK='entreno12kg.run';
 const pad=n=>String(n).padStart(2,'0');
@@ -448,7 +460,7 @@ const parseD=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)
 const dnum=s=>{const [y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)/864e5};
 const daysBetween=(a,b)=>Math.round(dnum(b)-dnum(a));
 const addDays=(s,n)=>{const d=parseD(s);d.setDate(d.getDate()+n);return iso(d)};
-const DEF={start:today(),mode:'casa',sex:'h',height:170,age:50,goal:70,phase:0,weights:[],log:[],seenSafety:false,htn:false,bp:[],waist:[],name:'',setup:false,voice:true,hitos:[],lastBackup:null,prot:null};
+const DEF={start:today(),mode:'casa',sex:'h',height:170,age:50,goal:70,phase:0,weights:[],log:[],seenSafety:false,htn:false,bp:[],waist:[],name:'',setup:false,voice:true,hitos:[],lastBackup:null,prot:null,tests:[]};
 const num=(v,lo,hi,d)=>{v=Number(v);return Number.isFinite(v)&&v>=lo&&v<=hi?v:d};
 const arr=x=>Array.isArray(x)?x:[];
 function cleanSets(x){const out={};if(x&&typeof x==='object')for(const k in x){if(!EX[k]||!Array.isArray(x[k]))continue;out[k]=x[k].slice(0,20).map(r=>({kg:num(r&&r.kg,0,500,0),reps:num(r&&r.reps,0,300,0)}))}return out}
@@ -456,7 +468,7 @@ function cleanSets(x){const out={};if(x&&typeof x==='object')for(const k in x){i
 function sanitize(o){o=o&&typeof o==='object'?o:{};const s={...DEF};
  s.start=isISO(o.start)&&o.start<=today()?o.start:today();s.mode=o.mode==='gym'?'gym':'casa';s.sex=o.sex==='m'?'m':'h';
  s.height=num(o.height,120,230,DEF.height);s.age=num(o.age,14,100,DEF.age);s.goal=num(o.goal,35,300,DEF.goal);
- s.phase=Number.isInteger(o.phase)&&o.phase>=0&&o.phase<=PHASES.length?o.phase:0;
+ s.phase=Number.isInteger(o.phase)&&o.phase>=0&&o.phase<=Math.max(PHASES.length,SPHASES.length)?o.phase:0;
  s.name=String(o.name??'').slice(0,40);s.setup=!!o.setup;s.seenSafety=!!o.seenSafety;s.htn=!!o.htn;s.voice=o.voice!==false;
  s.weights=arr(o.weights).filter(w=>w&&isISO(w.d)&&num(w.kg,30,350,null)!=null).map(w=>({d:w.d,kg:+w.kg}));
  s.bp=arr(o.bp).filter(b=>b&&isISO(b.d)&&num(b.s,60,280,null)!=null&&num(b.di,30,180,null)!=null).map(b=>({d:b.d,s:Math.round(b.s),di:Math.round(b.di)}));
@@ -464,6 +476,7 @@ function sanitize(o){o=o&&typeof o==='object'?o:{};const s={...DEF};
  s.log=arr(o.log).filter(l=>l&&isISO(l.d)).map(l=>({id:String(l.id||Math.random().toString(36).slice(2)).slice(0,24),d:l.d,k:typeof l.k==='string'&&/^[A-Z]$/.test(l.k)?l.k:null,t:String(l.t||'Sesión').slice(0,80),mode:l.mode==='gym'?'gym':'casa',min:Math.round(num(l.min,0,600,0)),rpe:num(l.rpe,1,10,null),sym:!!l.sym,note:String(l.note||'').slice(0,200),sets:cleanSets(l.sets),skip:arr(l.skip).filter(x=>EX[x])}));
  s.hitos=arr(o.hitos).filter(x=>typeof x==='string').slice(0,200);s.lastBackup=isISO(o.lastBackup)?o.lastBackup:null;
  s.prot=o.prot&&isISO(o.prot.d)&&Array.isArray(o.prot.m)?{d:o.prot.d,m:[0,1,2,3].map(i=>o.prot.m[i]?1:0)}:null;
+ s.tests=arr(o.tests).filter(t=>t&&isISO(t.d)&&STESTS.some(x=>x.id===t.id)&&num(t.v,0,600,null)!=null).map(t=>({d:t.d,id:t.id,v:+t.v}));
  if(s.setup&&!s.weights.length)s.setup=false;
  return s}
 let st=sanitize(null);
@@ -485,10 +498,10 @@ function joints(p){let hip;
 function lerpPose(a,b,t){const o={a:a.a};for(const k in a){if(typeof a[k]==='number')o[k]=a[k]+(b[k]-a[k])*t}return o}
 const NS='http://www.w3.org/2000/svg';
 // Vídeos reales por sexo del perfil (v/h/<id>.mp4, v/m/<id>.mp4). Si falta o no carga, se ve la figura animada.
-const VIDS={"h":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"],"m":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"]};
+const VIDS={"h":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"],"m":["c_birddog","c_curl","c_deadbug","c_flexion","c_goblet","c_granjero","c_militar","c_plancha","c_pmkb","c_presssuelo","c_puente","c_rdl","c_remo","c_remo1","c_swing","c_triceps","c_zancada","g_bici","g_cinta","g_crunch","g_curlfem","g_curlpolea","g_extension","g_hombro","g_jalon","g_lumbar","g_pallof","g_pecho","g_prensa","g_pullthrough","g_remo","g_smith","g_triceps","k_caminar"],"h70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"],"m70":["s_abduccion","s_agarre_toalla","s_curl_botellas","s_escalon","s_ext_rodilla","s_flexion_pared","s_gemelos_pared","s_marcha","s_press_hombros","s_puntillas","s_remo_botellas","s_rotacion_tronco","s_sentadilla_mesa","s_sentarse","s_tandem","s_tandem_pasillo","s_toalla_hombros","s_una_pierna"]};
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function media(id){const sx=st.sex==='m'?'m':'h';
- if(!VIDS[sx].includes(id))return figSVG(id);
+function media(id){const sx=(st.sex==='m'?'m':'h')+(EX[id].w==='senior'?'70':'');
+ if(!(VIDS[sx]||[]).includes(id))return figSVG(id);
  return `<div class="media" data-id="${id}"><span class="tag">${esc(badgeOf(EX[id]))}</span><video src="v/${sx}/${id}.mp4" ${RM?'controls':'autoplay'} muted loop playsinline preload="auto" aria-label="Demostración: ${esc(EX[id].n)}. ${esc(EX[id].steps[0])}"></video></div>`}
 // Si el vídeo no carga o iOS bloquea la reproducción (modo de bajo consumo), se muestra la figura animada
 function hookVideos(root){root.querySelectorAll('.media video').forEach(v=>{const box=v.parentNode,fb=()=>{if(box.isConnected)box.outerHTML=figSVG(box.dataset.id)};
@@ -518,7 +531,7 @@ function drawFig(svg,ex,t){const P=ex.pose,a=full(P.A),b=full(P.B),j=joints(lerp
  if(P.eq==='smith'){const y=j.h1[1]+2;s+=`<rect x="100" y="${(y-4).toFixed(1)}" width="48" height="8" rx="3" fill="var(--muted)"/>`}
  if(!svg.classList.contains('thumb')){const b=badgeOf(ex),w=b.length*6.2+16;s+=`<rect x="6" y="-18" width="${w.toFixed(0)}" height="18" rx="9" fill="var(--accent-soft)"/><text x="14" y="-5.5" font-size="11" font-weight="700" fill="var(--ink)" font-family="Barlow,system-ui,sans-serif" letter-spacing=".04em">${b.toUpperCase()}</text>`}
  svg.innerHTML=s}
-function badgeOf(ex){const P=ex.pose;if(ex.w==='gym')return ex.unit==='min'?'Máquina de cardio':P.cable?'Polea':'Máquina';
+function badgeOf(ex){const P=ex.pose;if(ex.w==='senior'){const q=ex.eq.toLowerCase();return q.includes('botella')?'Botellas de agua':q.includes('toalla')?'Toalla':q.includes('escal')?'Escalón':q.includes('pared')||q.includes('pasillo')?'Pared':q.includes('encimera')||q.includes('mesa')?'Con apoyo':q.includes('silla')?'Silla':'En casa'}if(ex.w==='gym')return ex.unit==='min'?'Máquina de cardio':P.cable?'Polea':'Máquina';
  return P.eq==='kb'?'Kettlebell 12 kg':P.eq==='db'?'Mancuernas 12 kg':P.eq==='db1'?'Mancuerna 12 kg':ex.unit==='min'?'Al aire libre':'Sin pesas'}
 function dbell(h,op){return `<g opacity="${op}"><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="8" fill="var(--accent)"/><circle cx="${h[0].toFixed(1)}" cy="${h[1].toFixed(1)}" r="3" fill="var(--surface)"/></g>`}
 // Animación a ~30 fps, parada con la app en segundo plano; con «reducir movimiento», figura fija
@@ -540,12 +553,19 @@ function months(){const n=monthNo(),out=[],ws=wsorted();
   const startKg=before?before.kg:wm[0]?.kg,endKg=wm.at(-1)?.kg;
   out.push({m,from,ses:lg.length,min:lg.reduce((x,l)=>x+(l.min||0),0),endKg,lost:startKg!=null&&endKg!=null?startKg-endKg:null})}
  return out}
-const phaseIdx=()=>{if(st.phase)return st.phase-1;const w=weekNo();const i=PHASES.findIndex(p=>w>=p.from&&w<=p.to);return i<0?PHASES.length-1:i};
+// A partir de 70 años: plan en casa de movilidad, fuerza y equilibrio
+const senior=()=>st.age>=70;
+const M=()=>senior()?'senior':st.mode;
+const PH=()=>senior()?SPHASES:PHASES;
+const weekK=i=>senior()?SWEEKD[i]:WEEK[i].k;
+const GOAL=()=>senior()?6:5;
+const phaseIdx=()=>{const ph=PH();if(st.phase)return Math.min(st.phase,ph.length)-1;const w=weekNo();const i=ph.findIndex(p=>w>=p.from&&w<=p.to);return i<0?ph.length-1:i};
 function adj(it,pi){let sets=it.sets,rest=it.rest,ex=it.ex,reps=it.reps;
+ if(EX[ex].w==='senior'){if(pi>=2&&EX[ex].m.includes('Piernas'))sets++;return {...it,sets}}
  if(pi===0){sets=Math.max(2,sets-1);rest+=15;if(ex==='c_swing'){ex='c_pmkb';reps=Math.max(10,+reps||10)}}else if(pi>=2){rest=Math.max(30,rest-15)}
  return {...it,ex,reps,sets,rest}}
 function rounds(w,pi){return pi===0?w.circuit.rounds-1:w.circuit.rounds}
-function cmin(w,pi){if(!w.cardio)return 0;const m=w.cardio.min;if(pi!==0)return m;
+function cmin(w,pi){if(!w.cardio)return 0;const m=w.cardio.min;if(w.k==='P')return pi===0?Math.min(m,20):pi>=3?Math.max(m,40):m;if(pi!==0)return m;
  if(w.k==='Z')return Math.min(m,25+5*(weekNo()-1));if(w.k==='L')return Math.min(m,35);return m}
 function dose(it){const u=EX[it.ex].unit;return u==='s'?it.reps+' s':u==='min'?it.reps+' min':it.reps}
 function estMin(w,pi){if(!w)return 0;let s=0;const rep=r=>typeof r==='number'?r:parseInt(r)*2;
@@ -573,20 +593,23 @@ function pace(){const ws=wsorted();if(ws.length<2)return null;const end=ws.at(-1
 /* ============ SEMANA, RACHAS E HITOS ============ */
 const QUEUE=['A','Z','B','Z','C','L'];
 const DAYNAME=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-const KNAME={A:'Fuerza A',B:'Fuerza B',C:'Circuito',Z:'Cardio',L:'Paseo largo',R:'Descanso'};
+const KNAME={A:'Fuerza A',B:'Fuerza B',C:'Circuito',Z:'Cardio',L:'Paseo largo',R:'Descanso',M:'Movilidad',P:'Paseo'};
+const SKNAME={A:'Fuerza y equilibrio A',B:'Fuerza y equilibrio B',C:'Equilibrio y marcha',M:'Movilidad',P:'Paseo',R:'Descanso'};
+const kname=k=>(senior()?SKNAME:KNAME)[k]||k;
 const weekStart=(s=today())=>{const d=parseD(s);return addDays(s,-((d.getDay()+6)%7))};
 const weekLog=(ws=weekStart())=>{const we=addDays(ws,7);return st.log.filter(l=>l.d>=ws&&l.d<we)};
 const countsWeek=l=>l.k!=='L';
-function nextK(){const q=[...QUEUE];weekLog().forEach(l=>{const i=q.indexOf(l.k);if(i>=0)q.splice(i,1)});return q[0]||null}
-const sess=k=>k&&W[st.mode][k]?{k,...W[st.mode][k]}:null;
+function nextK(){const q=senior()?['A','P','B','M','C','P']:[...QUEUE];weekLog().forEach(l=>{const i=q.indexOf(l.k);if(i>=0)q.splice(i,1)});return q[0]||null}
+const sess=k=>k&&W[M()][k]?{k,...W[M()][k]}:null;
 const LOWBP={k:'X',t:'Caminata suave (tensión alta)',items:[],cardio:{ex:'k_caminar',min:25},noWarm:true};
 function streak(){let n=0;if(weekLog().filter(countsWeek).length>=4)n++;
  for(let i=1;i<104;i++){if(weekLog(addDays(weekStart(),-7*i)).filter(countsWeek).length>=4)n++;else break}return n}
 function checkHitos(){const nw=[],h=st.hitos,add=(id,t)=>{if(!h.includes(id)){h.push(id);nw.push(t)}};
  const n=st.log.length;[[1,'Primera sesión hecha. Lo más difícil ya está.'],[10,'10 sesiones. Esto ya es un hábito.'],[25,'25 sesiones completadas.'],[50,'50 sesiones. Constancia de verdad.'],[100,'100 sesiones. Increíble.']].forEach(([k,t])=>{if(n>=k)add('s'+k,t)});
- const ws=wsorted();if(ws.length>1){const lost=ws[0].kg-ws.at(-1).kg;for(let k=5;k<=lost+1e-6;k+=5)add('kg'+k,`Has perdido ${k} kg. ${k===5?'Es el peso de una garrafa grande de agua.':k===10?'Como un saco de patatas menos encima.':'Sigue así.'}`);
+ const ws=wsorted();if(ws.length>1&&!senior()){const lost=ws[0].kg-ws.at(-1).kg;for(let k=5;k<=lost+1e-6;k+=5)add('kg'+k,`Has perdido ${k} kg. ${k===5?'Es el peso de una garrafa grande de agua.':k===10?'Como un saco de patatas menos encima.':'Sigue así.'}`);
   const bmi=ws.at(-1).kg/((st.height/100)**2);[[35,'Has bajado de IMC 35.'],[30,'Has bajado de IMC 30: ya no es obesidad.'],[25,'IMC por debajo de 25: peso saludable.']].forEach(([b,t])=>{if(bmi<b&&ws[0].kg/((st.height/100)**2)>=b)add('bmi'+b,t)})}
  if(streak()>=4)add('racha4','4 semanas seguidas cumpliendo.');
+ const ch=st.tests.filter(x=>x.id==='t_silla30').sort((a,b)=>a.d<b.d?-1:1);if(ch.length>1&&ch.at(-1).v-ch[0].v>=3)add('silla3','Ya te levantas de la silla 3 veces más que al empezar. Tus piernas están más fuertes.');
  return nw}
 
 /* ============ VISTAS ============ */
@@ -599,7 +622,7 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.datase
 const TITLES={hoy:'Hoy',ejercicios:'Ejercicios',plan:'Plan',progreso:'Progreso',comida:'Comida'};
 
 function render(){
- document.querySelector('.tabs').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup;
+ document.querySelector('.tabs').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup||senior();
  if(!st.setup){view.innerHTML=vSetup();bindSetup();document.title='GIS Salud';return}
  $('#m-casa').setAttribute('aria-pressed',st.mode==='casa');$('#m-gym').setAttribute('aria-pressed',st.mode==='gym');
  document.querySelectorAll('.tabs button').forEach(b=>{if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
@@ -611,12 +634,13 @@ function vSetup(){return `<div class="stack"><div><span class="eyebrow">Bienveni
  <div class="card stack">
   <label class="f">Nombre<input id="u-name" autocomplete="given-name" placeholder="Tu nombre"></label>
   <div class="row wrap"><label class="f">Sexo<select id="u-sex"><option value="h">Hombre</option><option value="m">Mujer</option></select></label><label class="f">Edad<input id="u-age" inputmode="numeric" placeholder="años"></label></div>
+  <p class="small note info" id="u-senior" hidden>A partir de 70 años la app te propone un plan en casa para recuperar movilidad, fuerza y equilibrio, con una silla, la mesa, botellas de agua y una toalla. El peso objetivo es opcional.</p>
   <div class="row wrap"><label class="f">Altura (cm)<input id="u-h" inputmode="numeric" placeholder="170"></label><label class="f">Peso actual (kg)<input id="u-kg" inputmode="decimal" placeholder="80,5"></label></div>
   <label class="f">Peso objetivo (kg)<input id="u-goal" inputmode="decimal" placeholder="Rellena la altura para ver una sugerencia"></label>
   <p class="small muted" id="u-hint"></p>
   <label class="f">Cintura (cm, opcional)<input id="u-waist" inputmode="decimal" placeholder="a la altura del ombligo"></label>
   <label class="row small check"><input type="checkbox" id="u-htn"> Tengo hipertensión (con o sin medicación)</label>
-  <label class="f">¿Dónde vas a entrenar sobre todo?<select id="u-mode"><option value="casa">En casa (kettlebell, mancuernas o sin pesas)</option><option value="gym">En el gimnasio (máquinas)</option></select></label>
+  <label class="f" id="u-modewrap">¿Dónde vas a entrenar sobre todo?<select id="u-mode"><option value="casa">En casa (kettlebell, mancuernas o sin pesas)</option><option value="gym">En el gimnasio (máquinas)</option></select></label>
   <p class="small" id="u-err" style="color:var(--bad)" role="alert" hidden>Revisa los datos: edad entre 14 y 100, altura en cm (120–230) y pesos en kg.</p>
   <button class="btn" id="u-go">Empezar mi plan</button></div>
  <div class="card stack"><h3>Cómo funciona</h3><ol class="steps">
@@ -629,14 +653,16 @@ function vSetup(){return `<div class="stack"><div><span class="eyebrow">Bienveni
 function restoreFrom(txt,msgEl){try{const o=JSON.parse(String(txt).trim());const s=sanitize({...o,setup:true});if(!s.weights.length)throw 0;st=s;save();tab='hoy';render();toast('Copia restaurada')}catch(e){if(msgEl)msgEl.textContent='Esa copia no es válida. Expórtala de nuevo completa desde Plan → Ajustes del otro móvil.'}}
 function bindSetup(){const g=id=>document.getElementById(id),num=id=>pnum(g(id).value);
  g('u-h').oninput=()=>{const h=num('u-h')/100;g('u-hint').textContent=h>1.2&&h<2.3?`Peso saludable para tu altura (IMC 18,5–24,9): ${(18.5*h*h).toFixed(0)}–${(24.9*h*h).toFixed(0)} kg. Un primer objetivo realista es perder un 10 %.`:''};
- g('u-go').onclick=()=>{const age=num('u-age'),h=num('u-h'),kg=num('u-kg'),goal=num('u-goal'),wa=num('u-waist');
+ g('u-age').oninput=()=>{const old=num('u-age')>=70;g('u-senior').hidden=!old;g('u-modewrap').hidden=old};
+ g('u-go').onclick=()=>{const age=num('u-age'),h=num('u-h'),kg=num('u-kg'),wa=num('u-waist');let goal=num('u-goal');
+  if(age>=70&&!g('u-goal').value.trim())goal=kg;
   if(!(age>=14&&age<=100&&h>=120&&h<=230&&kg>=35&&kg<=300&&goal>=35&&goal<=300)){g('u-err').hidden=false;return}
   st=sanitize({name:g('u-name').value.trim(),sex:g('u-sex').value,age,height:h,goal,htn:g('u-htn').checked,mode:g('u-mode').value,weights:[{d:today(),kg}],waist:wa>40&&wa<250?[{d:today(),cm:wa}]:[],start:today(),setup:true});
   save();tab='hoy';selDay=null;render();scrollTo(0,0)};
  g('u-file').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>restoreFrom(t,g('u-impmsg')))};
  g('u-impgo').onclick=()=>restoreFrom(g('u-imp').value,g('u-impmsg'))}
 
-function workoutFor(dayIdx){return sess(WEEK[dayIdx].k)}
+function workoutFor(dayIdx){return sess(weekK(dayIdx))}
 const doneOn=d=>st.log.some(l=>l.d===d);
 function weekDates(){const ws=weekStart();return [...Array(7)].map((_,i)=>{const s=addDays(ws,i);return {s,idx:parseD(s).getDay()}})}
 function loadRun(){try{const r=JSON.parse(localStorage.getItem(RUNK)||'null');if(r&&Array.isArray(r.steps)&&Date.now()-r.t0<12*3600e3)return r}catch(e){}return null}
@@ -646,7 +672,8 @@ function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
  h+=st.name?`<div><h2>Hola, ${esc(st.name)}</h2><p class="muted small tab-num">Semana ${weekNo()} · mes ${monthNo()} de tu plan</p></div>`
   :`<div class="card stack"><h3>¿Cómo te llamas?</h3><div class="row"><label class="f"><span class="sr">Nombre</span><input id="n-in" autocomplete="given-name" placeholder="Tu nombre"></label><button class="btn sm" id="n-save">Guardar</button></div></div>`;
  if(run)h+=`<div class="card stack resume"><h3>Tienes una sesión a medias</h3><p class="small">${esc(run.t)} · paso ${run.i+1} de ${run.steps.length}</p><div class="row"><button class="btn" id="r-cont">Continuar</button><button class="btn ghost" id="r-drop">Descartar</button></div></div>`;
- if(!st.seenSafety)h+=`<div class="note"><b>Antes de empezar:</b> pide a tu médico una revisión (tensión, corazón, analítica). Para y consulta si notas dolor en el pecho, mareo, falta de aire anormal o dolor articular punzante. <button class="btn sm ghost" id="okSafety" style="margin-top:8px">Entendido</button></div>`;
+ if(!st.seenSafety&&senior())h+=`<div class="note"><b>Antes de empezar, por tu seguridad:</b><ul class="plain" style="margin-top:6px">${SSAFE.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><button class="btn sm ghost" id="okSafety" style="margin-top:8px">Entendido</button></div>`;
+ else if(!st.seenSafety)h+=`<div class="note"><b>Antes de empezar:</b> pide a tu médico una revisión (tensión, corazón, analítica). Para y consulta si notas dolor en el pecho, mareo, falta de aire anormal o dolor articular punzante. <button class="btn sm ghost" id="okSafety" style="margin-top:8px">Entendido</button></div>`;
  // Resumen de la semana pasada, lunes y martes
  const dow=new Date().getDay();if((dow===1||dow===2)&&st.log.length){const pw=weekLog(addDays(weekStart(),-7)),n=pw.filter(countsWeek).length,mins=pw.reduce((a,l)=>a+l.min,0);
   if(pw.length){const msg=n>=5?'Semana completa. Sigue igual.':n>=4?'Semana sólida.':n>=2?'Algo es mucho más que nada. Esta semana, a por una más.':'Semana floja. Empieza hoy con la próxima sesión.';
@@ -654,9 +681,9 @@ function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
  // Esfuerzo alto repetido
  const rp=st.log.filter(l=>l.rpe).slice(-2);if(rp.length===2&&rp.every(l=>l.rpe>=9))h+=`<div class="note"><b>Tus dos últimas sesiones fueron muy duras (9–10).</b> Esta semana haz una serie menos o descansa 15 s más. El objetivo es 6–7 de 10.</div>`;
  if(st.log.slice(-1)[0]?.sym)h+=`<div class="note"><b>En tu última sesión anotaste una molestia o mareo.</b> Si se repite, para y consúltalo con tu médico antes de seguir.</div>`;
- h+=`<div><div class="week" role="group" aria-label="Días de esta semana">${wd.map(d=>{const k=WEEK[d.idx].k,dn=doneOn(d.s),td=d.s===today();
-  return `<button class="day${td?' today':''}" data-day="${d.idx}" aria-pressed="${selDay===d.idx}" ${td?'aria-current="date"':''} aria-label="${DAYNAME[d.idx]}, ${KNAME[k]}${dn?', hecho':''}${td?', hoy':''}"><span class="d">${td?'HOY':WEEK[d.idx].d}</span><span class="t">${k==='R'?'–':k==='Z'?'Z2':k==='L'?'P':k}</span><span class="ok" aria-hidden="true">${dn?'✓':''}</span></button>`}).join('')}</div>
-  <p class="small muted legend">A, B y C: fuerza · Z2: cardio suave · P: paseo · ✓ hecho</p></div>`;
+ h+=`<div><div class="week" role="group" aria-label="Días de esta semana">${wd.map(d=>{const k=weekK(d.idx),dn=doneOn(d.s),td=d.s===today();
+  return `<button class="day${td?' today':''}" data-day="${d.idx}" aria-pressed="${selDay===d.idx}" ${td?'aria-current="date"':''} aria-label="${DAYNAME[d.idx]}, ${kname(k)}${dn?', hecho':''}${td?', hoy':''}"><span class="d">${td?'HOY':WEEK[d.idx].d}</span><span class="t">${k==='R'?'–':k==='Z'?'Z2':k==='L'?'P':k}</span><span class="ok" aria-hidden="true">${dn?'✓':''}</span></button>`}).join('')}</div>
+  <p class="small muted legend">${senior()?'A y B: fuerza y equilibrio · C: equilibrio y marcha · M: movilidad · P: paseo':'A, B y C: fuerza · Z2: cardio suave · P: paseo'} · ✓ hecho</p></div>`;
  let w,eyebrow,startLbl='Empezar sesión';
  if(selDay!=null){w=workoutFor(selDay);eyebrow=DAYNAME[selDay]+' (plan)';startLbl='Hacerla hoy'}
  else if(bpHighToday()){w={...LOWBP};eyebrow='Hoy · tensión alta'}
@@ -664,9 +691,9 @@ function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
  if(!w){h+=selDay!=null?`<div class="hero"><span class="eyebrow">${DAYNAME[selDay]}</span><h1>Descanso</h1><p>El músculo se define descansando. Camina suave si te apetece y cuida el sueño: 7–8 horas.</p><button class="btn ghost" id="sel-clear">Ver mi próxima sesión</button></div>`
    :`<div class="hero"><span class="eyebrow">Semana completada</span><h1>¡Todo hecho esta semana!</h1><p>Descansa, camina 8.000–10.000 pasos al día y vuelve el lunes. Si te apetece, repite el paseo largo.</p></div>`}
  else{const min=estMin(w,pi);
-  h+=`<div class="hero"><span class="eyebrow">${esc(eyebrow)} · Fase ${PHASES[pi].n}</span><h1>${esc(w.t)}</h1>
+  h+=`<div class="hero"><span class="eyebrow">${esc(eyebrow)} · Fase ${PH()[pi].n}</span><h1>${esc(w.t)}</h1>
    ${w.k==='X'?'<p class="small">Tu última tensión de hoy es alta. Hoy toca solo caminar suave. Si pasa de 180/110 o tienes síntomas, no entrenes y consulta.</p>':''}
-   <div class="chips"><span class="chip">≈ ${min} min</span><span class="chip">${st.mode==='casa'?'En casa':'Gimnasio'}</span>${w.circuit?`<span class="chip">${rounds(w,pi)} vueltas</span>`:''}</div>
+   <div class="chips"><span class="chip">≈ ${min} min</span><span class="chip">${M()==='gym'?'Gimnasio':'En casa'}</span>${w.circuit?`<span class="chip">${rounds(w,pi)} vueltas</span>`:''}</div>
    <button class="btn" id="start">${startLbl}</button>
    <div class="row wrap hero-links"><button class="lnk" id="mark">Ya la hice sin la app</button>${selDay!=null?'<button class="lnk" id="sel-clear">Ver mi próxima sesión</button>':''}</div></div>`;
   h+=`<div class="card"><div class="spread"><h3>Qué toca</h3>${w.items.length?'<span class="small muted">series × reps · descanso</span>':''}</div><div class="exlist">`;
@@ -677,19 +704,20 @@ function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
   if(w.cardio&&!w.cardioFirst)h+=exRow(w.cardio.ex,cmin(w,pi)+' min','Zona 2');
   h+=rowStatic('Vuelta a la calma','5 min');
   h+=`</div></div>`;
-  h+=`<details class="note info small"><summary>Esta semana: ${PHASES[pi].short}</summary><p style="margin-top:6px">${PHASES[pi].d}</p></details>`}
+  h+=`<details class="note info small"><summary>Esta semana: ${PH()[pi].short}</summary><p style="margin-top:6px">${PH()[pi].d}</p></details>`}
  const wk=weekLog().filter(countsWeek).length,sk=streak();
- h+=`<div class="stats"><div class="stat"><div class="v tab-num">${dec(latestW())}</div><div class="l">kg ahora · objetivo ${dec(st.goal,0)}</div></div><div class="stat"><div class="v tab-num">${wk}/5</div><div class="l">sesiones esta semana${sk?` · racha ${sk} sem.`:''}</div></div></div>`;
+ h+=`<div class="stats"><div class="stat"><div class="v tab-num">${dec(latestW())}</div><div class="l">kg ahora · objetivo ${dec(st.goal,0)}</div></div><div class="stat"><div class="v tab-num">${wk}/${GOAL()}</div><div class="l">sesiones esta semana${sk?` · racha ${sk} sem.`:''}</div></div></div>`;
  if(st.htn){const b=lastBP();h+=`<div class="card spread"><span><span class="eyebrow">Tensión</span><br>${b?`<b class="tab-num" style="font-size:20px;color:${bpCol(b)}">${b.s}/${b.di}</b> <span class="small muted">${fdate(b.d)} · ${bpTxt(b)}</span>`:'<span class="small muted">Sin registros. Anótala en Progreso.</span>'}</span><button class="btn sm ghost" data-goto="progreso">Anotar</button></div>`}
+ if(senior()){const lt=st.tests.map(t=>t.d).sort().at(-1);if(!lt||daysBetween(lt,today())>=28)h+=`<div class="card spread"><span><span class="eyebrow">Pruebas de forma</span><br><span class="small">${lt?'Hace un mes de tus últimas pruebas. Repítelas para ver tu progreso.':'Haz tus 3 pruebas iniciales (5 minutos) para medir tu punto de partida.'}</span></span><button class="btn sm ghost" data-goto="progreso">Hacerlas</button></div>`}
  if(!st.lastBackup||daysBetween(st.lastBackup,today())>30)if(st.log.length>=3)h+=`<div class="note info small">Tus datos solo están en este móvil. <button class="lnk" data-goto="plan">Haz una copia de seguridad</button></div>`;
  return h+`</div>`}
 function exRow(id,d,sub){return `<button class="exrow" data-open="${id}">${figSVG(id,'thumb').replace('<svg','<svg data-static="1"')}<span><span class="nm">${esc(EX[id].n)}</span><br><span class="small muted">${esc(EX[id].m.slice(0,2).join(' · '))}</span></span><span style="text-align:right">${d?`<span class="dose">${esc(d)}</span>`:''}${sub?`<br><span class="small muted">${esc(sub)}</span>`:''}</span></button>`}
 function rowStatic(n,d){return `<div class="exrow" style="cursor:default"><span class="thumb" style="display:grid;place-items:center" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="nm">${esc(n)}</span><span class="dose">${esc(d)}</span></div>`}
 
-function vLib(){const wf=exFilter.w==='actual'?st.mode:exFilter.w;
+function vLib(){const wf=exFilter.w==='actual'?M():exFilter.w;
  const list=Object.entries(EX).filter(([id,e])=>(wf==='todo'||e.w===wf)&&(exFilter.m==='Todos'||musGroup(e.m)[exFilter.m]));
  return `<div class="stack"><h1>Ejercicios</h1>
- <div class="filters" role="group" aria-label="Lugar">${[['actual',st.mode==='casa'?'Casa':'Gimnasio'],['todo','Todos']].map(([k,l])=>`<button data-fw="${k}" aria-pressed="${exFilter.w===k}">${l}</button>`).join('')}</div>
+ <div class="filters" role="group" aria-label="Lugar">${[['actual',senior()?'Mi plan':st.mode==='casa'?'Casa':'Gimnasio'],['todo','Todos']].map(([k,l])=>`<button data-fw="${k}" aria-pressed="${exFilter.w===k}">${l}</button>`).join('')}</div>
  <div class="filters" role="group" aria-label="Músculo">${MUSC.map(m=>`<button data-fm="${m}" aria-pressed="${exFilter.m===m}">${m}</button>`).join('')}</div>
  <div class="card"><div class="exlist">${list.map(([id,e])=>exRow(id,'',e.eq)).join('')||'<p class="muted">Sin ejercicios para este filtro.</p>'}</div></div></div>`}
 
@@ -702,6 +730,7 @@ function vExercise(id){const e=EX[id],ls=lastSets(id);
  ${ls?`<p class="small"><b>Tu última vez (${fdate(ls.d)}):</b> ${ls.sets.map(s=>(s.kg?dec(s.kg,s.kg%1?1:0)+' kg × ':'')+s.reps).join(' · ')}</p>`:''}
  <div class="card stack"><h3>Cómo se hace</h3><ol class="steps">${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>
  <div class="card stack"><h3>Errores a evitar</h3><ul class="plain">${e.err.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
+ ${e.safe?`<div class="note"><b>Seguridad:</b> ${esc(e.safe)}</div>`:''}
  <div class="note info"><b>Versión más fácil o si hay molestias:</b> ${esc(e.easy)}</div>
  <p class="small muted">Respira: suelta el aire en el esfuerzo y cógelo al volver. No aguantes la respiración.</p></div>`}
 
@@ -709,9 +738,16 @@ function vPlan(){const pi=phaseIdx();
  return `<div class="stack"><h1>Tu plan</h1>
  <div class="card"><h3>La semana</h3><table class="t" style="margin-top:8px"><tr><th>Día</th><th>Sesión</th><th>Tiempo</th></tr>
  ${[1,2,3,4,5,6,0].map(i=>{const w=workoutFor(i);return `<tr><td><b>${WEEK[i].d}</b></td><td>${w?esc(w.t):'Descanso'}</td><td class="tab-num">${w?'≈'+estMin(w,pi)+' min':'–'}</td></tr>`}).join('')}</table>
- <p class="small muted" style="margin-top:8px">Es el orden ideal. Si un día no puedes, la pantalla Hoy te propone la siguiente sesión pendiente. Objetivo: 5 sesiones por semana; el paseo largo es extra.</p></div>
- <div class="card"><h3>Fases</h3><p class="small muted">Vas por la semana ${weekNo()}.</p>${PHASES.map((p,i)=>`<div class="phase${i===pi?' cur':''}"><span class="wk">Sem ${p.from}${p.to<999?'–'+p.to:'+'}</span><span><b>${p.n}</b><br><span class="small">${p.d}</span></span></div>`).join('')}</div>
- <div class="card stack"><h3>Por qué así (marcar, no volumen)</h3><ul class="plain">
+ <p class="small muted" style="margin-top:8px">Es el orden ideal. Si un día no puedes, la pantalla Hoy te propone la siguiente sesión pendiente. ${senior()?'Objetivo: 6 actividades por semana, contando los paseos.':'Objetivo: 5 sesiones por semana; el paseo largo es extra.'}</p></div>
+ <div class="card"><h3>Fases</h3><p class="small muted">Vas por la semana ${weekNo()}.</p>${PH().map((p,i)=>`<div class="phase${i===pi?' cur':''}"><span class="wk">Sem ${p.from}${p.to<999?'–'+p.to:'+'}</span><span><b>${p.n}</b><br><span class="small">${p.d}</span></span></div>`).join('')}</div>
+ ${senior()?`<div class="card stack"><h3>Tu plan a partir de los 70</h3><ul class="plain">
+  <li><b>Objetivo: moverte mejor y con seguridad.</b> Fuerza en las piernas para levantarte y subir escaleras, equilibrio para evitar caídas y movilidad para el día a día.</li>
+  <li><b>Todo en casa</b>, con una silla, la mesa o la encimera, la pared, botellas de agua de 1,5 L, una toalla y el primer escalón.</li>
+  <li><b>Siempre con apoyo cerca</b> y sin tumbarte en el suelo.</li>
+  <li><b>Progresión suave:</b> primero aprender con apoyo, luego más repeticiones, botellas llenas y menos apoyo.</li>
+  <li><b>Pruebas de forma cada mes</b> (en Progreso) para ver cómo mejoras.</li></ul>
+  <h3>Normas de seguridad</h3><ul class="plain">${SSAFE.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+ <div class="card stack"${senior()?' hidden':''}><h3>Por qué así (marcar, no volumen)</h3><ul class="plain">
   <li><b>La definición sale de perder grasa</b>, y eso lo decide la alimentación (pestaña Comida). Comiendo en déficit no se gana volumen: el entreno conserva el músculo y lo deja marcado al bajar la grasa.</li>
   <li><b>Más tirón que empuje</b>: hay remo en todas las sesiones de fuerza para mejorar la postura y proteger los hombros.</li>
   <li><b>Repeticiones de 10–15</b> con descansos cortos: buen estímulo para tonificar con gasto calórico alto.</li>
@@ -720,7 +756,7 @@ function vPlan(){const pi=phaseIdx();
   <li><b>Apunta los kilos</b> en cada serie del gimnasio. Cuando completes todas las series, la app te propone subir 2,5 kg.</li></ul></div>
  <div class="card stack"><h3>Ajustes</h3>
   <label class="f">Nombre<input id="s-name" autocomplete="given-name" value="${esc(st.name)}"></label>
-  <div class="row wrap"><label class="f">Inicio del plan<input type="date" id="s-start" max="${today()}" value="${esc(st.start)}"></label><label class="f">Fase<select id="s-phase"><option value="0"${!st.phase?' selected':''}>Automática</option>${PHASES.map((p,i)=>`<option value="${i+1}"${st.phase===i+1?' selected':''}>${p.n}</option>`).join('')}</select></label></div>
+  <div class="row wrap"><label class="f">Inicio del plan<input type="date" id="s-start" max="${today()}" value="${esc(st.start)}"></label><label class="f">Fase<select id="s-phase"><option value="0"${!st.phase?' selected':''}>Automática</option>${PH().map((p,i)=>`<option value="${i+1}"${st.phase===i+1?' selected':''}>${p.n}</option>`).join('')}</select></label></div>
   <div class="row wrap"><label class="f">Altura (cm)<input inputmode="numeric" id="s-h" value="${esc(st.height)}"></label><label class="f">Edad<input inputmode="numeric" id="s-age" value="${esc(st.age)}"></label><label class="f">Objetivo (kg)<input inputmode="decimal" id="s-goal" value="${esc(dec(st.goal,st.goal%1?1:0))}"></label></div>
   <p class="small" id="s-err" style="color:var(--bad)" role="alert"></p>
   <label class="f">Sexo<select id="s-sex"><option value="h"${st.sex==='h'?' selected':''}>Hombre</option><option value="m"${st.sex==='m'?' selected':''}>Mujer</option></select></label>
@@ -751,9 +787,11 @@ function vProg(){const ws=wsorted(),first=ws[0]?.kg??latestW(),cur=latestW(),hm=
  return `<div class="stack"><h1>Progreso</h1>
  <div class="stats">
   <div class="stat"><div class="v tab-num">${dec(cur)}</div><div class="l">kg actuales</div></div>
-  <div class="stat"><div class="v tab-num" style="color:var(--good)">${dec(first-cur)}</div><div class="l">kg perdidos</div></div>
-  <div class="stat"><div class="v tab-num">${dec(left)}</div><div class="l">kg hasta ${dec(st.goal,0)}</div></div>
+  ${senior()?`<div class="stat"><div class="v tab-num">${st.log.length}</div><div class="l">sesiones hechas</div></div>
+  <div class="stat"><div class="v tab-num">${streak()}</div><div class="l">semanas seguidas cumpliendo</div></div>`:`<div class="stat"><div class="v tab-num" style="color:var(--good)">${dec(first-cur)}</div><div class="l">kg perdidos</div></div>
+  <div class="stat"><div class="v tab-num">${dec(left)}</div><div class="l">kg hasta ${dec(st.goal,0)}</div></div>`}
   <div class="stat"><div class="v tab-num">${dec(bmi)}</div><div class="l">IMC (sano: 18,5–24,9)</div></div></div>
+ ${senior()?vTests():''}
  <div class="card stack"><div class="spread"><h3>Peso</h3><span class="small muted">${pc!=null?`Tendencia: ${pc>0?'−':'+'}${dec(Math.abs(pc),2)} kg/sem`:''}</span></div>${chart(ws)}
   <p class="small muted">${ws.length<2?'Pésate el próximo lunes en ayunas para ver tu tendencia.':`Meta: ${etaTxt}.`} Ritmo sano: 0,5–0,9 kg por semana. La línea gruesa es la tendencia; los puntos, cada pesada.</p>
   <div class="row"><label class="f">Fecha<input type="date" id="w-d" max="${today()}" value="${today()}"></label><label class="f">Peso (kg)<input inputmode="decimal" id="w-kg" placeholder="${dec(cur)}"></label></div>
@@ -775,6 +813,14 @@ function vProg(){const ws=wsorted(),first=ws[0]?.kg??latestW(),cur=latestW(),hm=
   <table class="t"><tr><th>Mes</th><th>Sesiones</th><th>Horas</th><th>Peso</th><th>Cambio</th></tr>
   ${months().reverse().map(x=>`<tr><td><b>Mes ${x.m}</b><br><span class="small muted">desde ${fdate(x.from)}</span></td><td class="tab-num">${x.ses}</td><td class="tab-num">${dec(x.min/60)}</td><td class="tab-num">${x.endKg!=null?dec(x.endKg):'–'}</td><td class="tab-num" style="color:${x.lost>0?'var(--good)':'var(--muted)'}">${x.lost!=null&&Math.abs(x.lost)>=0.05?(x.lost>0?'−':'+')+dec(Math.abs(x.lost))+' kg':'–'}</td></tr>`).join('')}</table>
   <p class="small muted">Los meses se cuentan desde el inicio del plan (${fdate(st.start,{day:'numeric',month:'long',year:'numeric'})}). Objetivo orientativo: unas 20 sesiones y 2–3 kg menos al mes.</p></div></div>`}
+function vTests(){return `<div class="card stack"><div class="spread"><h3>Pruebas de forma</h3><span class="small muted">una vez al mes</span></div>
+ <p class="small muted">Te dicen cómo mejoran tu fuerza y tu equilibrio. Hazlas descansado, con alguien cerca y con apoyo al alcance.</p>
+ ${STESTS.map(t=>{const h=st.tests.filter(x=>x.id===t.id).sort((a,b)=>a.d<b.d?-1:1),last=h.at(-1),first=h[0],u=t.unit==='s'?' s':'';
+  const d=last&&first&&h.length>1?last.v-first.v:null,good=d!=null&&(t.better==='higher'?d>0:d<0);
+  return `<div class="test"><div class="spread"><b>${esc(t.n)}</b><span class="tab-num">${last?`<b style="font-size:20px">${dec(last.v,last.v%1?1:0)}${u}</b> <span class="small muted">${fdate(last.d)}</span>`:'<span class="small muted">sin hacer</span>'}</span></div>
+  ${d!=null?`<p class="small" style="color:${good?'var(--good)':'var(--muted)'}">${good?'Has mejorado':'Desde la primera vez'}: ${d>0?'+':''}${dec(d,d%1?1:0)}${u}</p>`:''}
+  <details><summary class="small">Cómo se hace</summary><p class="small" style="margin-top:4px">${esc(t.how)}</p><p class="small muted">${esc(t.ref)}</p></details>
+  <div class="row"><label class="f"><span class="sr">${esc(t.n)}</span><input inputmode="decimal" id="t-${t.id}" placeholder="${t.unit==='s'?'segundos':'repeticiones'}"></label><button class="btn sm" data-test="${t.id}">Guardar</button></div></div>`}).join('')}</div>`}
 function chart(ws){const W0=340,H0=180,pl=36,pr=8,pt=12,pb=26;if(!ws.length)return '';
  const d0=ws[0].d,days=Math.max(56,daysBetween(d0,ws.at(-1).d)+14);
  const lo=Math.min(st.goal-2,...ws.map(w=>w.kg))-1,hi=Math.max(...ws.map(w=>w.kg))+2;
@@ -792,7 +838,23 @@ function chart(ws){const W0=340,H0=180,pl=36,pr=8,pt=12,pb=26;if(!ws.length)retu
  <circle cx="${tr.at(-1)[0]}" cy="${tr.at(-1)[1]}" r="5.5" fill="var(--accent)"/>
  <text x="${pl}" y="${H0-6}" font-size="13" fill="var(--muted)">${fdate(d0)}</text><text x="${W0-pr}" y="${H0-6}" text-anchor="end" font-size="13" fill="var(--muted)">gris: ritmo 0,7 kg/sem</text></svg>`}
 
-function vFood(){const n=nutri();
+function vFoodSenior(){const kg=latestW(),pr=[Math.round(kg*1.0),Math.round(kg*1.2)];
+ return `<div class="stack"><h1>Comida</h1>
+ <div class="hero"><span class="eyebrow">Tu objetivo diario con ${dec(latestW())} kg</span>
+  <div class="row wrap" style="gap:22px"><div><div class="dose-big tab-num">${pr[0]}–${pr[1]} g</div><span class="small">proteína</span></div><div><div class="dose-big tab-num">6–8</div><span class="small">vasos de agua</span></div><div><div class="dose-big tab-num">2–3</div><span class="small">lácteos</span></div></div>
+  <p class="small">El objetivo es mantener y ganar músculo, no hacer dieta. Reparte la proteína en las 3 comidas (25–30 g en cada una).</p></div>
+ <div class="card stack"><h3>Proteína de hoy</h3><p class="small muted">Marca cada comida en la que hayas tomado una ración de proteína.</p>
+  <div class="prot" role="group" aria-label="Comidas con proteína hoy">${['Desayuno','Almuerzo','Merienda','Cena'].map((m,i)=>`<button data-prot="${i}" aria-pressed="${!!(st.prot?.d===today()&&st.prot.m[i])}">${m}</button>`).join('')}</div></div>
+ <div class="card stack"><h3>Lo más importante</h3><ul class="plain">${SNUT.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+ <div class="card stack"><h3>Ideas fáciles con proteína</h3><table class="t">
+  <tr><td><b>Yogur natural o queso fresco con fruta</b></td><td class="tab-num">≈ 10–15 g</td></tr>
+  <tr><td><b>Tortilla francesa de 2 huevos</b></td><td class="tab-num">≈ 13 g</td></tr>
+  <tr><td><b>Potaje de lentejas o garbanzos</b></td><td class="tab-num">≈ 15–20 g</td></tr>
+  <tr><td><b>Pescado a la plancha (150 g)</b></td><td class="tab-num">≈ 30 g</td></tr>
+  <tr><td><b>Vaso de leche con gofio</b></td><td class="tab-num">≈ 10 g</td></tr></table></div>
+ ${st.htn?`<details class="card"><summary>Para la tensión</summary><ul class="plain" style="margin-top:10px"><li><b>Sal: menos de 5 g al día.</b> Ojo con embutidos, quesos curados, pan, salsas y precocinados.</li><li><b>Mejor papas sancochadas</b> que arrugadas con costra, y mojo casero con poca sal.</li><li><b>Potasio:</b> verdura, fruta, legumbres, plátano de Canarias.</li><li><b>Alcohol y regaliz:</b> mejor evitarlos.</li></ul></details>`:''}
+ <p class="small muted">Orientación general. Si tienes enfermedad renal, diabetes o tomas medicación, valida estas cifras con tu médico.</p></div>`}
+function vFood(){if(senior())return vFoodSenior();const n=nutri();
  return `<div class="stack"><h1>Comida</h1>
  <div class="hero"><span class="eyebrow">Tu objetivo diario con ${dec(latestW())} kg</span>
   <div class="row wrap" style="gap:22px"><div><div class="dose-big tab-num">${n.kcal.toLocaleString('es-ES')}</div><span class="small">kcal</span></div><div><div class="dose-big tab-num">${n.prot} g</div><span class="small">proteína</span></div><div><div class="dose-big tab-num">30 g</div><span class="small">fibra</span></div><div><div class="dose-big tab-num">2,5 L</div><span class="small">agua</span></div></div>
@@ -879,6 +941,7 @@ function bind(){
  on('w-add','onclick',()=>{const kg=pnum($('#w-kg').value),d=$('#w-d').value||today();
   if(!(kg>=30&&kg<=350)){$('#w-kg').focus();return}if(!isISO(d)||d>today())return;st.weights=st.weights.filter(x=>x.d!==d).concat({d,kg});const hit=checkHitos();save();render();toast('Peso guardado');celebrate(hit)});
  view.querySelectorAll('[data-wdel]').forEach(b=>b.onclick=()=>{if(st.weights.length<=1){toast('Necesitas al menos un peso guardado');return}removeWithUndo('weights',x=>x.d===b.dataset.wdel,'Peso')});
+ view.querySelectorAll('[data-test]').forEach(b=>b.onclick=()=>{const id=b.dataset.test,v=pnum($('#t-'+id).value);if(!(v>=0&&v<=600)){$('#t-'+id).focus();return}st.tests=st.tests.filter(x=>!(x.id===id&&x.d===today())).concat({d:today(),id,v});const hit=checkHitos();save();render();toast('Prueba guardada');celebrate(hit)});
  on('c-add','onclick',()=>{const cm=pnum($('#c-cm').value),d=$('#c-d').value||today();if(!(cm>40&&cm<250)){$('#c-cm').focus();return}if(!isISO(d)||d>today())return;st.waist=st.waist.filter(x=>x.d!==d).concat({d,cm});save();render();toast('Cintura guardada')});
  view.querySelectorAll('[data-cdel]').forEach(b=>b.onclick=()=>removeWithUndo('waist',x=>x.d===b.dataset.cdel,'Registro de cintura'));
  view.querySelectorAll('[data-ldel]').forEach(b=>b.onclick=()=>removeWithUndo('log',x=>x.id===b.dataset.ldel,'Sesión'));
@@ -903,13 +966,13 @@ const targetReps=s=>{const n=parseInt(s.reps);return Number.isFinite(n)?n:10};
 const perSide=s=>/lado|pierna|brazo/.test(String(s.reps))?String(s.reps).split('/')[1]:'';
 function buildSteps(w){const pi=phaseIdx(),S=[];
  if(st.htn&&w.k!=='X')S.push({type:'check'});
- if(!w.noWarm)S.push({type:'list',title:'Calentamiento',sec:420,list:WARM[st.mode]});
+ if(!w.noWarm)S.push({type:'list',title:'Calentamiento',sec:420,list:senior()?SWARM:WARM[st.mode]});
  const cardio=()=>({type:'time',ex:w.cardio.ex,sec:cmin(w,pi)*60,cardio:true});
  if(w.cardioFirst&&w.cardio)S.push(cardio());
  if(w.circuit){const n=rounds(w,pi);for(let r=1;r<=n;r++)w.items.forEach((it0,i)=>{const it=adj(it0,pi),last=i===w.items.length-1,u=EX[it.ex].unit;S.push({type:u==='s'?'time':'reps',ex:it.ex,sec:u==='s'?it.reps:0,reps:it.reps,round:r,rounds:n,rest:last?(r<n?w.circuit.rest:0):10})})}
  else w.items.forEach(it0=>{const it=adj(it0,pi),u=EX[it.ex].unit;for(let s=1;s<=it.sets;s++)S.push({type:u==='s'?'time':'reps',ex:it.ex,sec:u==='s'?it.reps:0,reps:it.reps,set:s,sets:it.sets,rest:it.rest})});
  if(w.cardio&&!w.cardioFirst)S.push(cardio());
- S.push({type:'list',title:'Vuelta a la calma',sec:300,list:w.items.length?COOL:COOL.slice(0,2)});
+ S.push({type:'list',title:'Vuelta a la calma',sec:300,list:senior()?SCOOL:w.items.length?COOL:COOL.slice(0,2)});
  return S}
 const stepName=s=>!s?'':s.type==='check'?'Comprobación previa':s.type==='list'?s.title:EX[s.ex].n;
 const stepLabel=s=>!s?'':s.cardio?`${Math.round(s.sec/60)} min en zona 2`:s.round?`Vuelta ${s.round} de ${s.rounds} · ${s.type==='time'?s.sec+' s':s.reps+' repeticiones'}`:s.set?`Serie ${s.set} de ${s.sets} · ${s.type==='time'?s.sec+' s':s.reps+' repeticiones'}`:'';
@@ -936,7 +999,7 @@ function pRender(silent){const p=P,s=p.steps[p.i],el=$('#player');if(!s)return p
    body+=`<div class="huge tab-num" aria-hidden="true">${tr}</div><p class="hugelbl">${perSide(s)?'repeticiones por '+perSide(s):'repeticiones'}</p>
    <div class="log">${gym?stepper('kg',dec(p.cur.kg,p.cur.kg%1?1:0)+' kg','peso'):''}${stepper('reps',p.cur.reps+' reps','repeticiones hechas')}</div>
    ${ls?`<p class="small muted">Última vez (${fdate(ls.d)}): ${ls.sets.map(x=>(x.kg?dec(x.kg,x.kg%1?1:0)+' kg × ':'')+x.reps).join(' · ')}</p>`:''}${sug?`<p class="small" style="color:var(--good)"><b>${sug}</b></p>`:''}
-   <p class="small"><b>Respira:</b> sopla al hacer fuerza, coge aire al volver.</p>`;
+   <p class="small"><b>Respira:</b> sopla al hacer fuerza, coge aire al volver.</p>${e.safe?`<p class="small"><b>Seguridad:</b> ${esc(e.safe)}</p>`:''}`;
    main=`<button class="btn xl" id="p-done">Hecho ✓</button>`}
   body+=`<details class="card"><summary>Cómo se hace</summary><ol class="steps" style="margin-top:10px">${e.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="small muted" style="margin-top:8px"><b>Más fácil:</b> ${esc(e.easy)}</p></details>`}
  el.innerHTML=`<div class="in"><div class="ptop"><button class="btn sm ghost" id="p-exit">Salir</button><span class="pinfo tab-num"><b id="elapsed">${fmt((Date.now()-p.t0)/1000)}</b><br>${info}</span><button class="btn sm ghost" id="p-voice" aria-pressed="${st.voice}" aria-label="Avisos de voz">${st.voice?'Voz sí':'Voz no'}</button></div>
@@ -974,9 +1037,9 @@ function onTick(){if(!P){clearInterval(tick);tick=null;return}const now=Date.now
  const cue=(left,total)=>{const sec=Math.ceil(left);if(sec===P.lastSec)return;P.lastSec=sec;if(sec<=3&&sec>0)beep(660,.08);if(sec===10&&total>=25)say('Diez segundos')};
  if(P.rest){const left=(P.rest.end-now)/1000,b=$('#rcd');if(b)b.textContent=fmt(left);cue(left,99);if(left<=0){beep(990,.35);flash();endRest()}return}
  const s=P.steps[P.i];if(s&&P.tm.end){const left=(P.tm.end-now)/1000,c=$('#cd');if(c)c.textContent=fmt(left);cue(left,s.sec);if(left<=0){beep(990,.35);flash();say('Tiempo');finishStep()}}}
-function changeMenu(){const p=P,s=p.steps[p.i],ex=s.ex,alts=(ALT[ex]||[]).filter(a=>EX[a]&&a!==ex);const box=$('#p-confirm');
+function changeMenu(){const p=P,s=p.steps[p.i],ex=s.ex;let alts=(ALT[ex]||[]).filter(a=>EX[a]&&a!==ex);if(!alts.length)alts=Object.keys(EX).filter(a=>a!==ex&&EX[a].w===EX[ex].w&&EX[a].unit===EX[ex].unit&&EX[a].m[0]===EX[ex].m[0]).slice(0,2);const box=$('#p-confirm');
  const later=!p.circuit&&p.steps.some((x,i)=>i>p.i&&x.ex&&x.ex!==ex&&!x.cardio);
- box.innerHTML=`<div class="card stack sheet"><h3>Cambiar ${esc(EX[ex].n)}</h3>${later?'<button class="btn ghost" id="c-later">Máquina ocupada: hacerlo al final</button>':''}${alts.map(a=>`<button class="btn ghost" data-alt="${a}">Sustituir por ${esc(EX[a].n)}</button>`).join('')}<button class="btn ghost" id="c-skip">Saltar este ejercicio</button><button class="lnk" id="c-x">Cancelar</button></div>`;
+ box.innerHTML=`<div class="card stack sheet"><h3>Cambiar ${esc(EX[ex].n)}</h3>${later?`<button class="btn ghost" id="c-later">${EX[ex].w==='gym'?'Máquina ocupada: hacerlo al final':'Hacerlo al final'}</button>`:''}${alts.map(a=>`<button class="btn ghost" data-alt="${a}">Sustituir por ${esc(EX[a].n)}</button>`).join('')}<button class="btn ghost" id="c-skip">Saltar este ejercicio</button><button class="lnk" id="c-x">Cancelar</button></div>`;
  box.scrollIntoView({block:'nearest'});const rem=()=>p.steps.map((x,i)=>i>=p.i&&x.ex===ex?i:-1).filter(i=>i>=0);
  $('#c-x').onclick=()=>box.innerHTML='';
  const lc=$('#c-later');if(lc)lc.onclick=()=>{const ids=rem(),moved=ids.map(i=>p.steps[i]);p.steps=p.steps.filter((x,i)=>!ids.includes(i));let at=p.steps.length;while(at>0&&(p.steps[at-1].type==='list'||p.steps[at-1].cardio))at--;p.steps.splice(at,0,...moved);p.cur=null;say('Lo dejamos para el final');pRender()};
