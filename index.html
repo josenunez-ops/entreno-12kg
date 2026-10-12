@@ -181,6 +181,16 @@ a.btn{text-decoration:none}
 .rpe .rok{border-color:var(--good);border-width:2px}
 .rpe .rmax{color:var(--bad)}
 .rpe button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.qbox{position:fixed;left:50%;top:-320px;transform:translateX(-50%);width:min(92vw,440px);z-index:45;background:var(--surface);color:var(--ink);border:2px solid var(--accent);border-radius:18px;padding:16px 18px;box-shadow:0 18px 40px rgb(0 0 0 / .28);display:flex;flex-direction:column;gap:10px;transition:top .9s cubic-bezier(.2,.9,.25,1.15),opacity .3s}
+.qbox.in{opacity:1}.qbox.out{opacity:0;top:-320px!important}
+.qbox blockquote{margin:0;font-family:var(--display);font-size:clamp(22px,6vw,28px);line-height:1.15;font-weight:700}
+.qbox .qa{font-size:15px;color:var(--muted)}
+.qarrow{position:absolute;bottom:-13px;left:var(--ax,50%);transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:13px solid var(--accent)}
+.qbox.noarrow .qarrow{display:none}
+.btn.pulse{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 60%,transparent)}50%{box-shadow:0 0 0 12px color-mix(in srgb,var(--accent) 0%,transparent)}}
+.qlink{display:block;text-align:left;font-size:14px;font-weight:600;font-style:italic;padding:4px 0;text-decoration:none;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.qbox{transition:none}.btn.pulse{animation:none;outline:3px solid var(--accent)}}
 .dchips{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .dchips button{border:1px solid var(--ctl);background:var(--surface);border-radius:10px;min-height:52px;font-weight:700;font-size:13px;line-height:1.1;padding:4px 0}
 .dchips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -549,7 +559,7 @@ function sanitize(o){o=o&&typeof o==='object'?o:{};const s={...DEF};
  s.start=isISO(o.start)&&o.start<=today()?o.start:today();s.mode=o.mode==='gym'?'gym':'casa';s.sex=o.sex==='m'?'m':'h';
  s.height=num(o.height,120,230,DEF.height);s.age=num(o.age,14,100,DEF.age);s.goal=num(o.goal,35,300,DEF.goal);
  s.phase=Number.isInteger(o.phase)&&o.phase>=0&&o.phase<=Math.max(PHASES.length,SPHASES.length)?o.phase:0;
- s.name=String(o.name??'').slice(0,40);s.email=/^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,}$/i.test(String(o.email||'').trim())?String(o.email).trim().toLowerCase():'';s.diet=o.diet==='veg'?'veg':'';
+ s.name=String(o.name??'').slice(0,40);s.quoteDay=isISO(o.quoteDay)?o.quoteDay:null;s.email=/^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,}$/i.test(String(o.email||'').trim())?String(o.email).trim().toLowerCase():'';s.diet=o.diet==='veg'?'veg':'';
  s.food={};if(o.food&&typeof o.food==='object')for(const [d,v] of Object.entries(o.food)){if(!isISO(d)||!v)continue;s.food[d]={swaps:{},eaten:arr(v.eaten).filter(e=>e&&typeof e==='object').slice(0,60).map(e=>({id:String(e.id||Math.random().toString(36).slice(2)).slice(0,24),t:['plan','photo','manual'].includes(e.t)?e.t:'manual',slot:SLOTS.some(x=>x[0]===e.slot)?e.slot:null,name:String(e.name||'Comida').slice(0,80),kcal:num(e.kcal,0,5000,0),p:num(e.p,0,500,0),c:num(e.c,0,800,0),f:num(e.f,0,400,0)}))};if(v.swaps&&typeof v.swaps==='object')SLOTS.forEach(([k])=>{if(Number.isInteger(v.swaps[k])&&v.swaps[k]>=0&&v.swaps[k]<500)s.food[d].swaps[k]=v.swaps[k]})}
  s.shop=o.shop&&typeof o.shop.k==='string'&&o.shop.c&&typeof o.shop.c==='object'?{k:o.shop.k.slice(0,20),c:Object.fromEntries(Object.entries(o.shop.c).filter(([k,v])=>RECIPES.ingredients[k]).map(([k,v])=>[k,!!v]))}:null;s.setup=!!o.setup;s.seenSafety=!!o.seenSafety;s.htn=!!o.htn;s.voice=o.voice!==false;
  s.weights=arr(o.weights).filter(w=>w&&isISO(w.d)&&num(w.kg,30,350,null)!=null).map(w=>({d:w.d,kg:+w.kg}));
@@ -787,7 +797,7 @@ let foodDay=null,shopMode=null;
 function vFoodPlan(){const d=foodDay&&foodDay>=today()?foodDay:today(),isToday=d===today(),T=dayTarget(),plan=dayPlan(d),f=food(d);
  const eaten=sumM(f.eaten),left={kcal:T.kcal-eaten.kcal,p:T.p-eaten.p,c:T.c-eaten.c,f:T.f-eaten.f},planned=sumM(plan.map(x=>x.m));
  const days=[...Array(7)].map((_,i)=>addDays(today(),i));
- const bar=(lbl,v,t,u)=>{const pc=Math.max(0,Math.min(100,v/t*100));return `<div class="mbar"><div class="spread small"><b>${lbl}</b><span class="tab-num">${r0(v)} / ${r0(t)} ${u} · ${t-v>=0?`quedan <b>${r0(t-v)}</b>`:`<b style="color:var(--bad)">+${r0(v-t)}</b>`}</span></div><div class="track"><i style="width:${pc}%;background:${v>t*1.05?'var(--bad)':'var(--accent)'}"></i></div></div>`};
+ const bar=(lbl,v,t,u)=>{const pc=Math.max(0,Math.min(100,v/t*100));return `<div class="mbar"><div class="spread small"><b>${lbl}</b><span class="tab-num">${r0(v)} / ${r0(t)} ${u} · ${t-v>=0?`quedan <b>${r0(t-v)}</b>`:`<b>+${r0(v-t)}</b> · mañana, menú normal`}</span></div><div class="track"><i style="width:${pc}%;background:${v>t*1.05?'var(--warn)':'var(--accent)'}"></i></div></div>`};
  let h=`<div class="stack"><h1>Comida</h1>
  <div class="dchips" role="group" aria-label="Día">${days.map((x,i)=>`<button data-fday="${x}" aria-pressed="${x===d}">${i===0?'Hoy':i===1?'Mañana':DAYNAME[parseD(x).getDay()].slice(0,3)}<br><small>${parseD(x).getDate()}</small></button>`).join('')}</div>`;
  if(isToday)h+=`<div class="card stack"><div class="spread"><h3>Hoy llevas</h3><span class="small muted">objetivo ${T.kcal.toLocaleString('es-ES')} kcal</span></div>
@@ -878,6 +888,28 @@ function openManual(box){
    $('#mf-res').querySelectorAll('[data-ma]').forEach(b=>b.onclick=()=>{const i=b.dataset.ma,g=pnum($(`[data-mg="${i}"]`).value);if(!(g>0)){$(`[data-mg="${i}"]`).focus();return}const m=macroOf([[i,g]]);addEaten({t:'manual',name:`${ING[i].n} (${r0(g)} g)`,kcal:m.kcal,p:m.p,c:m.c,f:m.f});toast('Añadido')})};
   $('#mf-add').onclick=()=>{const n=$('#mf-n').value.trim(),k=pnum($('#mf-k').value);if(!n||!(k>=0)){$('#mf-n').focus();return}addEaten({t:'manual',name:n.slice(0,60),kcal:k,p:pnum($('#mf-p').value)||0,c:pnum($('#mf-c').value)||0,f:pnum($('#mf-f').value)||0});toast('Añadido')}}
 
+
+/* ============ FRASE DEL DÍA ============ */
+// 40 frases verificadas en entrevistas, libros o declaraciones públicas (fuentes en el historial del proyecto)
+const FRASES=[{"q":"Me obligaba a estar con intensidad, disciplina y atención en cada entrenamiento.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"El deporte es intentar dar tu máximo aunque sepas que vas a perder.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"Puedes tener el mayor talento del mundo y necesitas una capacidad de trabajo, disciplina y concentración.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"Entrenos exigentes, cuando ya no puedo más, siempre un poco más. Así se fortalece el carácter.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Si a lo que aspiro es difícil, me tengo que preparar para la dificultad.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Si quieres ganar, entonces tienes que hacer lo que tienes que hacer primero.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Este triunfo es el fruto del trabajo duro, de esos días en los que no quieres entrenar.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Tienes que trabajar al 100% todos los días, incluso esos días en los que no quieres entrenar.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Se necesita talento, por supuesto, pero sin trabajo duro no tiene sentido.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Es verdad que es difícil, pero hay que seguir.","a":"Carolina Marín","d":"bádminton, campeona olímpica","traducida":false},{"q":"He exprimido mi cuerpo hasta más allá de lo que podía imaginar.","a":"Carolina Marín","d":"bádminton, campeona olímpica","traducida":false},{"q":"No concibo la vida sin trabajar y sin entrenar.","a":"Ruth Beitia","d":"salto de altura, oro olímpico","traducida":false},{"q":"Quien gana es aquel que sabe decirse «Yo puedo más, esto no es nada».","a":"Kilian Jornet","d":"corredor de montaña","traducida":false},{"q":"La montaña más bonita es la que vas a escalar mañana.","a":"Kilian Jornet","d":"corredor de montaña","traducida":false},{"q":"Lo difícil es todos los días, incluso aquellos que dices ‘qué pereza’, esos pequeños obstáculos de cada día.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"Pero quiero ganar, así que tengo que entrenar.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"El que cae y se levanta tiene muchas más herramientas que el que no se ha caído nunca.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"No se sale de las situaciones complicadas desde la queja, sino desde la acción.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"No se puede ganar de cualquier manera, sino con horas de dedicación, con años de esfuerzo.","a":"Lydia Valentín","d":"halterofilia, oro olímpico","traducida":false},{"q":"Sí que es cierto que a veces hay que renunciar a algunas cosas cotidianas.","a":"Lydia Valentín","d":"halterofilia, oro olímpico","traducida":false},{"q":"Muestra mi amor por el deporte y la disciplina de intentar rendir a un nivel muy alto durante más de 20 años.","a":"Fernando Alonso","d":"piloto F1, bicampeón mundial","traducida":false},{"q":"Esto lo hago aunque me cueste porque así habré dado un paso más para salir.","a":"Andrés Iniesta","d":"futbolista, campeón del mundo","traducida":false},{"q":"Estar al máximo nivel exige mucho de uno mismo y cada año que pasa resulta más difícil conseguirlo.","a":"Miguel Induráin","d":"ciclista, 5 Tours de Francia","traducida":false},{"q":"He tenido grandes satisfacciones por los triunfos logrados, pero también me ha costado mucho esfuerzo y sacrificio el obtenerlos.","a":"Miguel Induráin","d":"ciclista, 5 Tours de Francia","traducida":false},{"q":"Las lesiones son parte de la vida de un atleta profesional. Siempre las he afrontado de la misma manera: día a día.","a":"Pau Gasol","d":"baloncestista, 2 anillos NBA","traducida":false},{"q":"Estoy segura de que regresaré mucho más fuerte. He aprendido a ser más paciente.","a":"Alexia Putellas","d":"futbolista, 2 Balones de Oro","traducida":false},{"q":"Haciendo los sacrificios que hago y estando los 365 días del año pensando en la moto.","a":"Marc Márquez","d":"piloto MotoGP, 7 títulos","traducida":false},{"q":"Siento que ya le he dado a este deporte todo lo que le podía dar.","a":"Gemma Mengual","d":"natación artística, medallista mundial","traducida":false},{"q":"Di todo lo que tenía para intentar clasificarme porque yo soy así y siempre intento las cosas hasta el final.","a":"Mireia Belmonte","d":"nadadora, oro olímpico","traducida":false},{"q":"El que cree que es muy bueno, que seguramente va a ganar, está más condenado al fracaso.","a":"Vicente del Bosque","d":"seleccionador, campeón del mundo","traducida":false},{"q":"Odié cada minuto. Pero me dije: «Sufre ahora y vive el resto de tu vida como un campeón».","a":"Muhammad Ali","d":"boxeador, campeón de los pesados","traducida":true},{"q":"La autodisciplina es hacer lo correcto en lugar de hacer lo que te apetece hacer.","a":"Eliud Kipchoge","d":"maratoniano, 2 oros olímpicos","traducida":true},{"q":"Los disciplinados son los libres en la vida. Los indisciplinados son los que están en prisión.","a":"Eliud Kipchoge","d":"maratoniano, 2 oros olímpicos","traducida":true},{"q":"El trabajo duro supera al talento, siempre.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"Si haces el trabajo, si trabajas lo suficientemente duro, los sueños se hacen realidad.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"Eso es todo lo que es la mentalidad Mamba: intentar mejorar cada día.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"He fallado una y otra vez en mi vida. Y por eso tengo éxito.","a":"Michael Jordan","d":"baloncestista, 6 anillos NBA","traducida":true},{"q":"Lo de «sin esfuerzo» es un mito.","a":"Roger Federer","d":"tenista, 20 Grand Slam","traducida":true},{"q":"La mayoría de las veces no se trata de tener un don. Se trata de tener constancia y coraje.","a":"Roger Federer","d":"tenista, 20 Grand Slam","traducida":true},{"q":"Los días que llego sin una razón o intención para estar ahí, todo se desmorona.","a":"Simone Biles","d":"gimnasta, 7 oros olímpicos","traducida":true}];
+const quoteOf=d=>FRASES.length?FRASES[(Math.round(dnum(d))*7+3)%FRASES.length]:null;
+// Recuadro flotante: baja desde arriba hasta señalar el botón de empezar (una vez al día)
+function showQuote(force){const q=quoteOf(today());if(!q||!st.setup||tab!=='hoy'||openEx||P)return;if(!force&&st.quoteDay===today())return;
+ st.quoteDay=today();save();const old=$('#qbox');if(old)old.remove();
+ const target=$('#start'),box=document.createElement('div');box.id='qbox';box.className='qbox';box.setAttribute('role','dialog');box.setAttribute('aria-label','Frase del día');
+ box.innerHTML=`<span class="eyebrow">Frase del día</span><blockquote>«${esc(q.q)}»</blockquote><p class="qa"><b>${esc(q.a)}</b>${q.d?` · ${esc(q.d)}`:''}${q.traducida?' <span class="small">(traducida)</span>':''}</p>
+  <div class="row">${target?`<button class="btn" id="q-go">${esc(target.textContent.trim()==='Hacerla hoy'?'¡Vamos, la hago hoy!':'¡Vamos, empiezo!')}</button>`:''}<button class="btn ghost" id="q-later">${target?'Luego':'Gracias'}</button></div><span class="qarrow" aria-hidden="true"></span>`;
+ document.body.appendChild(box);
+ const close=()=>{box.classList.add('out');setTimeout(()=>box.remove(),RM?0:350);if(target)target.classList.remove('pulse')};
+ box.querySelector('#q-later').onclick=close;
+ const go=box.querySelector('#q-go');if(go)go.onclick=()=>{close();target.click()};
+ box.querySelector('blockquote').onclick=()=>{if(go)go.click();else close()};
+ const place=()=>{const bh=box.offsetHeight;let top=80;
+  if(target){target.scrollIntoView({block:'center',behavior:RM?'auto':'smooth'});}
+  setTimeout(()=>{if(target){const r=target.getBoundingClientRect();top=Math.max(70,r.top-bh-18);box.style.setProperty('--ax',Math.round(r.left+r.width/2-box.getBoundingClientRect().left)+'px');target.classList.add('pulse')}else box.classList.add('noarrow');
+   box.style.top=top+'px';box.classList.add('in');go?go.focus({preventScroll:true}):box.querySelector('#q-later').focus({preventScroll:true})},RM?0:450)};
+ requestAnimationFrame(place)}
+
 /* ============ VISTAS ============ */
 let tab='hoy',selDay=null,exFilter={w:'actual',m:'Todos'},openEx=null,lastDay=today();
 const $=s=>document.querySelector(s),view=$('#view');
@@ -898,7 +930,7 @@ function render(){if(lastDay!==today()){lastDay=today();selDay=null}
  view.innerHTML=openEx?vExercise(openEx):({hoy:vHoy,ejercicios:vLib,plan:vPlan,progreso:vProg,comida:vFood,config:vConfig}[tab])();
  $('#cfg').hidden=false;if(tab==='config')$('#cfg').setAttribute('aria-current','page');else $('#cfg').removeAttribute('aria-current');
  document.title=(openEx?EX[openEx].n:TITLES[tab])+' · GIS Salud';
- bind();hookVideos(view)}
+ bind();hookVideos(view);if(tab==='hoy'&&!openEx)setTimeout(()=>showQuote(),600)}
 
 function condBoxes(px){return CONDS.map(([k,l])=>`<label class="row small check"><input type="checkbox" ${px==='u'?`data-ucond="${k}"`:`data-cond="${k}"`} ${px==='s'&&st.cond[k]?'checked':''}> ${esc(l)}</label>`).join('')}
 function equipBoxes(px,eq){const kbs=[4,6,8,10,12,14,16,20,24],dbs=[2,3,4,5,6,8,10,12,15,20];const opt=(arr,v)=>arr.map(n=>`<option value="${n}"${n===v?' selected':''}>${n} kg</option>`).join('');
@@ -952,15 +984,15 @@ function loadRun(){try{const r=JSON.parse(localStorage.getItem(RUNK)||'null');if
 
 function vHoy(){const pi=phaseIdx(),wd=weekDates(),run=loadRun();
  let h=`<div class="stack">`;
- h+=st.name?`<div><h2>Hola, ${esc(st.name)}</h2><p class="muted small tab-num">Semana ${weekNo()} · mes ${monthNo()} de tu plan</p></div>`
+ h+=st.name?`<div><h2>Hola, ${esc(st.name)}</h2><p class="muted small tab-num">Semana ${weekNo()} · mes ${monthNo()} de tu plan</p>${quoteOf(today())?`<button class="lnk qlink" id="q-again">«${esc(quoteOf(today()).q.length>70?quoteOf(today()).q.slice(0,68)+'…':quoteOf(today()).q)}» — ${esc(quoteOf(today()).a)}</button>`:''}</div>`
   :`<div class="card stack"><h3>¿Cómo te llamas?</h3><div class="row"><label class="f"><span class="sr">Nombre</span><input id="n-in" autocomplete="given-name" placeholder="Tu nombre"></label><button class="btn sm" id="n-save">Guardar</button></div></div>`;
  if(run)h+=`<div class="card stack resume"><h3>Tienes una sesión a medias</h3><p class="small">${esc(run.t)} · paso ${run.i+1} de ${run.steps.length}</p><div class="row"><button class="btn" id="r-cont">Continuar</button><button class="btn ghost" id="r-drop">Descartar</button></div></div>`;
  if(!st.seenSafety&&senior())h+=`<div class="note"><b>Antes de empezar, por tu seguridad:</b><ul class="plain" style="margin-top:6px">${SSAFE.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><button class="btn sm ghost" id="okSafety" style="margin-top:8px">Entendido</button></div>`;
  else if(!st.seenSafety)h+=`<div class="note"><b>Antes de empezar:</b> pide a tu médico una revisión (tensión, corazón, analítica). Para y consulta si notas dolor en el pecho, mareo, falta de aire anormal o dolor articular punzante. <button class="btn sm ghost" id="okSafety" style="margin-top:8px">Entendido</button></div>`;
  // Resumen de la semana pasada, lunes y martes
  const dow=new Date().getDay();if((dow===1||dow===2)&&st.log.length){const pw=weekLog(addDays(weekStart(),-7)),n=pw.filter(countsWeek).length,mins=pw.reduce((a,l)=>a+l.min,0);
-  if(pw.length){const msg=n>=5?'Semana completa. Sigue igual.':n>=4?'Semana sólida.':n>=2?'Algo es mucho más que nada. Esta semana, a por una más.':'Semana floja. Empieza hoy con la próxima sesión.';
-   h+=`<div class="card"><span class="eyebrow">Tu semana pasada</span><p style="margin-top:4px"><b class="tab-num">${n}/5</b> sesiones · <b class="tab-num">${mins}</b> min. ${msg}</p></div>`}}
+  if(pw.length){const G=GOAL(),msg=n>=G?'Semana completa. Sigue igual.':n>=G-1?'Semana sólida.':n>=2?'Algo es mucho más que nada. Esta semana, a por una más.':'Semana corta. No hay nada que recuperar: empieza hoy con la próxima sesión.';
+   h+=`<div class="card"><span class="eyebrow">Tu semana pasada</span><p style="margin-top:4px"><b class="tab-num">${n}/${GOAL()}</b> sesiones · <b class="tab-num">${mins}</b> min. ${msg}</p></div>`}}
  // Esfuerzo alto repetido
  const rp=st.log.filter(l=>l.rpe).slice(-2);if(rp.length===2&&rp.every(l=>l.rpe>=9))h+=`<div class="note"><b>Tus dos últimas sesiones fueron muy duras (9–10).</b> Esta semana haz una serie menos o descansa 15 s más. El objetivo es 6–7 de 10.</div>`;
  if(st.log.slice(-1)[0]?.sym)h+=`<div class="note"><b>En tu última sesión anotaste una molestia o mareo.</b> Si se repite, para y consúltalo con tu médico antes de seguir.</div>`;
@@ -1231,6 +1263,7 @@ function bind(){
  view.querySelectorAll('[data-prot]').forEach(b=>b.onclick=()=>{if(st.prot?.d!==today())st.prot={d:today(),m:[0,0,0,0]};const i=+b.dataset.prot;st.prot.m[i]=st.prot.m[i]?0:1;save();render()});
  const on=(id,ev,fn)=>{const el=document.getElementById(id);if(el)el[ev]=fn};
  on('back','onclick',()=>{openEx=null;render()});
+ on('q-again','onclick',()=>showQuote(true));
  on('okSafety','onclick',()=>{st.seenSafety=true;save();render()});
  on('sel-clear','onclick',()=>{selDay=null;render()});
  const curW=()=>selDay!=null?workoutFor(selDay):(st.medAlert&&daysBetween(st.medAlert,today())<=7)||bpHighToday()?{...LOWBP}:sess(nextK());
