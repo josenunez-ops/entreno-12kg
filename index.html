@@ -793,13 +793,17 @@ function vFoodPlan(){const d=foodDay&&foodDay>=today()?foodDay:today(),isToday=d
  if(isToday)h+=`<div class="card stack"><div class="spread"><h3>Hoy llevas</h3><span class="small muted">objetivo ${T.kcal.toLocaleString('es-ES')} kcal</span></div>
   ${bar('Calorías',eaten.kcal,T.kcal,'kcal')}${bar('Proteína',eaten.p,T.p,'g')}${bar('Hidratos',eaten.c,T.c,'g')}${bar('Grasas',eaten.f,T.f,'g')}
   <div class="row wrap">${aiOk&&apiKey()?`<label class="btn" style="flex:1"><input type="file" id="ph-in" accept="image/*" capture="environment" hidden>Foto de mi comida</label>`:''}<button class="btn ${aiOk&&apiKey()?'ghost':''}" id="fd-man" style="flex:1">Añadir a mano</button></div>
-  ${aiOk&&!apiKey()?'<p class="small muted">Para analizar fotos, pega tu clave de Anthropic en Configuración.</p>':''}
+  ${aiOk&&!apiKey()?'<p class="note small">Para analizar fotos, pega tu clave de Anthropic en <button class="lnk" data-goto="config">Configuración</button>.</p>':''}${!st.email?'<p class="note info small">¿Tienes acceso al análisis de fotos? Añade tu email en <button class="lnk" data-goto="config">Configuración</button>.</p>':''}
   <div id="fd-box"></div>
   ${f.eaten.length?`<table class="t">${f.eaten.map(e=>`<tr><td>${esc(e.name)}<br><span class="small muted">${{plan:'del menú',photo:'foto',manual:'a mano'}[e.t]||''}</span></td><td class="tab-num">${r0(e.kcal)} kcal<br><span class="small muted">${r0(e.p)} g prot.</span></td><td style="text-align:right"><button class="x" data-fdel="${esc(e.id)}" aria-label="Quitar ${esc(e.name)}">×</button></td></tr>`).join('')}</table>`:'<p class="small muted">Aún no has apuntado nada hoy. Marca los platos del menú que comas, o añade lo que hayas comido.</p>'}</div>`;
  h+=`<div class="card stack"><div class="spread"><h3>Menú ${isToday?'de hoy':'del '+fdate(d,{weekday:'long',day:'numeric'})}</h3><span class="small muted tab-num">${r0(planned.kcal)} kcal · ${r0(planned.p)} g prot.</span></div>
-  ${plan.map(x=>{const done=f.eaten.some(e=>e.t==='plan'&&e.slot===x.slot);return `<div class="meal${done?' done':''}"><div class="spread"><span><span class="eyebrow">${x.label}</span><br><b>${esc(x.n)}</b></span><span class="tab-num small" style="text-align:right">${r0(x.m.kcal)} kcal<br>${r0(x.m.p)} g prot.</span></div>
+  ${plan.map(x=>{const done=f.eaten.some(e=>e.t==='plan'&&e.slot===x.slot),other=f.eaten.filter(e=>e.t!=='plan'&&e.slot===x.slot);return `<div class="meal${done||other.length?' done':''}"><div class="spread"><span><span class="eyebrow">${x.label}</span><br><b>${esc(x.n)}</b></span><span class="tab-num small" style="text-align:right">${r0(x.m.kcal)} kcal<br>${r0(x.m.p)} g prot.</span></div>
    <details><summary class="small">Ingredientes y preparación · ${x.min||10} min</summary><ul class="plain small" style="margin-top:6px">${x.ing.map(([i,g])=>`<li>${esc(ING[i].n)}: <b>${g} g</b></li>`).join('')}</ul><p class="small" style="margin-top:6px">${esc(x.prep||'')}</p></details>
-   <div class="row wrap">${isToday?`<button class="btn sm ${done?'':'ghost'}" data-eat="${x.slot}" aria-pressed="${done}">${done?'Comido ✓':'Ya lo he comido'}</button>`:''}<button class="btn sm ghost" data-swap="${x.slot}">Cambiar plato</button></div></div>`}).join('')}
+   ${other.length?`<p class="small" style="color:var(--good)"><b>Has comido otra cosa:</b> ${other.map(e=>`${esc(e.name)} (${r0(e.kcal)} kcal, ${r0(e.p)} g prot.)`).join(' · ')}</p>`:''}
+   <div class="row wrap">${isToday?`<button class="btn sm ${done?'':'ghost'}" data-eat="${x.slot}" aria-pressed="${done}">${done?'Comido ✓':'Ya lo he comido'}</button>
+    ${aiOk&&apiKey()?`<label class="btn sm ghost"><input type="file" accept="image/*" capture="environment" data-phslot="${x.slot}" hidden>Foto de lo que como</label>`:aiOk?`<button class="btn sm ghost" data-goto="config">Foto: falta la clave</button>`:''}
+    <button class="btn sm ghost" data-manslot="${x.slot}">Comí otra cosa</button>`:''}<button class="btn sm ghost" data-swap="${x.slot}">Cambiar plato</button></div>
+   <div id="phb-${x.slot}"></div></div>`}).join('')}
   <p class="small muted">Cantidades calculadas para tu objetivo de ${T.kcal.toLocaleString('es-ES')} kcal y ${T.p} g de proteína.${C('htn')?' Recetas sin sal añadida por tu tensión.':''}${C('diab')?' Sin azúcares añadidos por la diabetes.':''}</p></div>
  <div class="card stack"><h3>Lista de la compra</h3><div class="row wrap"><button class="btn sm" data-shop="day">Para ${isToday?'hoy':'este día'}</button><button class="btn sm ghost" data-shop="week">Para 7 días</button></div><div id="shop-box">${shopMode?shopList(shopMode==='week'?days:[d]):''}</div></div>`;
  return h}
@@ -821,12 +825,12 @@ function manualForm(){return `<div class="card stack sheet"><h3>Añadir a mano</
  <div class="row"><label class="f">kcal<input id="mf-k" inputmode="numeric"></label><label class="f">Proteína (g)<input id="mf-p" inputmode="decimal"></label></div>
  <div class="row"><label class="f">Hidratos (g)<input id="mf-c" inputmode="decimal"></label><label class="f">Grasas (g)<input id="mf-f" inputmode="decimal"></label></div>
  <button class="btn" id="mf-add">Añadir</button></div></details><button class="lnk" id="mf-x">Cerrar</button></div>`}
-function addEaten(e){const f=food(today());f.eaten.push({id:uid(),...e,kcal:+e.kcal||0,p:+e.p||0,c:+e.c||0,f:+e.f||0});
+function addEaten(e){const f=food(today());if(e.t==='manual'&&manSlot&&!e.slot){e.slot=manSlot;f.eaten=f.eaten.filter(x=>!(x.t==='plan'&&x.slot===manSlot))}f.eaten.push({id:uid(),...e,kcal:+e.kcal||0,p:+e.p||0,c:+e.c||0,f:+e.f||0});
  Object.keys(st.food).sort().slice(0,-60).forEach(k=>delete st.food[k]);save();render()}
 
 // Foto → Claude: estimación de alimentos y cantidades con salida estructurada
 let anthropicMod=null;
-async function analyzePhoto(file){const box=$('#fd-box');box.innerHTML=`<div class="card"><p><b>Analizando la foto…</b></p><p class="small muted">Puede tardar unos segundos.</p></div>`;
+async function analyzePhoto(file,slot){const box=$(slot?'#phb-'+slot:'#fd-box');box.scrollIntoView({block:'center',behavior:'smooth'});box.innerHTML=`<div class="card"><p><b>Analizando la foto…</b></p><p class="small muted">Puede tardar unos segundos.</p></div>`;
  try{const b64=await shrink(file);
   anthropicMod=anthropicMod||await import('https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@0.128.0/+esm');
   const Anthropic=anthropicMod.default,client=new Anthropic({apiKey:apiKey(),dangerouslyAllowBrowser:true});
@@ -836,10 +840,10 @@ async function analyzePhoto(file){const box=$('#fd-box');box.innerHTML=`<div cla
    system:'Eres un dietista. Identifica los alimentos de la foto y estima la cantidad en gramos y sus valores nutricionales (kcal, proteína, hidratos y grasas en gramos) usando tablas españolas. Sé realista con las raciones. Nombres en español. En "note" da en una frase el nivel de confianza o una duda (por ejemplo, si no se ve el aceite).',
    messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},{type:'text',text:'¿Qué hay en este plato y cuánto aporta?'}]}]});
   if(res.stop_reason==='refusal'){box.innerHTML='<div class="note">No se ha podido analizar esta foto. Añádelo a mano.</div>';return}
-  const txt=res.content.filter(x=>x.type==='text').map(x=>x.text).join('');const out=JSON.parse(txt);photoReview(out)}
+  const txt=res.content.filter(x=>x.type==='text').map(x=>x.text).join('');const out=JSON.parse(txt);photoReview(out,slot,box)}
  catch(e){const m=String(e&&e.status||'');box.innerHTML=`<div class="note"><b>No se ha podido analizar.</b> ${m==='401'?'La clave de Anthropic no es válida: revísala en Configuración.':m==='429'?'Demasiadas peticiones; prueba en un minuto.':!navigator.onLine?'Necesitas conexión a internet.':'Inténtalo de nuevo o añádelo a mano.'}</div>`}}
 function shrink(file){return new Promise((ok,ko)=>{const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const s=Math.min(1,1024/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.82).split(',')[1])};img.onerror=ko;img.src=u})}
-function photoReview(out){const it=out.items||[];const box=$('#fd-box');
+function photoReview(out,slot,box){const it=out.items||[];box=box||$('#fd-box');
  const tot=()=>sumM(it.map(x=>({kcal:x.kcal,p:x.protein,c:x.carbs,f:x.fat})));
  const draw=()=>{const t=tot();box.innerHTML=`<div class="card stack sheet"><h3>Esto es lo que veo</h3>${out.note?`<p class="small muted">${esc(out.note)}</p>`:''}
   ${it.map((x,i)=>`<div class="row phit"><span style="flex:1"><b>${esc(x.name)}</b><br><span class="small muted tab-num">${r0(x.kcal)} kcal · ${r0(x.protein)} g prot.</span></span><label class="f" style="max-width:90px"><span class="sr">Gramos de ${esc(x.name)}</span><input inputmode="numeric" data-phg="${i}" value="${r0(x.grams)}"></label><span class="small">g</span><button class="x" data-phx="${i}" aria-label="Quitar ${esc(x.name)}">×</button></div>`).join('')}
@@ -848,8 +852,8 @@ function photoReview(out){const it=out.items||[];const box=$('#fd-box');
   <div class="row"><button class="btn ghost" id="ph-no">Descartar</button><button class="btn" id="ph-yes">Lo he comido: restar</button></div></div>`;
   box.querySelectorAll('[data-phg]').forEach(inp=>inp.onchange=()=>{const x=it[+inp.dataset.phg],g=pnum(inp.value);if(g>0&&x.grams>0){const k=g/x.grams;['kcal','protein','carbs','fat'].forEach(m=>x[m]*=k);x.grams=g}draw()});
   box.querySelectorAll('[data-phx]').forEach(b=>b.onclick=()=>{it.splice(+b.dataset.phx,1);draw()});
-  $('#ph-no').onclick=()=>box.innerHTML='';
-  $('#ph-yes').onclick=()=>{const t=tot();addEaten({t:'photo',name:it.map(x=>x.name).slice(0,3).join(', ')||'Comida (foto)',kcal:t.kcal,p:t.p,c:t.c,f:t.f});toast('Restado de tu día')}};
+  box.querySelector('#ph-no').onclick=()=>box.innerHTML='';
+  box.querySelector('#ph-yes').onclick=()=>{const t=tot();if(slot){const f=food(today());f.eaten=f.eaten.filter(e=>!(e.t==='plan'&&e.slot===slot))}addEaten({t:'photo',slot:slot||null,name:it.map(x=>x.name).slice(0,3).join(', ')||'Comida (foto)',kcal:t.kcal,p:t.p,c:t.c,f:t.f});toast('Restado de tu día')}};
  draw()}
 
 function bindFood(){const v=view;
@@ -863,12 +867,16 @@ function bindFood(){const v=view;
  const cp=$('#shop-copy');if(cp)cp.onclick=async()=>{const d=foodDay||today(),ds=shopMode==='week'?[...Array(7)].map((_,i)=>addDays(today(),i)):[d];const t=shopText(ds);
   try{if(navigator.share){await navigator.share({title:'Lista de la compra',text:t});return}await navigator.clipboard.writeText(t);toast('Lista copiada')}catch(e){if(e&&e.name==='AbortError')return;toast('No se ha podido copiar')}};
  const ph=$('#ph-in');if(ph)ph.onchange=e=>{const f=e.target.files[0];if(f)analyzePhoto(f);e.target.value=''};
- const man=$('#fd-man');if(man)man.onclick=()=>{const box=$('#fd-box');box.innerHTML=manualForm();
-  $('#mf-x').onclick=()=>box.innerHTML='';
+ v.querySelectorAll('[data-phslot]').forEach(inp=>inp.onchange=e=>{const f=e.target.files[0];if(f)analyzePhoto(f,inp.dataset.phslot);e.target.value=''});
+ v.querySelectorAll('[data-manslot]').forEach(b=>b.onclick=()=>{manSlot=b.dataset.manslot;const box=$('#phb-'+manSlot);box.innerHTML=manualForm();openManual(box)});
+ const man=$('#fd-man');if(man)man.onclick=()=>{manSlot=null;const box=$('#fd-box');box.innerHTML=manualForm();openManual(box)}}
+let manSlot=null;
+function openManual(box){
+  box.querySelector('#mf-x').onclick=()=>box.innerHTML='';
   $('#mf-q').oninput=e=>{const q=e.target.value.trim().toLowerCase();const res=q.length<2?[]:Object.entries(ING).filter(([i,x])=>x.n.toLowerCase().includes(q)).slice(0,6);
    $('#mf-res').innerHTML=res.map(([i,x])=>`<div class="row"><span style="flex:1">${esc(x.n)}<br><span class="small muted">${x.per100.kcal} kcal/100 g</span></span><label class="f" style="max-width:90px"><span class="sr">Gramos</span><input inputmode="numeric" data-mg="${i}" placeholder="g"></label><button class="btn sm" data-ma="${i}">Añadir</button></div>`).join('');
    $('#mf-res').querySelectorAll('[data-ma]').forEach(b=>b.onclick=()=>{const i=b.dataset.ma,g=pnum($(`[data-mg="${i}"]`).value);if(!(g>0)){$(`[data-mg="${i}"]`).focus();return}const m=macroOf([[i,g]]);addEaten({t:'manual',name:`${ING[i].n} (${r0(g)} g)`,kcal:m.kcal,p:m.p,c:m.c,f:m.f});toast('Añadido')})};
-  $('#mf-add').onclick=()=>{const n=$('#mf-n').value.trim(),k=pnum($('#mf-k').value);if(!n||!(k>=0)){$('#mf-n').focus();return}addEaten({t:'manual',name:n.slice(0,60),kcal:k,p:pnum($('#mf-p').value)||0,c:pnum($('#mf-c').value)||0,f:pnum($('#mf-f').value)||0});toast('Añadido')}}}
+  $('#mf-add').onclick=()=>{const n=$('#mf-n').value.trim(),k=pnum($('#mf-k').value);if(!n||!(k>=0)){$('#mf-n').focus();return}addEaten({t:'manual',name:n.slice(0,60),kcal:k,p:pnum($('#mf-p').value)||0,c:pnum($('#mf-c').value)||0,f:pnum($('#mf-f').value)||0});toast('Añadido')}}
 
 /* ============ VISTAS ============ */
 let tab='hoy',selDay=null,exFilter={w:'actual',m:'Todos'},openEx=null,lastDay=today();
