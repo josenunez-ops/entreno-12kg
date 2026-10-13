@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://api.anthropic.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GIS Salud">
@@ -181,6 +183,9 @@ a.btn{text-decoration:none}
 .rpe .rok{border-color:var(--good);border-width:2px}
 .rpe .rmax{color:var(--bad)}
 .rpe button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lock{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px))}
+.lock-in{width:min(100%,360px);display:flex;flex-direction:column;gap:14px;text-align:center;align-items:stretch}
+.lock-in svg{align-self:center}
 .qbox{position:fixed;left:50%;top:-320px;transform:translateX(-50%);width:min(92vw,440px);z-index:45;background:var(--surface);color:var(--ink);border:2px solid var(--accent);border-radius:18px;padding:16px 18px;box-shadow:0 18px 40px rgb(0 0 0 / .28);display:flex;flex-direction:column;gap:10px;transition:top .9s cubic-bezier(.2,.9,.25,1.15),opacity .3s}
 .qbox.in{opacity:1}.qbox.out{opacity:0;top:-320px!important}
 .qbox blockquote{margin:0;font-family:var(--display);font-size:clamp(22px,6vw,28px);line-height:1.15;font-weight:700}
@@ -257,6 +262,7 @@ a.btn{text-decoration:none}
 <div id="rest" class="rest" role="dialog" aria-modal="true" aria-label="Descanso" hidden></div>
 <div id="cel" class="cel" role="dialog" aria-modal="true" aria-label="Logro" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
+<div id="lock" class="lock" role="dialog" aria-modal="true" aria-label="App bloqueada" hidden></div>
 <p id="p-live" class="sr" aria-live="assertive" aria-atomic="true"></p>
 
 <script>
@@ -963,7 +969,7 @@ function openManual(box){
 const FRASES=[{"q":"Me obligaba a estar con intensidad, disciplina y atención en cada entrenamiento.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"El deporte es intentar dar tu máximo aunque sepas que vas a perder.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"Puedes tener el mayor talento del mundo y necesitas una capacidad de trabajo, disciplina y concentración.","a":"Rafa Nadal","d":"tenista, 22 Grand Slam","traducida":false},{"q":"Entrenos exigentes, cuando ya no puedo más, siempre un poco más. Así se fortalece el carácter.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Si a lo que aspiro es difícil, me tengo que preparar para la dificultad.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Si quieres ganar, entonces tienes que hacer lo que tienes que hacer primero.","a":"Toni Nadal","d":"entrenador de tenis","traducida":false},{"q":"Este triunfo es el fruto del trabajo duro, de esos días en los que no quieres entrenar.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Tienes que trabajar al 100% todos los días, incluso esos días en los que no quieres entrenar.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Se necesita talento, por supuesto, pero sin trabajo duro no tiene sentido.","a":"Carlos Alcaraz","d":"tenista, número 1 ATP","traducida":false},{"q":"Es verdad que es difícil, pero hay que seguir.","a":"Carolina Marín","d":"bádminton, campeona olímpica","traducida":false},{"q":"He exprimido mi cuerpo hasta más allá de lo que podía imaginar.","a":"Carolina Marín","d":"bádminton, campeona olímpica","traducida":false},{"q":"No concibo la vida sin trabajar y sin entrenar.","a":"Ruth Beitia","d":"salto de altura, oro olímpico","traducida":false},{"q":"Quien gana es aquel que sabe decirse «Yo puedo más, esto no es nada».","a":"Kilian Jornet","d":"corredor de montaña","traducida":false},{"q":"La montaña más bonita es la que vas a escalar mañana.","a":"Kilian Jornet","d":"corredor de montaña","traducida":false},{"q":"Lo difícil es todos los días, incluso aquellos que dices ‘qué pereza’, esos pequeños obstáculos de cada día.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"Pero quiero ganar, así que tengo que entrenar.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"El que cae y se levanta tiene muchas más herramientas que el que no se ha caído nunca.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"No se sale de las situaciones complicadas desde la queja, sino desde la acción.","a":"Teresa Perales","d":"nadadora paralímpica, 28 medallas","traducida":false},{"q":"No se puede ganar de cualquier manera, sino con horas de dedicación, con años de esfuerzo.","a":"Lydia Valentín","d":"halterofilia, oro olímpico","traducida":false},{"q":"Sí que es cierto que a veces hay que renunciar a algunas cosas cotidianas.","a":"Lydia Valentín","d":"halterofilia, oro olímpico","traducida":false},{"q":"Muestra mi amor por el deporte y la disciplina de intentar rendir a un nivel muy alto durante más de 20 años.","a":"Fernando Alonso","d":"piloto F1, bicampeón mundial","traducida":false},{"q":"Esto lo hago aunque me cueste porque así habré dado un paso más para salir.","a":"Andrés Iniesta","d":"futbolista, campeón del mundo","traducida":false},{"q":"Estar al máximo nivel exige mucho de uno mismo y cada año que pasa resulta más difícil conseguirlo.","a":"Miguel Induráin","d":"ciclista, 5 Tours de Francia","traducida":false},{"q":"He tenido grandes satisfacciones por los triunfos logrados, pero también me ha costado mucho esfuerzo y sacrificio el obtenerlos.","a":"Miguel Induráin","d":"ciclista, 5 Tours de Francia","traducida":false},{"q":"Las lesiones son parte de la vida de un atleta profesional. Siempre las he afrontado de la misma manera: día a día.","a":"Pau Gasol","d":"baloncestista, 2 anillos NBA","traducida":false},{"q":"Estoy segura de que regresaré mucho más fuerte. He aprendido a ser más paciente.","a":"Alexia Putellas","d":"futbolista, 2 Balones de Oro","traducida":false},{"q":"Haciendo los sacrificios que hago y estando los 365 días del año pensando en la moto.","a":"Marc Márquez","d":"piloto MotoGP, 7 títulos","traducida":false},{"q":"Siento que ya le he dado a este deporte todo lo que le podía dar.","a":"Gemma Mengual","d":"natación artística, medallista mundial","traducida":false},{"q":"Di todo lo que tenía para intentar clasificarme porque yo soy así y siempre intento las cosas hasta el final.","a":"Mireia Belmonte","d":"nadadora, oro olímpico","traducida":false},{"q":"El que cree que es muy bueno, que seguramente va a ganar, está más condenado al fracaso.","a":"Vicente del Bosque","d":"seleccionador, campeón del mundo","traducida":false},{"q":"Odié cada minuto. Pero me dije: «Sufre ahora y vive el resto de tu vida como un campeón».","a":"Muhammad Ali","d":"boxeador, campeón de los pesados","traducida":true},{"q":"La autodisciplina es hacer lo correcto en lugar de hacer lo que te apetece hacer.","a":"Eliud Kipchoge","d":"maratoniano, 2 oros olímpicos","traducida":true},{"q":"Los disciplinados son los libres en la vida. Los indisciplinados son los que están en prisión.","a":"Eliud Kipchoge","d":"maratoniano, 2 oros olímpicos","traducida":true},{"q":"El trabajo duro supera al talento, siempre.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"Si haces el trabajo, si trabajas lo suficientemente duro, los sueños se hacen realidad.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"Eso es todo lo que es la mentalidad Mamba: intentar mejorar cada día.","a":"Kobe Bryant","d":"baloncestista, 5 anillos NBA","traducida":true},{"q":"He fallado una y otra vez en mi vida. Y por eso tengo éxito.","a":"Michael Jordan","d":"baloncestista, 6 anillos NBA","traducida":true},{"q":"Lo de «sin esfuerzo» es un mito.","a":"Roger Federer","d":"tenista, 20 Grand Slam","traducida":true},{"q":"La mayoría de las veces no se trata de tener un don. Se trata de tener constancia y coraje.","a":"Roger Federer","d":"tenista, 20 Grand Slam","traducida":true},{"q":"Los días que llego sin una razón o intención para estar ahí, todo se desmorona.","a":"Simone Biles","d":"gimnasta, 7 oros olímpicos","traducida":true}];
 const quoteOf=d=>FRASES.length?FRASES[(Math.round(dnum(d))*7+3)%FRASES.length]:null;
 // Recuadro flotante: baja desde arriba hasta señalar el botón de empezar (una vez al día)
-function showQuote(force){const q=quoteOf(today());if(!q||!st.setup||tab!=='hoy'||openEx||P)return;if(!force&&st.quoteDay===today())return;
+function showQuote(force){const q=quoteOf(today());if(locked||!q||!st.setup||tab!=='hoy'||openEx||P)return;if(!force&&st.quoteDay===today())return;
  st.quoteDay=today();save();const old=$('#qbox');if(old)old.remove();
  const target=$('#start'),box=document.createElement('div');box.id='qbox';box.className='qbox';box.setAttribute('role','dialog');box.setAttribute('aria-label','Frase del día');
  box.innerHTML=`<span class="eyebrow">Frase del día</span><blockquote>«${esc(q.q)}»</blockquote><p class="qa"><b>${esc(q.a)}</b>${q.d?` · ${esc(q.d)}`:''}${q.traducida?' <span class="small">(traducida)</span>':''}</p>
@@ -979,6 +985,59 @@ function showQuote(force){const q=quoteOf(today());if(!q||!st.setup||tab!=='hoy'
    box.style.top=top+'px';box.classList.add('in');go?go.focus({preventScroll:true}):box.querySelector('#q-later').focus({preventScroll:true})},RM?0:450)};
  requestAnimationFrame(place)}
 
+
+/* ============ BLOQUEO DE LA APP (Face ID con llave del iPhone + PIN de reserva) ============ */
+// Es un candado local: impide ver los datos con el móvil desbloqueado. La configuración no va en las copias.
+const LOCKK='gis-salud.lock';
+const lockCfg=()=>{try{const c=JSON.parse(localStorage.getItem(LOCKK)||'null');return c&&c.pin?c:null}catch(e){return null}};
+const setLock=c=>{try{c?localStorage.setItem(LOCKK,JSON.stringify(c)):localStorage.removeItem(LOCKK)}catch(e){}};
+const b64u=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const ub64=t=>Uint8Array.from(atob(t.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+async function pinHash(pin,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']);return b64u(await crypto.subtle.deriveBits({name:'PBKDF2',salt:ub64(salt),iterations:150000,hash:'SHA-256'},k,256))}
+async function canPasskey(){try{return !!(window.PublicKeyCredential&&await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())}catch(e){return false}}
+async function registerPasskey(){const c=await navigator.credentials.create({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),rp:{name:'GIS Salud',id:location.hostname},
+ user:{id:crypto.getRandomValues(new Uint8Array(16)),name:st.email||'usuario',displayName:st.name||'GIS Salud'},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
+ authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'preferred'},attestation:'none',timeout:60000}});return b64u(c.rawId)}
+async function verifyPasskey(id){const a=await navigator.credentials.get({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),allowCredentials:[{type:'public-key',id:ub64(id),transports:['internal']}],userVerification:'required',rpId:location.hostname,timeout:60000}});return !!a}
+async function checkPin(pin){const c=lockCfg();return !!c&&await pinHash(pin,c.pin.salt)===c.pin.hash}
+let locked=false,hiddenAt=null,pinFails=0,pinWait=0;
+function setInertAll(v){['#app','.tabs','#player','#rest','#cel','#qbox'].forEach(q=>{const e=$(q);if(e)e.inert=v})}
+function lockNow(){const c=lockCfg();if(!c)return;locked=true;const L=$('#lock');
+ L.innerHTML=`<div class="lock-in"><svg width="64" height="64" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#2457CF"/><path d="M10 88 H30 V74 H50 V60 H70 V46 H90" fill="none" stroke="#fff" stroke-width="5"/><circle cx="66" cy="13" r="7" fill="#fff"/><circle cx="24" cy="26" r="15" fill="#2BB673"/></svg>
+  <h2>GIS Salud está bloqueada</h2>${c.cred?'<button class="btn xl" id="lk-face">Desbloquear con Face ID</button>':''}
+  <label class="f">PIN<input id="lk-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="••••"></label><button class="btn ${c.cred?'ghost':''}" id="lk-go">Entrar con PIN</button>
+  <p class="small" id="lk-err" role="alert"></p><button class="lnk" id="lk-forgot">He olvidado el PIN</button><div id="lk-x"></div></div>`;
+ L.hidden=false;setInertAll(true);
+ const err=t=>{$('#lk-err').textContent=t};
+ const face=$('#lk-face');if(face)face.onclick=async()=>{try{if(await verifyPasskey(c.cred))unlock()}catch(e){err('No se ha podido usar Face ID. Usa tu PIN.')}};
+ $('#lk-go').onclick=async()=>{if(Date.now()<pinWait){err('Espera unos segundos y vuelve a probar.');return}const v=$('#lk-pin').value.trim();if(!/^\d{4,8}$/.test(v)){err('Escribe tu PIN de 4 a 8 cifras.');return}
+  if(await checkPin(v)){pinFails=0;unlock()}else{pinFails++;$('#lk-pin').value='';if(pinFails>=5){pinWait=Date.now()+30000;pinFails=0;err('Demasiados intentos. Espera 30 segundos.')}else err('PIN incorrecto.')}};
+ $('#lk-pin').onkeydown=e=>{if(e.key==='Enter')$('#lk-go').click()};
+ $('#lk-forgot').onclick=()=>{$('#lk-x').innerHTML=`<div class="card stack" style="text-align:left"><p class="small">${c.cred?'Prueba con Face ID. ':''}Si no puedes entrar, la única forma de usar la app es <b>borrar todos los datos de este móvil</b> y empezar de cero (podrás restaurar una copia de seguridad que tengas guardada).</p><button class="btn danger" id="lk-wipe">Borrar todo y empezar de cero</button></div>`;
+  $('#lk-wipe').onclick=()=>{$('#lk-wipe').outerHTML='<button class="btn danger" id="lk-wipe2">Sí, borrar todo de verdad</button>';$('#lk-wipe2').onclick=()=>{try{[LSK,RUNK,RESK,SNAPK,LOCKK,AKEY].forEach(k=>localStorage.removeItem(k))}catch(e){}location.reload()}}};
+ (face||$('#lk-pin')).focus()}
+function unlock(){locked=false;$('#lock').hidden=true;$('#lock').innerHTML='';setInertAll(false);render()}
+document.addEventListener('visibilitychange',()=>{const c=lockCfg();if(!c)return;if(document.visibilityState==='hidden'){hiddenAt=Date.now();return}
+ if(!locked&&hiddenAt!=null&&Date.now()-hiddenAt>=(c.min||0)*60000)lockNow()});
+function lockCard(){const c=lockCfg();return `<div class="card stack"><h3>Bloqueo de la app</h3>
+ <p class="small muted">Pide Face ID (o un PIN) para abrir GIS Salud, para que nadie vea tus datos si coge tu móvil desbloqueado.</p>
+ ${c?`<p><b>Activado:</b> ${c.cred?'Face ID + PIN de reserva':'PIN'} · se bloquea ${c.min?`tras ${c.min} min fuera de la app`:'al salir de la app'}</p>
+  <label class="f">Bloquear<select id="lk-min">${[[0,'Nada más salir'],[1,'Tras 1 minuto'],[5,'Tras 5 minutos'],[15,'Tras 15 minutos']].map(([v,l])=>`<option value="${v}"${(c.min||0)===v?' selected':''}>${l}</option>`).join('')}</select></label>
+  <div class="row wrap"><button class="btn sm ghost" id="lk-test">Bloquear ahora</button><button class="btn sm ghost" id="lk-off">Quitar el bloqueo</button></div>`
+ :`<div class="row"><label class="f">Elige un PIN (4–8 cifras)<input id="lk-new" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></label><label class="f">Repítelo<input id="lk-new2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></label></div>
+  <button class="btn" id="lk-on">Activar bloqueo con Face ID</button><p class="small muted">El PIN sirve de reserva si Face ID falla. Si olvidas el PIN y Face ID no funciona, solo podrás entrar borrando los datos: guarda una copia de seguridad.</p>`}
+ <p class="small" id="lk-msg" role="status"></p></div>`}
+function bindLock(){const on=(id,fn)=>{const e=document.getElementById(id);if(e)e.onclick=fn};
+ on('lk-on',async()=>{const a=$('#lk-new').value.trim(),b=$('#lk-new2').value.trim();if(!/^\d{4,8}$/.test(a)){$('#lk-msg').textContent='El PIN debe tener de 4 a 8 cifras.';return}if(a!==b){$('#lk-msg').textContent='Los dos PIN no coinciden.';return}
+  const salt=b64u(crypto.getRandomValues(new Uint8Array(16))),cfg={pin:{salt,hash:await pinHash(a,salt)},min:5,cred:null};
+  if(await canPasskey()){try{cfg.cred=await registerPasskey()}catch(e){}}
+  setLock(cfg);render();toast(cfg.cred?'Bloqueo con Face ID activado':'Bloqueo con PIN activado (este dispositivo no permite Face ID aquí)')});
+ const sel=$('#lk-min');if(sel)sel.onchange=()=>{const c=lockCfg();if(c){c.min=+sel.value;setLock(c);render()}};
+ on('lk-test',()=>lockNow());
+ on('lk-off',async()=>{const c=lockCfg();if(!c)return;let ok=false;if(c.cred){try{ok=await verifyPasskey(c.cred)}catch(e){}}
+  if(!ok){$('#lk-msg').innerHTML='Confirma con tu PIN: <input id="lk-cur" type="password" inputmode="numeric" maxlength="8" style="max-width:120px"> <button class="btn sm" id="lk-cur-go">Quitar</button>';$('#lk-cur-go').onclick=async()=>{if(await checkPin($('#lk-cur').value.trim())){setLock(null);render();toast('Bloqueo quitado')}else $('#lk-msg').textContent='PIN incorrecto.'};return}
+  setLock(null);render();toast('Bloqueo quitado')})}
+
 /* ============ VISTAS ============ */
 let tab='hoy',selDay=null,exFilter={w:'actual',m:'Todos'},openEx=null,lastDay=today();
 const $=s=>document.querySelector(s),view=$('#view');
@@ -991,7 +1050,7 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tab=b.datase
 const TITLES={hoy:'Hoy',ejercicios:'Ejercicios',plan:'Plan',progreso:'Progreso',comida:'Comida',config:'Configuración'};
 $('#cfg').onclick=()=>{tab='config';openEx=null;render();scrollTo(0,0)};
 
-function render(){if(lastDay!==today()){lastDay=today();selDay=null}
+function render(){if(locked){setInertAll(true)}if(lastDay!==today()){lastDay=today();selDay=null}
  document.querySelector('.tabs').hidden=!st.setup;$('#cfg').hidden=!st.setup;document.querySelector('.top .seg').hidden=!st.setup||senior();
  if(!st.setup){view.innerHTML=vSetup();bindSetup();document.title='GIS Salud';return}
  $('#m-casa').setAttribute('aria-pressed',st.mode==='casa');$('#m-gym').setAttribute('aria-pressed',st.mode==='gym');
@@ -1205,6 +1264,7 @@ ${aiOk?` <div class="card stack"><h3>Análisis de fotos de comida</h3><p class="
   <label class="f">Estiramientos al final de cada sesión<select id="s-stretch">${[5,10,15].map(n=>`<option value="${n}"${st.stretch===n?' selected':''}>${n} minutos</option>`).join('')}</select></label>
   <p class="small muted">Cada estiramiento tiene su vídeo y pasa solo al siguiente. Con 15 minutos, alguna sesión puede superar la hora.</p>
   <label class="row small check"><input type="checkbox" id="s-voice" ${st.voice?'checked':''}> Avisos de voz durante la sesión</label></div>
+${lockCard()}
  <div class="card stack"><h3>Copias automáticas en este móvil</h3><p class="small muted">Cada día que usas la app se guarda una copia aquí mismo (las 7 últimas). Si algo sale mal, vuelve a cualquiera de ellas.</p>
   ${snaps().slice().reverse().map(x=>`<div class="cfg-row"><span>${fdate(x.d,{weekday:'long',day:'numeric',month:'short'})}</span><button class="btn sm ghost" data-snap="${esc(x.d)}">Volver a esta</button></div>`).join('')||'<p class="small muted">Aún no hay copias.</p>'}</div>
  <div class="card stack"><h3>Copia de seguridad</h3>
@@ -1344,6 +1404,7 @@ function celebrate(list){if(!list.length)return;const c=$('#cel');c.innerHTML=`<
 function removeWithUndo(key,pred,label){const prev=st[key].slice();st[key]=st[key].filter(x=>!pred(x));save();render();toast(label+' borrado',()=>{st[key]=prev;save();render()})}
 
 function bind(){
+ if(tab==='config'&&!openEx)bindLock();
  if(tab==='comida'&&!openEx)bindFood();
  view.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{const d=+b.dataset.day;selDay=selDay===d?null:d;render()});
  view.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openEx=b.dataset.open;render();scrollTo(0,0)});
@@ -1402,7 +1463,7 @@ function bind(){
   const n=o&&o.name?String(o.name).slice(0,40):'sin nombre',w=Array.isArray(o&&o.weights)?o.weights.length:0,l=Array.isArray(o&&o.log)?o.log.length:0;
   $('#b-rconf').innerHTML=`<div class="card stack sheet"><p><b>¿Restaurar la copia de «${esc(n)}»?</b> Tiene ${w} pesos y ${l} sesiones. Se sustituirán los datos actuales de este móvil.</p><div class="row"><button class="btn ghost" id="r-no">Cancelar</button><button class="btn danger" id="r-yes">Restaurar</button></div></div>`;
   $('#r-no').onclick=()=>{$('#b-rconf').innerHTML='';e.target.value=''};$('#r-yes').onclick=()=>{const prev=JSON.stringify(st);if(!restoreFrom(t,$('#b-msg')))return;clearRun();toast('Copia restaurada',()=>{st=sanitize(JSON.parse(prev));save();render()})}})});
- on('b-reset','onclick',()=>{$('#b-conf').innerHTML=`<div class="card stack"><p>Se borrarán el perfil, los pesos, las sesiones y las copias automáticas de este móvil. No se puede deshacer. ¿Seguro?</p><div class="row"><button class="btn ghost" id="b-no">Cancelar</button><button class="btn danger" id="b-yes">Borrar todo</button></div></div>`;$('#b-no').onclick=()=>$('#b-conf').innerHTML='';$('#b-yes').onclick=()=>{try{[LSK,RUNK,RESK,SNAPK].forEach(k=>localStorage.removeItem(k))}catch(e){}loadFailed=false;st=sanitize(null);tab='hoy';render();scrollTo(0,0)}});
+ on('b-reset','onclick',()=>{$('#b-conf').innerHTML=`<div class="card stack"><p>Se borrarán el perfil, los pesos, las sesiones y las copias automáticas de este móvil. No se puede deshacer. ¿Seguro?</p><div class="row"><button class="btn ghost" id="b-no">Cancelar</button><button class="btn danger" id="b-yes">Borrar todo</button></div></div>`;$('#b-no').onclick=()=>$('#b-conf').innerHTML='';$('#b-yes').onclick=()=>{try{[LSK,RUNK,RESK,SNAPK,LOCKK].forEach(k=>localStorage.removeItem(k))}catch(e){}loadFailed=false;st=sanitize(null);tab='hoy';render();scrollTo(0,0)}});
  on('bp-add','onclick',()=>{const s1=pnum($('#bp-s').value),d1=pnum($('#bp-di').value),d=$('#bp-d').value||today();
   if(!(s1>70&&s1<260)){$('#bp-s').focus();return}if(!(d1>40&&d1<160)){$('#bp-di').focus();return}if(!isISO(d)||d>today())return;
   st.bp=st.bp.filter(x=>x.d!==d).concat({d,s:Math.round(s1),di:Math.round(d1)});save();render();toast('Tensión guardada')});
@@ -1591,6 +1652,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState!==
  else if(lastDay!==today()){lastDay=today();selDay=null;render()}});
 
 loadState();
+if(lockCfg())lockNow();
 checkAi().then(()=>{if(st.setup&&tab==='comida'||tab==='config')render()});
 try{render()}catch(e){console.error(e);view.innerHTML=`<div class="card stack"><h2>Datos dañados</h2><p>No se han podido cargar tus datos. Puedes copiarlos para revisarlos o empezar de cero.</p><textarea rows="4" aria-label="Datos guardados">${esc(localStorage.getItem(LSK)||'')}</textarea><button class="btn danger" id="dz">Empezar de cero</button></div>`;
  document.getElementById('dz').onclick=()=>{try{localStorage.removeItem(LSK);localStorage.removeItem(RUNK)}catch(e){}location.reload()}}
